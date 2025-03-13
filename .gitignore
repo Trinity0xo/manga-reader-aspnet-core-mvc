@@ -1,0 +1,53 @@
+# Ignore Visual Studio specific files
+.vs/
+*.vscode/
+
+# Build and Publish
+bin/
+obj/
+out/
+publish/
+AppPackages/
+TestResults/
+
+# User-specific settings
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs and lock files
+logs/
+*.log
+*.lock
+*.cache
+npm-debug.log
+yarn-error.log
+
+# ASP.NET Core Secrets
+appsettings.Development.json
+secrets.json
+
+# Entity Framework Migrations
+Migrations/
+
+# Ignore package files
+node_modules/
+wwwroot/lib/
+packages/
+.nuget/
+!*.nuspec
+
+# Ignore Rider/JetBrains IDE files
+.idea/
+*.sln.iml
+
+# Ignore coverage reports
+coverage/
+*.coverage
+*.coveragexml
+*.codecov
+
+# Ignore Docker related files
+.dockerignore
+docker-compose.override.yml
