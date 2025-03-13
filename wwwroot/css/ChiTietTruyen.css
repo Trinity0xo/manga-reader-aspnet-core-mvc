@@ -1,0 +1,258 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    color: #e74c3c;
+    text-align: left;
+}
+
+.truyen-info {
+    display: flex;
+    gap: 20px;
+}
+
+.truyen-cover {
+    width: 150px;
+    height: 200px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.info {
+    flex-grow: 1;
+}
+
+.stats {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.stat-box {
+    background: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.details {
+    margin-bottom: 15px;
+}
+
+.tag {
+    display: inline-block;
+    background: #f1f1f1;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.status {
+    background: #2ecc71;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.read-btn, .donate-btn {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.read-btn {
+    background: #e74c3c;
+    color: white;
+}
+
+.donate-btn {
+    background: #ff9800;
+    color: white;
+}
+
+    .read-btn:hover, .donate-btn:hover {
+        opacity: 0.8;
+    }
+
+.comments {
+    margin-top: 20px;
+    padding: 10px;
+    background: #fff;
+    border-radius: 10px;
+}
+
+    .comments h2 {
+        margin-bottom: 10px;
+    }
+/* RESET CSS - Xóa hết margin, padding mặc định */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* BỐ CỤC CHUNG */
+body {
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* TIÊU ĐỀ TRANG */
+.header {
+    background: #ff4d4d;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* DANH SÁCH TRUYỆN */
+.truyen-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* TỪNG MỤC TRUYỆN */
+.truyen-item {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+    width: 23%; /* 4 truyện trên một hàng */
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+    .truyen-item:hover {
+        transform: scale(1.05);
+    }
+
+    .truyen-item img {
+        width: 100%;
+        border-radius: 8px;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .truyen-item p {
+        font-size: 16px;
+        margin: 10px 0;
+        font-weight: bold;
+    }
+
+/* CÁC NÚT */
+button, .follow-btn {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+    button:hover, .follow-btn:hover {
+        background: #cc0000;
+    }
+
+.followed-text {
+    display: none;
+    font-size: 14px;
+    color: green;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* ẨN CHECKBOX MẶC ĐỊNH */
+.follow-checkbox {
+    display: none;
+}
+
+    /* KHI CHECKBOX ĐƯỢC TICK, HIỆN "ĐÃ THEO DÕI" */
+    .follow-checkbox:checked + .follow-btn {
+        display: none;
+    }
+
+    .follow-checkbox:checked ~ .followed-text {
+        display: block;
+    }
+
+/* RESPONSIVE */
+
+/* Màn hình Tablet (768px) */
+@media (max-width: 768px) {
+    .truyen-list {
+        justify-content: center;
+    }
+
+    .truyen-item {
+        width: 45%; /* Hiển thị 2 truyện trên một hàng */
+    }
+
+    .header {
+        font-size: 20px;
+    }
+
+    button, .follow-btn {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
+/* Màn hình Điện Thoại (480px) */
+@media (max-width: 480px) {
+    .truyen-item {
+        width: 100%; /* Mỗi truyện chiếm toàn bộ hàng */
+    }
+
+    .header {
+        font-size: 18px;
+        padding: 10px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    button, .follow-btn {
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+}

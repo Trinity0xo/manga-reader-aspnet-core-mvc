@@ -1,0 +1,446 @@
+﻿body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #ffccff, #99ccff, #ffffff);
+    color: #000;
+    text-shadow: none;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+title {
+    display: inline-block;
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+    animation: bounce 2s infinite ease-in-out;
+}
+
+header {
+    background: linear-gradient(90deg, #ff66b2, #66ccff, #ffffff);
+    color: black;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px 4px 20px rgba(102, 204, 255, 0.5);
+    transition: background 0.3s;
+}
+
+    header:hover {
+        background: linear-gradient(90deg, #ff3399, #3399ff, #ffffff);
+    }
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #000;
+    text-shadow: none;
+    transition: transform 0.3s;
+}
+
+    .logo:hover {
+        transform: scale(1.1);
+    }
+
+.search-bar {
+    width: 300px;
+    padding: 10px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    transition: box-shadow 0.3s;
+    background: white;
+    color: black;
+    text-shadow: none;
+}
+
+    .search-bar:focus {
+        box-shadow: 0px 0px 20px rgba(102, 204, 255, 0.6);
+    }
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+    nav ul li {
+        display: inline;
+    }
+
+        nav ul li a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            text-shadow: none;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+            nav ul li a:hover {
+                color: #ff3399;
+                transform: scale(1.1);
+            }
+
+.truyen-hot {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    margin: 20px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 20px rgba(102, 204, 255, 0.6);
+    transition: transform 0.3s;
+    position: relative;
+    color: #000;
+    text-shadow: none;
+}
+
+    .truyen-hot:hover {
+        transform: scale(1.02);
+    }
+
+.truyen-list {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.truyen-item {
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    background: linear-gradient(135deg, #ff99cc, #99ccff, #ffffff);
+    border-radius: 15px;
+    padding: 12px;
+    box-shadow: 0px 6px 15px rgba(102, 204, 255, 0.4);
+    color: #000;
+    text-shadow: none;
+}
+
+    .truyen-item:hover {
+        transform: scale(1.1);
+        box-shadow: 0px 0px 25px rgba(102, 204, 255, 0.5);
+    }
+
+    .truyen-item img {
+        width: 160px;
+        height: 220px;
+        border-radius: 12px;
+        transition: transform 0.3s;
+    }
+
+        .truyen-item img:hover {
+            transform: scale(1.15);
+        }
+
+footer {
+    background: linear-gradient(90deg, #ff66b2, #66ccff, #ffffff);
+    color: black;
+    text-align: center;
+    padding: 15px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    transition: background 0.3s;
+    box-shadow: 0px -4px 20px rgba(102, 204, 255, 0.4);
+    text-shadow: none;
+}
+
+    footer:hover {
+        background: linear-gradient(90deg, #ff3399, #3399ff, #ffffff);
+    }
+footer {
+    display: none;
+}
+/* Nút Thêm Truyện */
+#add-story-btn {
+    background: #f5f5f5; 
+    color: #333; 
+    border: 1px solid #ccc; 
+    padding: 6px 12px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 20px; 
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+    #add-story-btn:hover {
+        background: #e0e0e0;
+    }
+
+/* Định dạng cho slider */
+.swiper {
+    width: 100%;
+    padding: 20px 0;
+    position: relative;
+}
+
+/* Định dạng từng slide */
+.swiper-slide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto; /* Để chiều cao tự động theo nội dung */
+    padding: 12px;
+}
+
+    .swiper-slide:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 0px 25px rgba(102, 204, 255, 0.5);
+    }
+
+    /* Hình ảnh trong slide */
+    .swiper-slide img {
+        width: 160px;
+        height: 220px;
+        border-radius: 12px;
+        transition: transform 0.3s;
+    }
+
+    .swiper-slide img {
+        width: 100%; /* Ảnh chiếm toàn bộ chiều rộng của slide */
+        height: auto; /* Giữ nguyên tỷ lệ ảnh */
+        border-radius: 12px;
+        transition: transform 0.3s;
+        object-fit: cover; /* Cắt ảnh để vừa khung mà không bị méo */
+    }
+
+
+/* Nút chuyển slide */
+.swiper-button-next, .swiper-button-prev {
+    color: #ff3399;
+    transition: color 0.3s, transform 0.3s;
+}
+
+    .swiper-button-next:hover, .swiper-button-prev:hover {
+        color: #cc0066;
+        transform: scale(1.2);
+    }
+
+/* Dấu chấm điều hướng */
+.swiper-pagination-bullet {
+    background: #ff66b2;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+
+.swiper-pagination-bullet-active {
+    background: #ff3399;
+    opacity: 1;
+}
+.view-story-btn {
+    background-color: #1e90ff; /* Màu xanh */
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    margin-top: 5px;
+    cursor: pointer;
+    border-radius: 20px; /* Bo tròn */
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+    .view-story-btn:hover {
+        background-color: #007bff; /* Đổi màu xanh đậm hơn khi hover */
+    }
+.view-story-btn {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #ff4d4d; /* Màu đỏ */
+    color: white;
+    border-radius: 8px; /* Bo góc */
+    text-decoration: none; /* Bỏ gạch chân */
+    font-weight: bold;
+    text-align: center;
+}
+
+    .view-story-btn:hover {
+        background-color: #cc0000; /* Màu đậm hơn khi hover */
+    }
+
+.follow-checkbox {
+    display: none;
+}
+
+.follow-btn {
+    background: #f5f5f5;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 20px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.follow-checkbox:checked + .follow-btn {
+    display: none; /* Ẩn nút thêm sau khi nhấn */
+}
+
+.followed-text {
+    display: none;
+    color: green;
+    font-weight: bold;
+}
+
+.follow-checkbox:checked ~ .followed-text {
+    display: inline; /* Hiện thông báo đã theo dõi */
+}
+/* RESET CSS - Xóa hết margin, padding mặc định */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* BỐ CỤC CHUNG */
+body {
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* TIÊU ĐỀ TRANG */
+.header {
+    background: #ff4d4d;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* DANH SÁCH TRUYỆN */
+.truyen-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* TỪNG MỤC TRUYỆN */
+.truyen-item {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+    width: 23%; /* 4 truyện trên một hàng */
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+    .truyen-item:hover {
+        transform: scale(1.05);
+    }
+
+    .truyen-item img {
+        width: 100%;
+        border-radius: 8px;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .truyen-item p {
+        font-size: 16px;
+        margin: 10px 0;
+        font-weight: bold;
+    }
+
+/* CÁC NÚT */
+button, .follow-btn {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+    button:hover, .follow-btn:hover {
+        background: #cc0000;
+    }
+
+.followed-text {
+    display: none;
+    font-size: 14px;
+    color: green;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* ẨN CHECKBOX MẶC ĐỊNH */
+.follow-checkbox {
+    display: none;
+}
+
+    /* KHI CHECKBOX ĐƯỢC TICK, HIỆN "ĐÃ THEO DÕI" */
+    .follow-checkbox:checked + .follow-btn {
+        display: none;
+    }
+
+    .follow-checkbox:checked ~ .followed-text {
+        display: block;
+    }
+
+/* RESPONSIVE */
+
+/* Màn hình Tablet (768px) */
+@media (max-width: 768px) {
+    .truyen-list {
+        justify-content: center;
+    }
+
+    .truyen-item {
+        width: 45%; /* Hiển thị 2 truyện trên một hàng */
+    }
+
+    .header {
+        font-size: 20px;
+    }
+
+    button, .follow-btn {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
+/* Màn hình Điện Thoại (480px) */
+@media (max-width: 480px) {
+    .truyen-item {
+        width: 100%; /* Mỗi truyện chiếm toàn bộ hàng */
+    }
+
+    .header {
+        font-size: 18px;
+        padding: 10px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    button, .follow-btn {
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+}

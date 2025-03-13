@@ -1,0 +1,220 @@
+﻿.body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(circle, #ffccff, #99ccff, #ffffff);
+    color: #fff;
+    text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.8);
+}
+
+.registration-form {
+    width: 380px;
+    margin: 50px auto;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.7);
+    text-align: center;
+    backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .registration-form h2 {
+        color: black;
+        text-shadow: 0px 0px 12px rgba(255, 255, 255, 0.9);
+        margin-bottom: 15px;
+    }
+
+    .registration-form label {
+        display: block;
+        font-size: 16px;
+        margin: 8px 0 4px;
+        color: black;
+        text-shadow: none;
+    }
+
+    .registration-form input {
+        width: 90%;
+        padding: 12px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 25px;
+        outline: none;
+        background: rgba(255, 255, 255, 0.3);
+        color: black;
+        text-align: center;
+        box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.6);
+        transition: box-shadow 0.3s;
+    }
+
+        .registration-form input:focus {
+            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.9);
+        }
+
+    .registration-form button {
+        width: 95%;
+        padding: 12px;
+        background: linear-gradient(90deg, #ff66b2, #66ccff);
+        border: none;
+        border-radius: 25px;
+        color: black;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.3s;
+        margin-top: 15px;
+    }
+
+        .registration-form button:hover {
+            background: linear-gradient(90deg, #ff3399, #3399ff);
+            transform: scale(1.1);
+        }
+/* RESET CSS - Xóa hết margin, padding mặc định */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* BỐ CỤC CHUNG */
+body {
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* TIÊU ĐỀ TRANG */
+.header {
+    background: #ff4d4d;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* DANH SÁCH TRUYỆN */
+.truyen-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* TỪNG MỤC TRUYỆN */
+.truyen-item {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+    width: 23%; /* 4 truyện trên một hàng */
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+    .truyen-item:hover {
+        transform: scale(1.05);
+    }
+
+    .truyen-item img {
+        width: 100%;
+        border-radius: 8px;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .truyen-item p {
+        font-size: 16px;
+        margin: 10px 0;
+        font-weight: bold;
+    }
+
+/* CÁC NÚT */
+button, .follow-btn {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+    button:hover, .follow-btn:hover {
+        background: #cc0000;
+    }
+
+.followed-text {
+    display: none;
+    font-size: 14px;
+    color: green;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* ẨN CHECKBOX MẶC ĐỊNH */
+.follow-checkbox {
+    display: none;
+}
+
+    /* KHI CHECKBOX ĐƯỢC TICK, HIỆN "ĐÃ THEO DÕI" */
+    .follow-checkbox:checked + .follow-btn {
+        display: none;
+    }
+
+    .follow-checkbox:checked ~ .followed-text {
+        display: block;
+    }
+
+/* RESPONSIVE */
+
+/* Màn hình Tablet (768px) */
+@media (max-width: 768px) {
+    .truyen-list {
+        justify-content: center;
+    }
+
+    .truyen-item {
+        width: 45%; /* Hiển thị 2 truyện trên một hàng */
+    }
+
+    .header {
+        font-size: 20px;
+    }
+
+    button, .follow-btn {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
+/* Màn hình Điện Thoại (480px) */
+@media (max-width: 480px) {
+    .truyen-item {
+        width: 100%; /* Mỗi truyện chiếm toàn bộ hàng */
+    }
+
+    .header {
+        font-size: 18px;
+        padding: 10px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    button, .follow-btn {
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+}
