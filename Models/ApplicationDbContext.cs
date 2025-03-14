@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WEBTRUYEN.Controllers;
 
 namespace WEBTRUYEN.Models
 {
@@ -11,5 +12,6 @@ namespace WEBTRUYEN.Models
         }
         // th�m DbSet
         public DbSet<Genre> Genres { get; set; }
+        public DbSet<Comic> Comics { get; set; }
     }
 }

@@ -1,32 +1,28 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using WEBTRUYEN.Controllers;
+using Microsoft.Extensions.Hosting;
+using WEBTRUYEN.Models;
 
-namespace WEBTRUYEN.Models
+namespace WEBTRUYEN.Controllers
 {
-    public class Genre
+    public class Comic
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [DisplayName("Mã thể loại")]
+        [DisplayName("Mã truyện")]
         public int Id { get; set; }
 
-        [DisplayName("Truyện")]
-        public List<Comic>? Comics { get; set; }
-
-        [DisplayName("Tên thể lọai")]
+        [DisplayName("Tên truyện")]
         public string Name { get; set; }
 
-        [DisplayName("Mô tả")]
-        public string Description { get; set; }
+        [DisplayName("Thể loại")]
+        public List<Genre>? Genres { get; set; }
 
         [DisplayName("Khởi tạo lúc")]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
         [DisplayName("Cập nhật lúc")]
         public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
-
     }
 }

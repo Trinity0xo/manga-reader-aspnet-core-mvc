@@ -28,9 +28,6 @@ yarn-error.log
 appsettings.Development.json
 secrets.json
 
-# Entity Framework Migrations
-Migrations/
-
 # Ignore package files
 node_modules/
 wwwroot/lib/

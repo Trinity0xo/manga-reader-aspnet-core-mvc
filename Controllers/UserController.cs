@@ -89,5 +89,33 @@ namespace WEBTRUYEN.Controllers
             return View(user);
         }
 
+        [HttpGet("delete/{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+            string? userRole = userRoles.FirstOrDefault();
+            ViewBag.userRole = userRole;
+
+            return View(user);
+        }
+
+        [HttpPost("delete"), ActionName("ConfirmDelete")]
+        public async Task<IActionResult> DeleteConfirm(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            await _userManager.DeleteAsync(user);
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
