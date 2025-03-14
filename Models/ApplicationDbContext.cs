@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using WEBTRUYEN.Controllers;
 
 namespace WEBTRUYEN.Models
 {

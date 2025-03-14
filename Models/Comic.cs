@@ -2,9 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Extensions.Hosting;
-using WEBTRUYEN.Models;
 
-namespace WEBTRUYEN.Controllers
+namespace WEBTRUYEN.Models
 {
     public class Comic
     {
