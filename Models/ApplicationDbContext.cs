@@ -12,5 +12,6 @@ namespace WEBTRUYEN.Models
         // th�m DbSet
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Comic> Comics { get; set; }
+        public DbSet<Chapter> Chapters { get; set; }
     }
 }

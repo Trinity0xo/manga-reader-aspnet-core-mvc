@@ -89,6 +89,18 @@ namespace WEBTRUYEN.Controllers
             return View(user);
         }
 
+        [HttpGet("details/{id}")]
+        public async Task<IActionResult> Details(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
         [HttpGet("delete/{id}")]
         public async Task<IActionResult> Delete(string id)
         {

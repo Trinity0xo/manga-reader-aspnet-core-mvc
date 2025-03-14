@@ -18,6 +18,8 @@ builder.Services.AddIdentity<User, IdentityRole>()
 // add scope ở đây
 // ví dụ builder.Services.AddScoped<IProductRepository, EFProductRepository>()
 builder.Services.AddScoped<IGenreRepository, EFGenreRepository>();
+builder.Services.AddScoped<IComicRepository, EFComicRepository>();
+builder.Services.AddScoped<IChapterRepository, EFChapterRepository>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

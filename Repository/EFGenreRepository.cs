@@ -35,6 +35,13 @@ namespace WEBTRUYEN.Repository
             return await _context.Genres.SingleOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<List<Genre>?> GetByIdAsync(List<int> genreIds)
+        {
+            return await _context.Genres
+                         .Where(g => genreIds.Contains(g.Id))
+                         .ToListAsync();
+        }
+
         public async Task UpdateAsync(Genre genre)
         {
             _context.Genres.Update(genre);

@@ -8,5 +8,6 @@ namespace WEBTRUYEN.Repository
         Task AddAsync(Genre genre);
         Task UpdateAsync(Genre genre);
         Task DeleteAsync(int id);
+        Task<List<Genre>?> GetByIdAsync(List<int> genreIds);
     }
 }
