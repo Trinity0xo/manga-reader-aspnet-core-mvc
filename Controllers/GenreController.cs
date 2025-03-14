@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Humanizer.Localisation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WEBTRUYEN.Models;
 using WEBTRUYEN.Repository;
@@ -6,24 +7,24 @@ using WEBTRUYEN.Repository;
 namespace WEBTRUYEN.Controllers
 {
 
-    [Route("/admin/theloai")]
+    [Route("/admin/genre")]
     [Authorize(Roles = "admin")]
-    public class TheLoaiController : Controller
+    public class GenreController : Controller
     {
-        private readonly ITheLoaiRepository _theloaiRepository;
+        private readonly IGenreRepository _genreRepository;
 
         // dependency injection
-        public TheLoaiController(ITheLoaiRepository theloaiRepository)
+        public GenreController(IGenreRepository genreRepository)
         {
-            _theloaiRepository = theloaiRepository;
+            _genreRepository = genreRepository;
         }
 
         //hiển thị trang có tất cả thể loại
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var theLoais = await _theloaiRepository.GetAllAsync();
-            return View(theLoais);
+            var genres = await _genreRepository.GetAllAsync();
+            return View(genres);
         }
 
         [HttpGet("create")]
@@ -35,74 +36,75 @@ namespace WEBTRUYEN.Controllers
 
         // gọi form có method post để thực hiện tạo mới một thể loại
         [HttpPost("create")]
-        public async Task<IActionResult> Create(TheLoai theLoai)
+        public async Task<IActionResult> Create(Genre genre)
         {
-            if (ModelState.IsValid) {
-                await _theloaiRepository.AddAsync(theLoai);
+            if (ModelState.IsValid)
+            {
+                await _genreRepository.AddAsync(genre);
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(theLoai);
+            return View(genre);
         }
 
         //hiển thị trang cập nhật 1 thể loại
-        [HttpGet("edit/{id:int}")]
+        [HttpGet("edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
-            var theLoai = await _theloaiRepository.GetByIdAsync(id);
-            if (theLoai == null) {
+            var genre = await _genreRepository.GetByIdAsync(id);
+            if (genre == null)
+            {
                 return NotFound();
             }
 
-            return View(theLoai);
+            return View(genre);
         }
 
         // gọi form có method post để thực hiện cập nhật một thể loại
         [HttpPost("edit"), ActionName("ConfirmEdit")]
-        public async Task<IActionResult> Edit(TheLoai theLoai)
+        public async Task<IActionResult> Edit(Genre genre)
         {
             if (ModelState.IsValid)
             {
-                await _theloaiRepository.UpdateAsync(theLoai);
+                await _genreRepository.UpdateAsync(genre);
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(theLoai);
+            return View(genre);
         }
 
         // hiển thị thông tin chi tiết của thể loại
-        [HttpGet("details/{id:int}")]
+        [HttpGet("details/{id}")]
         public async Task<IActionResult> Details(int id)
         {
-            var theLoai = await _theloaiRepository.GetByIdAsync(id);
-            if (theLoai == null)
+            var genre = await _genreRepository.GetByIdAsync(id);
+            if (genre == null)
             {
                 return NotFound();
             }
 
-            return View(theLoai);
+            return View(genre);
         }
         // hiển thị trang xóa một thể loại
-        [HttpGet("delete/{id:int}")]
+        [HttpGet("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var theLoai = await _theloaiRepository.GetByIdAsync(id);
-            if (theLoai == null)
+            var genre = await _genreRepository.GetByIdAsync(id);
+            if (genre == null)
             {
                 return NotFound();
             }
 
-            return View(theLoai);
+            return View(genre);
         }
 
         // gọi form có method post để xác nhận xóa một thể loại
         [HttpPost("delete"), ActionName("ConfirmDelete")]
         public async Task<IActionResult> DeleteConfirm(int id)
         {
-            await _theloaiRepository.DeleteAsync(id);
-
+            await _genreRepository.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
     }

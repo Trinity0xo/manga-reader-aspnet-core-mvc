@@ -1,0 +1,65 @@
+﻿@model IEnumerable<(WEBTRUYEN.Models.User user, string Role)>
+@{
+    ViewData["title"] = "Index";
+}
+<h1>Danh sách người dùng</h1>
+@* <p>
+    <a asp-action="Create">Tạo mới</a>
+</p> *@
+
+<table class="table">
+    <thead>
+        <tr>
+            @* <th> *@
+            @*     @Html.DisplayNameFor(model => model.Id) *@
+            @* </th> *@
+            <th>
+                @Html.DisplayNameFor(model => model.user.AvatarUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.user.Email)
+            </th>
+            <th>
+                Quyền hạn
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.user.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.user.UpdatedDate)
+            </th>
+            <th>
+                Thao tác
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @* <td> *@
+                @*     @Html.DisplayFor(modelItem => item.Id) *@
+                @* </td> *@
+                <td>
+                    @Html.DisplayFor(modelItem => item.user.AvatarUrl)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.user.Email)
+                </td>
+                <td>@item.Role</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.user.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.user.UpdatedDate)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.user.Id">Chi tiết</a> |
+                    <a asp-action="Edit" asp-route-id="@item.user.Id">Sửa</a> |
+                    <a asp-action="Delete" asp-route-id="@item.user.Id">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

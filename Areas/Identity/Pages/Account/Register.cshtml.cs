@@ -25,32 +25,32 @@ namespace WEBTRUYEN.Areas.Identity.Pages.Account
     public class RegisterModel : PageModel
     {
         // sửa lại để dùng người dùng mở rộng
-        private readonly SignInManager<NguoiDung> _signInManager;
+        private readonly SignInManager<User> _signInManager;
 
         // sửa lại để dùng người dùng mở rộng
-        private readonly UserManager<NguoiDung> _userManager;
+        private readonly UserManager<User> _userManager;
 
         // sửa lại để dùng người dùng mở rộng
-        private readonly IUserStore<NguoiDung> _userStore;
+        private readonly IUserStore<User> _userStore;
 
         // sửa lại để dùng người dùng mở rộng
-        private readonly IUserEmailStore<NguoiDung> _emailStore;
+        private readonly IUserEmailStore<User> _emailStore;
 
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
-            UserManager<NguoiDung> userManager,
-            IUserStore<NguoiDung> userStore,
-            SignInManager<NguoiDung> signInManager,
+            UserManager<User> userManager,
+            IUserStore<User> userStore,
+            SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
             RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender)
         {
             _userManager = userManager;
             _userStore = userStore;
-            _emailStore = (IUserEmailStore<NguoiDung>)_userStore;
+            _emailStore = (IUserEmailStore<User>)_userStore;
             _signInManager = signInManager;
             _logger = logger;
             _roleManager = roleManager;
@@ -82,18 +82,6 @@ namespace WEBTRUYEN.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            // thêm trường tên lúc đăng ký
-            [Required(ErrorMessage = "Vui lòng nhập tên")]
-            [StringLength(100, ErrorMessage = "Tên phải tối thiểu 2 ký tự", MinimumLength = 2)]
-            [Display(Name = "Tên")]
-            public string FirstName { get; set; }
-
-            // thêm trường họ lúc đăng ký
-            [Required(ErrorMessage = "Vui lòng nhập họ")]
-            [StringLength(100, ErrorMessage = "Họ phải tối thiểu 2 ký tự", MinimumLength = 2)]
-            [Display(Name = "Họ")]
-            public string LastName { get; set; }
-
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -137,10 +125,6 @@ namespace WEBTRUYEN.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-
-                user.FirstName = Input.FirstName;
-                user.LastName = Input.LastName;
-
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -190,27 +174,27 @@ namespace WEBTRUYEN.Areas.Identity.Pages.Account
         }
 
         // sửa lại để dùng người dùng mở rộng
-        private NguoiDung CreateUser()
+        private User CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<NguoiDung>();
+                return Activator.CreateInstance<User>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(NguoiDung)}'. " +
-                    $"Ensure that '{nameof(NguoiDung)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(Models.User)}'. " +
+                    $"Ensure that '{nameof(Models.User)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<NguoiDung> GetEmailStore()
+        private IUserEmailStore<User> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<NguoiDung>)_userStore;
+            return (IUserEmailStore<User>)_userStore;
         }
 
     }

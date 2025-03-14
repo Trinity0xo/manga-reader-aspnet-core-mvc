@@ -3,14 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WEBTRUYEN.Models
 {
-    public class ApplicationDbContext : IdentityDbContext<NguoiDung>
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
         }
         // th�m DbSet
-        public DbSet<Truyen> Truyens { get; set; }
-        public DbSet<TheLoai> TheLoais { get; set; }
+        public DbSet<Genre> Genres { get; set; }
     }
 }

@@ -10,14 +10,14 @@ ApplicationDbContext>(Options => Options.UseSqlServer(builder.Configuration.GetC
 
 // builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddIdentity<NguoiDung, IdentityRole>()
+builder.Services.AddIdentity<User, IdentityRole>()
     .AddDefaultTokenProviders()
     .AddDefaultUI()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // add scope ở đây
 // ví dụ builder.Services.AddScoped<IProductRepository, EFProductRepository>()
-builder.Services.AddScoped<ITheLoaiRepository, EFTheLoaiRepository>();
+builder.Services.AddScoped<IGenreRepository, EFGenreRepository>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
