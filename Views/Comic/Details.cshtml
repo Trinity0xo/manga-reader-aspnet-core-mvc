@@ -21,7 +21,7 @@
             @Html.DisplayNameFor(model => model.CoverUrl)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CoverUrl)
+            <img src="@Html.DisplayFor(model => model.CoverUrl)" style="border-radius: 8px;width: 25%; object-fit:cover; margin-bottom:5px; box-shadow:0px 2px 5px rgba(0,0,0,0.2)" />
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Name)

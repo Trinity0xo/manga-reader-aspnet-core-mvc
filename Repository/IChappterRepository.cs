@@ -4,7 +4,7 @@ namespace WEBTRUYEN.Repository
 {
     public interface IChapterRepository
     {
-        Task<IEnumerable<Chapter>> GetAllAsync(int id);
+        Task<IEnumerable<Chapter>> GetAllAsync();
         Task<Chapter> GetByIdAsync(int id);
         Task AddAsync(Chapter chapter);
         Task UpdateAsync(Chapter chapter);

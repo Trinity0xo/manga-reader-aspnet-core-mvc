@@ -18,6 +18,9 @@ namespace WEBTRUYEN.Models
         [ForeignKey("Comic")]
         public int ComicId { get; set; }
 
+        [DisplayName("Trang truyện")]
+        public List<Page>? Pages { get; set; }
+
         [DisplayName("Khởi tạo lúc")]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 

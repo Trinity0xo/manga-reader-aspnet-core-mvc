@@ -1,6 +1,8 @@
 ﻿using Humanizer.Localisation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using WEBTRUYEN.Models;
 using WEBTRUYEN.Repository;
 
@@ -12,11 +14,25 @@ namespace WEBTRUYEN.Controllers
     {
         private readonly IChapterRepository _chapterRepository;
         private readonly IComicRepository _comicRepository;
+        private readonly IPageRepository _pageRepository;
 
-        public ChapterController(IChapterRepository chapterRepository, IComicRepository comicRepository)
+        public ChapterController(IChapterRepository chapterRepository, IComicRepository comicRepository, IPageRepository pageRepository)
         {
             _chapterRepository = chapterRepository;
             _comicRepository = comicRepository;
+            _pageRepository = pageRepository;
+        }
+
+        private async Task<string> SavePageImage(IFormFile image)
+        {
+            var savePath = Path.Combine("wwwroot/images/comicImages", image.FileName);
+            using (var fileStream = new FileStream(savePath, FileMode.Create))
+            {
+
+                await image.CopyToAsync(fileStream);
+            }
+
+            return "/images/comicImages/" + image.FileName;
         }
 
         [HttpGet("create/{comicId}")]
@@ -34,11 +50,28 @@ namespace WEBTRUYEN.Controllers
         }
 
         [HttpPost("create"),ActionName("ConfirmCreate")]
-        public async Task<IActionResult> Create(Chapter chapter)
+        public async Task<IActionResult> Create(Chapter chapter, List<IFormFile> imageUrls)
         {
 
             if (ModelState.IsValid)
             {
+                var pages = new List<Page>();
+
+                if (!imageUrls.IsNullOrEmpty())
+                {
+                    foreach(IFormFile imageUrl in imageUrls)
+                    {
+                        Page page = new()
+                        {
+                            ImageUrl = await SavePageImage(imageUrl)
+                        };
+
+                        pages.Add(page);
+                    }
+                }
+
+                chapter.Pages = pages;
+
                 await _chapterRepository.AddAsync(chapter);
 
                 return RedirectToAction("Details", "Comic", new { id = chapter.ComicId });
@@ -73,14 +106,35 @@ namespace WEBTRUYEN.Controllers
         }
 
         [HttpPost("edit"), ActionName("ConfirmEdit")]
-        public async Task<IActionResult> Edit(Chapter chapter)
+        public async Task<IActionResult> Edit(Chapter chapter, List<IFormFile> imageUrls)
         {
             if (ModelState.IsValid)
             {
                 var chapterDb = await _chapterRepository.GetByIdAsync(chapter.Id);
+
                 if (chapterDb == null)
                 {
                     return NotFound();
+                }
+
+                if (!imageUrls.IsNullOrEmpty())
+                {
+            
+                    if (chapterDb.Pages != null && chapterDb.Pages.Count != 0)
+                    {
+                        await _pageRepository.DeleteAllAsync(chapterDb.Pages);
+                    }
+                    
+                    foreach (IFormFile imageUrl in imageUrls)
+                    {
+                        Page page = new()
+                        {
+                            ImageUrl = await SavePageImage(imageUrl),
+                            ChapterId = chapterDb.Id,
+                        };
+
+                        await _pageRepository.AddAsync(page);
+                    }
                 }
 
                 chapterDb.Name = chapter.Name;

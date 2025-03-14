@@ -10,8 +10,15 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label for="Image" class="control-label">Chọn 1 ảnh đại diện</label>
+                <input id="imageInput" type="file" name="Image" class="form-control" />
+            </div>
+
+            <div id="imagePreviewContainer" class="d-flex flex-wrap"></div>
 
             <div class="form-group mb-3">
                 <label asp-for="Name" class="control-label"></label>
@@ -53,6 +60,41 @@
 <div>
     <a asp-action="Index">Quay lại</a>
 </div>
+
+<script>
+    document.getElementById("imageInput").addEventListener("change", function () {
+        const previewContainer = document.getElementById("imagePreviewContainer");
+        previewContainer.innerHTML = "";
+
+        const allowedExtensions = ["jpg", "jpeg", "png", "gif", "webp"];
+        const files = this.files;
+
+        for (let file of files) {
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+
+            if (!allowedExtensions.includes(fileExtension)) {
+                alert("Only JPG, PNG, GIF, and WEBP images are allowed.");
+                this.value = "";
+                previewContainer.innerHTML = "";
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = document.createElement("img");
+                img.src = e.target.result;
+                img.style.width = "100%";
+                img.style.objectFit = "cover";
+                img.style.borderRadius = "8px";
+                img.style.margin = "5px";
+                img.style.boxShadow = "0 2px 5px rgba(0,0,0,0.2)";
+                previewContainer.prepend(img);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
 
 @section Scripts {
     @{

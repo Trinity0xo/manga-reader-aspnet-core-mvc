@@ -20,6 +20,18 @@ namespace WEBTRUYEN.Controllers
             _genreRepositroy = genreRepositroy;
         }
 
+        private async Task<string> SavePageImage(IFormFile image)
+        {
+            var savePath = Path.Combine("wwwroot/images/comicCovers", image.FileName);
+            using (var fileStream = new FileStream(savePath, FileMode.Create))
+            {
+
+                await image.CopyToAsync(fileStream);
+            }
+
+            return "/images/comicCovers/" + image.FileName;
+        }
+
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
@@ -38,10 +50,15 @@ namespace WEBTRUYEN.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> Create(Comic comic, List<int> Genres)
+        public async Task<IActionResult> Create(Comic comic, List<int> Genres, IFormFile image)
         {
             if (ModelState.IsValid)
             {
+                if (image != null)
+                {
+                    comic.CoverUrl = await SavePageImage(image);
+                }
+                
                 comic.Genres = await _genreRepositroy.GetByIdAsync(Genres);
                 await _comicRepositroy.AddAsync(comic);
 
@@ -72,13 +89,18 @@ namespace WEBTRUYEN.Controllers
         }
 
         [HttpPost("edit"), ActionName("ConfirmEdit")]
-        public async Task<IActionResult> Edit(Comic comic, List<int> Genres)
+        public async Task<IActionResult> Edit(Comic comic, List<int> Genres, IFormFile image)
         {
             if (ModelState.IsValid)
             {
                 var comicDb = await _comicRepositroy.GetByIdAsync(comic.Id);
                 if (comicDb == null) { 
                     return NotFound();
+                }
+
+                if (image != null)
+                {
+                    comicDb.CoverUrl = await SavePageImage(image);
                 }
 
                 comicDb.Name = comic.Name;

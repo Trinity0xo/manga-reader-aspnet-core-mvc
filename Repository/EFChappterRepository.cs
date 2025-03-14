@@ -26,14 +26,14 @@ namespace WEBTRUYEN.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Chapter>> GetAllAsync(int comicId)
+        public async Task<IEnumerable<Chapter>> GetAllAsync()
         {
-            return await _context.Chapters.Where(c => c.ComicId == comicId).ToListAsync();
+            return await _context.Chapters.ToListAsync();
         }
 
         public async Task<Chapter> GetByIdAsync(int id)
         {
-            return await _context.Chapters.SingleOrDefaultAsync(x => x.Id == id);
+            return await _context.Chapters.Include(p => p.Pages).SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task UpdateAsync(Chapter chapter)

@@ -8,13 +8,16 @@
 <h1>Trang danh sách truyện</h1>
 
 <a asp-action="Create">
-    Thêm Chương Mới
+    Thêm truyện Mới
 </a>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CoverUrl)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -39,6 +42,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                 <img src="@Html.DisplayFor(modelItem => item.CoverUrl)" style="width:80px"  />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)

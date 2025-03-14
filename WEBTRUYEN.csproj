@@ -24,6 +24,9 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Views\Page\" />
+    <Folder Include="wwwroot\images\comicImages\" />
+    <Folder Include="wwwroot\images\comicCovers\" />
   </ItemGroup>
 
 </Project>

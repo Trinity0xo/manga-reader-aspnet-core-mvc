@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using WEBTRUYEN.Models;
 using WEBTRUYEN.Repository;
 
@@ -20,6 +21,7 @@ builder.Services.AddIdentity<User, IdentityRole>()
 builder.Services.AddScoped<IGenreRepository, EFGenreRepository>();
 builder.Services.AddScoped<IComicRepository, EFComicRepository>();
 builder.Services.AddScoped<IChapterRepository, EFChapterRepository>();
+builder.Services.AddScoped<IPageRepository, EFPageRepository>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
