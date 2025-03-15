@@ -28,7 +28,7 @@ namespace WEBTRUYEN.Repository
 
         public async Task<IEnumerable<Comic>> GetAllAsync()
         {
-            return await _context.Comics.ToListAsync();
+            return await _context.Comics.Include(c => c.Chapters).ToListAsync();
         }
 
         public async Task<Comic> GetByIdAsync(int id)

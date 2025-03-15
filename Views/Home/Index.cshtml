@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model IEnumerable<WEBTRUYEN.Models.Comic>
+
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -76,8 +78,8 @@
         <nav>
             <ul>
                 <li><a href="~/Hot/index" class="active">HOT</a></li>
-                <li><a href="~/TheoDoi/index">THEO DÕI</a></li>
-                <li><a href="~/LichSu/index">LỊCH SỬ</a></li>
+                <li><a asp-controller="Following" asp-action="Index">THEO DÕI</a></li>
+                <li><a href="~/Following/index">LỊCH SỬ</a></li>
                 <li class="menu">
                     <a href="#" id="menu-button">THỂ LOẠI</a>
                     <div class="dropdown-menu" id="dropdown-menu">
@@ -117,17 +119,28 @@
         <section class="truyen-hot">
             <h2>Thư Viện Đề Cử</h2>
             <div class="truyen-list">
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <div class="truyen-item">
+                            <img src="@Html.DisplayFor(modelItem => item.CoverUrl)">
+                            <p>@Html.DisplayFor(modelItem => item.Name) - @(item.Chapters?.OrderByDescending(c => c.CreatedDate).FirstOrDefault()?.Name ?? "No chapters")</p>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="view-story-btn">👁 Xem</a>
+                            <input type="checkbox" name="follow-1" class="follow-checkbox" id="follow-1">
+                            <form asp-controller="Following" asp-action="Add" asp-route-id="@item.Id" method="post">
+                                <button for="follow-1" class="follow-btn">➕ Thêm</button>
+                            </form>
+                            <span class="followed-text">✅ Đã theo dõi</span>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <h5>Empty</h5>
+                }
 
-                <div class="truyen-item">
-                    <img src="https://api.mottruyen.vn/api/v1/storage/images/2025-02-18/b4662159-97ca-4668-9aec-b9390c209f9d.webp" alt="Truyện 1">
-                    <p>Mai tuyết tương phùng - Chapter 119</p>
-                    <a href="~/ChiTietTruyen/index" class="view-story-btn">👁 Xem</a>
-                    <input type="checkbox" name="follow-1" class="follow-checkbox" id="follow-1">
-                    <label for="follow-1" class="follow-btn">➕ Thêm</label>
-                    <span class="followed-text">✅ Đã theo dõi</span>
-                </div>
-
-                <div class="truyen-item">
+                @* <div class="truyen-item">
                     <img src="https://api.mottruyen.vn/api/v1/storage/images/2025-03-02/8bfe0a21-3077-4d66-a214-689c60c488fb.webp" alt="Truyện 2">
                     <p>Ngày có chút ấm - Chapter 185</p>
                     <button class="view-story-btn">👁 Xem</button>
@@ -152,8 +165,8 @@
                     <input type="checkbox" name="follow-4" class="follow-checkbox" id="follow-4">
                     <label for="follow-4" class="follow-btn">➕ Thêm</label>
                     <span class="followed-text">✅ Đã theo dõi</span>
-                </div>
-
+                </div> *@
+             </div>
         </section>
     </main>
 

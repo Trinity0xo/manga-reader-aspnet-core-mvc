@@ -1,0 +1,50 @@
+﻿@model WEBTRUYEN.Models.Comic
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Truyện</title>
+    <link href="~/css/ChiTietTruyen.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">@Model.Name</h1>
+        <div class="truyen-info">
+            <img src="@Model.CoverUrl" class="truyen-cover">
+            <div class="info">
+                <div class="stats">
+                    <div class="stat-box"><span>❤️ 0</span> Yêu thích</div>
+                    <div class="stat-box"><span>🔖 0</span> Đánh dấu</div>
+                    <div class="stat-box"><span>😡 0</span> Hóng</div>
+                    <div class="stat-box"><span>📖 267</span> Lượt đọc</div>
+                </div>
+                <div class="details">
+                    <p><strong>Tác giả:</strong> @Model.Author</p>
+                    <p><strong>Thể loại:</strong>
+                        @if(Model.Genres != null && Model.Genres.Any())
+                        {
+                            foreach(var itemt in Model.Genres)
+                            {
+                                <span class="tag">@itemt.Name</span>
+                            }
+                        }
+                    </p>
+                    <p><strong>Phí xu:</strong> Miễn phí</p>
+                    <p><strong>Số chữ:</strong> 10.3K</p>
+                    <p><strong>Trạng thái:</strong> <span class="status">@Model.Status</span></p>
+                </div>
+                <div class="actions">
+                    <button class="read-btn">📖 Đọc ngay</button>
+                    <button class="donate-btn">💰 Donate</button>
+                </div>
+            </div>
+        </div>
+        <div class="comments">
+            <h2>Bình luận</h2>
+            <p>Chưa có bình luận</p>
+        </div>
+    </div>
+</body>
+</html>
