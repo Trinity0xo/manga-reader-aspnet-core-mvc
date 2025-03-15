@@ -2,7 +2,8 @@
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Create Comic";
 }
 
 <h1>Trang tạo truyện</h1>
@@ -58,7 +59,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Quay lại</a>
+    <a class="btn btn-warning" asp-action="Index">Quay lại</a>
 </div>
 
 <script>

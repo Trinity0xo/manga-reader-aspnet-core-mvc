@@ -2,7 +2,8 @@
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Create Chapter";
 }
 
 <h1>Trang tạo chương mới</h1>
@@ -24,7 +25,7 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
             <div>
-                <a asp-controller="Comic" asp-action="Details" asp-route-id="@Model.ComicId">Back to Comic</a>
+                <a asp-controller="Comic" asp-action="Details" class="btn btn-warning" asp-route-id="@Model.ComicId">Back to Comic</a>
             </div>
             <hr/>
             <div class="form-group mb-3">

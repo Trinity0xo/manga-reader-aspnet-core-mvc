@@ -2,7 +2,8 @@
 
 @{
     ViewData["Title"] = "Delete";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Delete User";
 }
 
 <h1>Delete</h1>
@@ -41,6 +42,6 @@
     <form asp-action="ConfirmDelete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a class="btn btn-warning" asp-action="Index">Back to List</a>
     </form>
 </div>

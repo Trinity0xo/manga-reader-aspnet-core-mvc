@@ -2,7 +2,8 @@
 
 @{
     ViewData["Title"] = "Delete";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Delete Genre";
 }
 
 <h1>Delete</h1>
@@ -11,7 +12,7 @@
 <div>
     <h4>Genre</h4>
     <hr />
-    <dl class="row">
+    <dl class="row bg-light text-black m-1 border border-2">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
         </dt>
@@ -44,9 +45,9 @@
         </dd>
     </dl>
     
-    <form asp-action="ConfirmDelete">
+    <form asp-action="ConfirmDelete" class="mt-4">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-danger text-black" /> |
+        <a class="btn btn-warning " asp-action="Index">Back to List</a>
     </form>
 </div>

@@ -1,218 +1,51 @@
-﻿<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Quản lý Web Đọc Truyện</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <style>
-        body {
-            display: flex;
-            min-height: 100vh;
-            background-color: #222;
-            color: white;
-        }
-        /* Sidebar */
-        .sidebar {
-            width: 260px;
-            background-color: #333;
-            padding: 20px;
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            transition: 0.3s;
-        }
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Home";
+}
 
-            .sidebar h3 {
-                text-align: center;
-                margin-bottom: 20px;
-            }
-
-            .sidebar a {
-                display: flex;
-                align-items: center;
-                padding: 12px;
-                color: white;
-                text-decoration: none;
-                border-radius: 5px;
-                margin-bottom: 10px;
-                background: #444;
-                transition: 0.3s;
-            }
-
-                .sidebar a:hover {
-                    background: #ffc107;
-                    color: black;
-                }
-
-                .sidebar a i {
-                    width: 20px;
-                    margin-right: 10px;
-                }
-
-            /* Khi thu nhỏ sidebar */
-            .sidebar.collapsed {
-                width: 80px;
-            }
-
-                .sidebar.collapsed a {
-                    justify-content: center;
-                }
-
-                    .sidebar.collapsed a i {
-                        margin-right: 0;
-                    }
-
-                .sidebar.collapsed h3 {
-                    display: none;
-                }
-
-        /* Nội dung chính */
-        .content {
-            margin-left: 260px;
-            flex-grow: 1;
-            padding: 20px;
-            transition: 0.3s;
-        }
-
-        .collapsed + .content {
-            margin-left: 80px;
-        }
-
-        /* Nút thu nhỏ sidebar */
-        .toggle-btn {
-            position: fixed;
-            top: 20px;
-            left: 270px;
-            background: #ffc107;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-
-        .collapsed + .toggle-btn {
-            left: 90px;
-        }
-
-        .card {
-            background: #444;
-            color: white;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-        }
-
-        .table-dark th, .table-dark td {
-            text-align: center;
-        }
-
-        .btn-sm {
-            padding: 5px 10px;
-        }
-
-    </style>
-</head>
-<body>
-
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <h3>📖 Admin Panel</h3>
-        <a href="#"><i class="fas fa-home"></i> Dashboard</a>
-        <a href="#"><i class="fas fa-book"></i> Quản lý Truyện</a>
-        <a href="#"><i class="fas fa-users"></i> Quản lý Người dùng</a>
-        <a href="#"><i class="fas fa-cogs"></i> Cài đặt</a>
-        <a href="#"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-    </div>
-
-    <!-- Nút thu nhỏ Sidebar -->
-    <button class="toggle-btn" id="toggle-btn">≡</button>
-
-    <!-- Nội dung chính -->
-    <div class="content" id="main-content">
-        <h2>📊 Dashboard - Thống kê</h2>
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <div class="card">
-                    <h4>📖 Tổng số truyện</h4>
-                    <p class="fs-4">120</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <h4>👥 Tổng người dùng</h4>
-                    <p class="fs-4">4,500</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <h4>🔥 Lượt đọc hôm nay</h4>
-                    <p class="fs-4">15,000</p>
-                </div>
-            </div>
-        </div>
-
-        <h3 class="mt-5">📚 Danh sách truyện</h3>
-        <div class="table-responsive">
-            <table class="table table-dark mt-3">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Tên truyện</th>
-                        <th>Tác giả</th>
-                        <th>Thể loại</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>One Piece</td>
-                        <td>Eiichiro Oda</td>
-                        <td>Hành động</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm">✏️ Sửa</button>
-                            <button class="btn btn-danger btn-sm">🗑️ Xóa</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Thám tử lừng danh Conan</td>
-                        <td>Gosho Aoyama</td>
-                        <td>Trinh thám</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm">✏️ Sửa</button>
-                            <button class="btn btn-danger btn-sm">🗑️ Xóa</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Attack on Titan</td>
-                        <td>Hajime Isayama</td>
-                        <td>Khoa học viễn tưởng</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm">✏️ Sửa</button>
-                            <button class="btn btn-danger btn-sm">🗑️ Xóa</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <script>
-        const sidebar = document.getElementById("sidebar");
-        const content = document.getElementById("main-content");
-        const toggleBtn = document.getElementById("toggle-btn");
-
-        toggleBtn.addEventListener("click", () => {
-            sidebar.classList.toggle("collapsed");
-            content.classList.toggle("collapsed");
-        });
-    </script>
-
-</body>
-</html>
+<h3 class="mt-5">📚 Danh sách truyện</h3>
+<div class="table-responsive">
+    <table class="table table-dark mt-3">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Tên truyện</th>
+                <th>Tác giả</th>
+                <th>Thể loại</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>One Piece</td>
+                <td>Eiichiro Oda</td>
+                <td>Hành động</td>
+                <td>
+                    <button class="btn btn-warning btn-sm">✏️ Sửa</button>
+                    <button class="btn btn-danger btn-sm">🗑️ Xóa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Thám tử lừng danh Conan</td>
+                <td>Gosho Aoyama</td>
+                <td>Trinh thám</td>
+                <td>
+                    <button class="btn btn-warning btn-sm">✏️ Sửa</button>
+                    <button class="btn btn-danger btn-sm">🗑️ Xóa</button>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Attack on Titan</td>
+                <td>Hajime Isayama</td>
+                <td>Khoa học viễn tưởng</td>
+                <td>
+                    <button class="btn btn-warning btn-sm">✏️ Sửa</button>
+                    <button class="btn btn-danger btn-sm">🗑️ Xóa</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
