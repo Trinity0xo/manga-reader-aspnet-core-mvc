@@ -5,13 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THƯ VIỆN CỦA THANH NHÀN</title>
+    @* <title>THƯ VIỆN CỦA THANH NHÀN</title> *@
     <link href="~/../../../../đồ án môn học/webtruyen/webtruyen/wwwroot/css/site.css" rel="stylesheet" />
     <!-- Thư viện Swiper.js -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-    <style>
+@*     <style>
         body {
             font-family: Arial, sans-serif;
         }
@@ -66,74 +66,99 @@
             color: red;
             font-weight: bold;
         }
-    </style>
+    </style> *@
 </head>
 <body>
-    <header>
-        <div class="account-menu">
-                <partial name="_loginPartial"/>
-        </div>
+@*     <header>
+        <nav class="navbar navbar-expand-lg w-100">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="#">HOME</a>
 
-        <input type="text" class="search-bar" placeholder="Tìm truyện...">
-        <nav>
-            <ul>
-                <li><a href="~/Hot/index" class="active">HOT</a></li>
-                <li><a asp-controller="Following" asp-action="Index">THEO DÕI</a></li>
-                <li><a href="~/Following/index">LỊCH SỬ</a></li>
-                <li class="menu">
-                    <a href="#" id="menu-button">THỂ LOẠI</a>
-                    <div class="dropdown-menu" id="dropdown-menu">
-                        <div class="column">
-                            <p><strong>Tất cả</strong></p>
-                            <p>Action</p>
-                            <p>Adventure</p>
-                            <p>Anime</p>
-                            <p class="highlight">Chuyển Sinh</p>
-                            <p>Comedy</p>
-                            <p>Comic</p>
-                        </div>
-                        <div class="column">
-                            <p>Historical</p>
-                            <p>Horror</p>
-                            <p>Live action</p>
-                            <p>Manga</p>
-                            <p>Manhua</p>
-                            <p>Manhwa</p>
-                            <p>Martial Arts</p>
-                        </div>
-                        <div class="column">
-                            <p>Shoujo</p>
-                            <p>Shounen</p>
-                            <p>Slice of Life</p>
-                            <p>Sports</p>
-                            <p>Supernatural</p>
-                            <p>Trinh Thám</p>
-                        </div>
+                <button class="navbar-toggler " type="button"
+                        data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon d-flex justify-content-center align-items-center">
+                        <i class="bi bi-list"></i>
+                    </span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase" href="~/Hot/index">HOT</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-controller="Following" asp-action="Index" class="nav-link text-uppercase" >THEO DÕI</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase" href="~/Following/index">LỊCH SỬ</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-uppercase" href="#" id="genreDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                THỂ LOẠI
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="genreDropdown">
+                                <li><a class="dropdown-item" href="#">Hành động</a></li>
+                                <li><a class="dropdown-item" href="#">Phiêu lưu</a></li>
+                                <li><a class="dropdown-item" href="#">Hài hước</a></li>
+                                <li><a class="dropdown-item" href="#">Kinh dị</a></li>
+                                <li><a class="dropdown-item" href="#">Tình cảm</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <form class="d-flex ">
+                        <input class="form-control me-2 search-bar w-100" type="search" placeholder="Tìm kiếm..." aria-label="Search">
+                        <button class="btn btn-outline-light rounded-circle d-flex align-items-center justify-content-center" type="submit" style="width: 40px; height: 40px;">
+                            <i class="bi bi-search "></i>
+                        </button>
+                    </form>
+                    <div class="account-menu">
+                        <partial name="_loginPartial" />
                     </div>
-                </li>
-            </ul>
+                </div>
+            </div>
         </nav>
-    </header>
+    </header> *@
 
     <main>
         <section class="truyen-hot">
-            <h2>Thư Viện Đề Cử</h2>
+            <h2>
+                Truyện Mới Cập Nhật
+            </h2>
             <div class="truyen-list">
                 @if (Model != null && Model.Any())
                 {
-                    @foreach (var item in Model)
-                    {
-                        <div class="truyen-item">
-                            <img src="@Html.DisplayFor(modelItem => item.CoverUrl)">
-                            <p>@Html.DisplayFor(modelItem => item.Name) - @(item.Chapters?.OrderByDescending(c => c.CreatedDate).FirstOrDefault()?.Name ?? "No chapters")</p>
-                            <a asp-action="Details" asp-route-id="@item.Id" class="view-story-btn">👁 Xem</a>
-                            <input type="checkbox" name="follow-1" class="follow-checkbox" id="follow-1">
-                            <form asp-controller="Following" asp-action="Add" asp-route-id="@item.Id" method="post">
-                                <button for="follow-1" class="follow-btn">➕ Thêm</button>
-                            </form>
-                            <span class="followed-text">✅ Đã theo dõi</span>
-                        </div>
-                    }
+                    <div class="row w-100">
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+                                <!-- 3 cột trên màn hình lớn, 2 cột trên màn hình nhỏ -->
+                                <div class="card shadow-sm h-100 d-flex flex-column">
+                                    <img src="@Html.DisplayFor(modelItem => item.CoverUrl)" class="card-img-top" alt="@item.Name">
+
+                                    <div class="card-body text-center d-flex flex-column">
+                                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                                        <p class="card-text">
+                                            @(item.Chapters?.OrderByDescending(c => c.CreatedDate).FirstOrDefault()?.Name ?? "No chapters")
+                                        </p>
+
+                                        <!-- Dùng mt-auto để đẩy button xuống đáy -->
+                                        <div class="mt-auto">
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-danger">👁 Xem</a>
+                                                <form class="follow-form" data-id="@item.Id">
+                                                    <button type="button" class="btn btn-outline-danger follow-btn">➕ Thêm</button>
+                                                </form>
+                                                <span class="followed-text d-none text-success">✅ Đã theo dõi</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+                    </div>
                 }
                 else
                 {
@@ -174,7 +199,7 @@
         <p>&copy; 2025 NetTruyen - Đọc truyện online</p>
     </footer>
 
-    <script>
+@*     <script>
         document.addEventListener("DOMContentLoaded", function () {
             let menuButton = document.getElementById("menu-button");
             let dropdownMenu = document.getElementById("dropdown-menu");
@@ -197,6 +222,6 @@
                 event.stopPropagation();
             });
         });
-    </script>
+    </script> *@
 </body>
 </html>
