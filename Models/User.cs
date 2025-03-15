@@ -6,6 +6,9 @@ namespace WEBTRUYEN.Models{
         [DisplayName("Ảnh đại diện")]
         public string? AvatarUrl { get; set; }
 
+        [DisplayName("Truyện đã theo dõi")]
+        public List<Comic>? Comics { get; set; }
+
         [DisplayName("Tham gia lúc")]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 

@@ -30,7 +30,6 @@ secrets.json
 
 # Ignore package files
 node_modules/
-wwwroot/lib/
 packages/
 .nuget/
 !*.nuspec

@@ -36,6 +36,9 @@ namespace WEBTRUYEN.Models
         [DisplayName("Chương")]
         public List<Chapter>? Chapters { get; set; }
 
+        [DisplayName("người dùng theo dõi")]
+        public List<User>? Users { get; set; }
+
         [DisplayName("Khởi tạo lúc")]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
