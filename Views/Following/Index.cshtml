@@ -1,4 +1,4 @@
-﻿@model WEBTRUYEN.Models.User
+﻿@model IEnumerable<WEBTRUYEN.Models.Comic>
 
 @{
     ViewData["Title"] = "Following Page";
@@ -19,9 +19,9 @@
             <span class="active">Mới cập nhật</span>
         </div>
         <div class="story-list" id="story-list">
-            @if (Model.Comics != null && Model.Comics.Any())
+            @if (Model != null && Model.Any())
             {
-                @foreach (var item in Model.Comics)
+                @foreach (var item in Model)
                 {
                     <div class="story">
                         <img src="@Html.DisplayFor(modelItem => item.CoverUrl)">

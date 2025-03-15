@@ -27,12 +27,7 @@ namespace WEBTRUYEN.Controllers
         {
             var loggedInUser = await _userManager.GetUserAsync(User);
 
-            var followingComics = await _context.Users
-                    .Include(c => c.Comics
-                        .OrderByDescending(c => c.Chapters.OrderByDescending(c => c.CreatedDate)
-                            .Select(c => c.CreatedDate).FirstOrDefault()))
-                    .ThenInclude(c => c.Chapters.OrderByDescending(ch => ch.CreatedDate))
-                    .FirstOrDefaultAsync(u => u.Id == loggedInUser.Id);
+            var followingComics = await _comicRepository.GetFollowingAsync(loggedInUser.Id);
 
             return View(followingComics);
         }
@@ -48,20 +43,14 @@ namespace WEBTRUYEN.Controllers
                 return NotFound();
             }
 
-            var followingComics = await _context.Users
+            var userWithComics = await _context.Users
                 .Include(u => u.Comics)
                 .FirstOrDefaultAsync(u => u.Id == loggedInUser.Id);
 
-            if (followingComics != null)
-            {
-                followingComics.Comics.Add(comic);
-                await _context.SaveChangesAsync();
-            }
+            await _comicRepository.FollowComicAsync(userWithComics, comic);
 
             return RedirectToAction(nameof(Index));
         }
-
-
 
         [HttpPost("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -73,15 +62,11 @@ namespace WEBTRUYEN.Controllers
                 return NotFound();
             }
 
-            var followingComics = await _context.Users
+            var userWithComics = await _context.Users
                 .Include(u => u.Comics)
                 .FirstOrDefaultAsync(u => u.Id == loggedInUser.Id);
 
-            if (followingComics != null)
-            {
-                followingComics.Comics.Remove(comic);
-                await _context.SaveChangesAsync();
-            }
+            await _comicRepository.RemoveFromFollowing(userWithComics, comic);
 
             return RedirectToAction(nameof(Index));
         } 

@@ -40,15 +40,11 @@ namespace WEBTRUYEN.Controllers
                 return NotFound();
             }
 
+            ViewBag.FollowerCount = await _comicRepository.CountFollowersAsync(comic.Id);
+
             return View(comic);
         }
 
-
-
-        //public IActionResult trangchu()
-        //{
-        //    return View();
-        //}
         public IActionResult Privacy()
         {
             return View();

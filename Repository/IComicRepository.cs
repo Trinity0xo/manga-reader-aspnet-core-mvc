@@ -9,5 +9,9 @@ namespace WEBTRUYEN.Repository
         Task AddAsync(Comic comic);
         Task UpdateAsync(Comic comic);
         Task DeleteAsync(int id);
+        Task<int> CountFollowersAsync(int id);
+        Task<IEnumerable<Comic>> GetFollowingAsync(string userId);
+        Task FollowComicAsync(User userWithComics, Comic comic);
+        Task RemoveFromFollowing(User userWithComics, Comic comic);
     }
 }
