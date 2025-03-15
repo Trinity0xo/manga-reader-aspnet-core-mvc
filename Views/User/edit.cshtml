@@ -2,7 +2,8 @@
 
 @{
     ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "User Detail";
 }
 
 <h1>Edit</h1>
@@ -47,7 +48,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-warning mt-3" asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

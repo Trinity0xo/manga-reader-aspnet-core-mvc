@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<(WEBTRUYEN.Models.User user, string Role)>
 @{
     ViewData["title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "User";
 }
 <h1>Danh sách người dùng</h1>
 @* <p>
     <a asp-action="Create">Tạo mới</a>
 </p> *@
 
-<table class="table">
+<table class="table table-dark mt-3">
     <thead>
         <tr>
             @* <th> *@
@@ -54,9 +56,9 @@
                     @Html.DisplayFor(modelItem => item.user.UpdatedDate)
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.user.Id">Chi tiết</a> |
-                    <a asp-action="Edit" asp-route-id="@item.user.Id">Sửa</a> |
-                    <a asp-action="Delete" asp-route-id="@item.user.Id">Xóa</a>
+                    <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.user.Id">Chi tiết</a> |
+                    <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.user.Id">Sửa</a> |
+                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.user.Id">Xóa</a>
                 </td>
             </tr>
         }
