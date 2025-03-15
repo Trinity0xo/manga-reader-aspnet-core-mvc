@@ -3,15 +3,23 @@
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    ViewBag.Title = "Detail Genre";
+    ViewBag.Title = "Chi tiết thể loại";
 }
 
-<h1>Details</h1>
+<nav class="mt-2 mb-4" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item"><a asp-action="Index">Danh sách thể loại</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Chi tiết thể loại</li>
+    </ol>
+</nav>
 
-<div>
-    <h4>Genre</h4>
+<h3 class="mb-5">📚 Chi tiết thể loại</h3>
+
+<div class="mb-4">
+    <h4>Thông tin chi tiết</h4>
     <hr />
-    <dl class="row bg-light text-black m-1">
+    <dl class="row text-white m-1">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
         </dt>
@@ -44,7 +52,7 @@
         </dd>
     </dl>
 </div>
-<div class="mt-4 d-flex gap-3">
-    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
-    <a class="btn btn-warning" asp-action="Index">Back to List</a>
+<div class="d-flex gap-3">
+    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.Id">Cập nhật</a>
+    <a class="btn btn-success" asp-action="Index">Quay lại</a>
 </div>

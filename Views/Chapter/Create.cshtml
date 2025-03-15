@@ -3,17 +3,27 @@
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    ViewBag.Title = "Create Chapter";
+    ViewBag.Title = "Tạo chương";
 }
 
-<h1>Trang tạo chương mới</h1>
+<nav class="mt-2 mb-4" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item"><a asp-action="Index">Danh sách truyện</a></li>
+        <li class="breadcrumb-item">
+            <a asp-controller="Comic" asp-action="Details" asp-route-id="@Model.ComicId">Chi tiết truyện</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Tạo chương</li>
+    </ol>
+</nav>
 
-<hr />
+<h3 class="mb-5">📚 Tạo chương</h3>
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="ConfirmCreate" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group mb-3">
+            <div class="form-group mb-4">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
@@ -21,11 +31,9 @@
 
             <input type="hidden" asp-for="ComicId" />
 
-            <div class="form-group mb-3">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-            <div>
-                <a asp-controller="Comic" asp-action="Details" class="btn btn-warning" asp-route-id="@Model.ComicId">Back to Comic</a>
+            <div class="d-flex gap-3">
+                <input type="submit" value="Lưu" class="btn btn-primary" />
+                <a asp-controller="Comic" asp-action="Details" class="btn btn-success" asp-route-id="@Model.ComicId">Quay lại</a>
             </div>
             <hr/>
             <div class="form-group mb-3">

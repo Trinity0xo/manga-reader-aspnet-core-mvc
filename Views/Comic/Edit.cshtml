@@ -3,22 +3,26 @@
 @{
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    ViewBag.Title = "Update Comic";
+    ViewBag.Title = "Cập nhật truyện";
 }
 
-<h1>Edit Comic</h1>
+<nav class="mt-2 mb-4" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item"><a asp-action="Index">Danh sách truyện</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Cập nhật thể loại</li>
+    </ol>
+</nav>
 
-<hr />
+<h3 class="mb-5">📚 Cập nhật truyện</h3>
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="ConfirmEdit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div>
 
-            </div>
-
-            <div class="form-group mb-3">
+            <div class="form-group mb-4">
                 <label for="Image" class="control-label">Chọn 1 ảnh đại diện thay thế</label>
                 <input id="imageInput" type="file" name="Image" class="form-control" />
             </div>
@@ -27,32 +31,32 @@
                 <img src="@Model.CoverUrl" style="border-radius: 8px;width: 100%; object-fit:cover; margin-bottom:5px; box-shadow:0px 2px 5px rgba(0,0,0,0.2)" />
             </div>
 
-            <div class="form-group mb-3">
+            <div class="form-group mb-4">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
-            <div class="form-group mb-3">
+            <div class="form-group mb-4">
                 <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control"></textarea>
+                <textarea asp-for="Description" class="form-control" rows="5"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
 
-            <div class="form-group mb-3">
+            <div class="form-group mb-4">
                 <label asp-for="Author" class="control-label"></label>
                 <input asp-for="Author" class="form-control" />
                 <span asp-validation-for="Author" class="text-danger"></span>
             </div>
 
-            <div class="form-group mb-3">
+            <div class="form-group mb-4">
                 <label asp-for="PublicAt" class="control-label"></label>
                 <input asp-for="PublicAt" class="form-control" type="datetime-local"
                        value="@Model?.PublicAt.ToString("yyyy-MM-ddTHH:mm")" />
                 <span asp-validation-for="PublicAt" class="text-danger"></span>
             </div>
 
-            <div class="form-group mb-3">
+            <div class="form-group mb-4">
                 <label asp-for="Status" class="control-label"></label>
                 <select asp-for="Status" class="form-control" type="datetime-local">
                     <option value="Đang tiến hành">Đang tiến hành</option>
@@ -62,20 +66,17 @@
                 <span asp-validation-for="PublicAt" class="text-danger"></span>
             </div>
 
-            <div class="form-group mb-3">
+            <div class="form-group mb-4">
                 <label asp-for="Genres" class="control-label"></label>
                 <select name="Genres" class="form-control" asp-items="ViewBag.Genres" multiple> 
                 </select> 
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="d-flex gap-3">
+                <input type="submit" value="Cập nhật" class="btn btn-warning" />
+                <a class="btn btn-success" asp-action="Index">Quay lại</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a class="btn btn-warning mt-3" asp-action="Index">Back to List</a>
 </div>
 
 <script>

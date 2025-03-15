@@ -3,12 +3,24 @@
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    ViewBag.Title = "Chapter Detail";
+    ViewBag.Title = "Chi tiết chương";
 }
 
-<h1>Trang chi tiết chương</h1>
+<nav class="mt-2 mb-4" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item"><a asp-action="Index">Danh sách truyện</a></li>
+        <li class="breadcrumb-item">
+            <a asp-controller="Comic" asp-action="Details" asp-route-id="@Model.ComicId">Chi tiết truyện</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Chi tiết chương</li>
+    </ol>
+</nav>
+
+<h3 class="mb-5">📚 Chi tiết chương</h3>
 
 <div>
+    <h4>Thông tin chương</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -37,9 +49,9 @@
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" class="btn btn-primary" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-controller="Comic" class="btn btn-warning" asp-action="Details" asp-route-id="@Model.ComicId">Back to List</a>
+<div class="d-flex gap-3">
+    <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model?.Id">Cập nhật</a>
+    <a asp-controller="Comic" class="btn btn-success" asp-action="Details" asp-route-id="@Model.ComicId">Quay lại</a>
 </div>
 <hr />
 <p>Các trang truyện</p>
@@ -48,7 +60,7 @@
     {
         @foreach (var item in Model.Pages.OrderByDescending(p => p.Id))
         {
-            <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" style="border-radius: 8px;width: 400px; object-fit:cover; margin-bottom:5px; margin-right: 10px; box-shadow:0px 2px 5px rgba(0,0,0,0.2)" />
+            <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" style="border-radius: 8px;width: 400px; object-fit:cover; margin-bottom:5px; margin-right: 5px; box-shadow:0px 2px 5px rgba(0,0,0,0.2)" />
         }
     }
 </div>

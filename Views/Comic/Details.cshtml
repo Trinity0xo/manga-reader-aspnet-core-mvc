@@ -3,12 +3,20 @@
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    ViewBag.Title = "Detail Comic";
+    ViewBag.Title = "Chi tiết truyện";
 }
 
-<h1>Trang chi tiết truyện</h1>
+<nav class="mt-2 mb-4" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item"><a asp-action="Index">Danh sách truyện</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Chi tiết truyện</li>
+    </ol>
+</nav>
 
-<div class="mt-5">
+<h3 class="mb-5">📚 Chi tiết truyện</h3>
+
+<div class="mb-4">
     <h4>Thông tin truyện</h4>
     <hr />
     <dl class="row">
@@ -76,9 +84,9 @@
         </dd>
     </dl>
 </div>
-<div class="d-flex gap-2">
-    <a asp-action="Edit" class="btn btn-info" asp-route-id="@Model?.Id">Sửa</a>
-    <a asp-action="Index" class="btn btn-warning">Quay lại</a>
+<div class="d-flex gap-3">
+    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model?.Id">Cập nhật</a>
+    <a class="btn btn-success" asp-action="Index">Quay lại</a>
 </div>
 
 
@@ -94,7 +102,7 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.Chapters.FirstOrDefault().Id)
+                        #
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Chapters.FirstOrDefault().Name)
@@ -106,7 +114,7 @@
                         @Html.DisplayNameFor(model => model.Chapters.FirstOrDefault().UpdatedDate)
                     </th>
                     <th>
-                        Action
+                        Tác vụ
                     </th>
                 </tr>
             </thead>
@@ -127,9 +135,9 @@
                             @Html.DisplayFor(modelItem => item.UpdatedDate)
                         </td>
                         <td>
-                            <a asp-controller="Chapter" class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Sửa</a> |
-                            <a asp-controller="Chapter" class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
-                            <a asp-controller="Chapter" class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
+                            <a asp-controller="Chapter" class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Cập nhật</a>
+                            <a asp-controller="Chapter" class="btn btn-success ms-2" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
+                            <a asp-controller="Chapter" class="btn btn-danger ms-2" asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
                         </td>
                     </tr>
                 }

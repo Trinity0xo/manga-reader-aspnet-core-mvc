@@ -15,7 +15,7 @@ namespace WEBTRUYEN.Models
         [DisplayName("Truyện")]
         public List<Comic>? Comics { get; set; }
 
-        [DisplayName("Tên thể lọai")]
+        [DisplayName("Tên")]
         public string Name { get; set; }
 
         [DisplayName("Mô tả")]

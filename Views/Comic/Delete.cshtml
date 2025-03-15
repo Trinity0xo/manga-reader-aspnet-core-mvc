@@ -3,39 +3,92 @@
 @{
     ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    ViewBag.Title = "Delete Comic";
+    ViewBag.Title = "Xóa truyện";
 }
 
-<h1>Delete</h1>
+<nav class="mt-2 mb-4" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item"><a asp-action="Index">Danh sách truyện</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Xóa truyện</li>
+    </ol>
+</nav>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3 class="mb-5">📚 Xóa truyện ( Không thể khôi phục !!! )</h3>
+
 <div>
-    <h4>Comic</h4>
+    <h4>Thông tin truyện</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CoverUrl)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="@Html.DisplayFor(model => model.CoverUrl)" style="border-radius: 8px;width: 25%; object-fit:cover; margin-bottom:5px; box-shadow:0px 2px 5px rgba(0,0,0,0.2)" />
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Author)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PublicAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PublicAt)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Genres)
+        </dt>
+        <dd class="col-sm-10">
+            @(Model.Genres != null && Model.Genres.Any()
+                ? string.Join(", ", Model.Genres.Select(g => g.Name))
+                : "")
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.CreatedDate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CreatedDate)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.UpdatedDate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.UpdatedDate)
         </dd>
     </dl>
     
     <form asp-action="ConfirmDelete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index" class="btn btn-warning">Back to List</a>
+        <div class="d-flex gap-3">
+            <input type="submit" value="Xác nhận xóa" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-success">Quay lại</a>
+        </div>
     </form>
 </div>

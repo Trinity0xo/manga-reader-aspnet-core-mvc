@@ -3,16 +3,23 @@
 @{
     ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    ViewBag.Title = "Delete Genre";
+    ViewBag.Title = "Xóa thể loại";
 }
 
-<h1>Delete</h1>
+<nav class="mt-2 mb-4" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item"><a asp-action="Index">Danh sách thể loại</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Xóa thể loại</li>
+    </ol>
+</nav>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3 class="mb-5">📚 Xóa thể loại ( Không thể khôi phục !!! )</h3>
+
 <div>
-    <h4>Genre</h4>
+    <h4>Thông tin thể loại</h4>
     <hr />
-    <dl class="row bg-light text-black m-1 border border-2">
+    <dl class="row text-white">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
         </dt>
@@ -47,7 +54,9 @@
     
     <form asp-action="ConfirmDelete" class="mt-4">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger text-black" /> |
-        <a class="btn btn-warning " asp-action="Index">Back to List</a>
+        <div class="d-flex gap-3">
+            <button type="submit" class="btn btn-danger text-white">Xác nhận xóa</button>
+            <a class="btn btn-success" asp-action="Index">Quay lại</a>
+        </div>
     </form>
 </div>
