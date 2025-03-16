@@ -1,45 +1,24 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WEBTRUYEN</title>
+    <title>@ViewData["Title"] - Web truyện</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/homeLayout.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WEBTRUYEN.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 </head>
+
 <body>
-@*     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WEBTRUYEN</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                     <partial name="_loginpartial"/> 
-                </div>
-            </div>
-        </nav>
-    </header> *@
-    <header>
+    <div class="my-header">
         <nav class="navbar navbar-expand-lg w-100">
             <div class="container">
                 <a class="navbar-brand fw-bold" href="/">HOME</a>
 
-                <button class="navbar-toggler " type="button"
-                        data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon d-flex justify-content-center align-items-center">
                         <i class="bi bi-list"></i>
                     </span>
@@ -51,13 +30,15 @@
                             <a class="nav-link text-uppercase" href="~/Hot/index">HOT</a>
                         </li>
                         <li class="nav-item">
-                            <a asp-controller="Following" asp-action="Index" class="nav-link text-uppercase">THEO DÕI</a>
+                            <a asp-controller="Following" asp-action="Index" class="nav-link text-uppercase">THEO
+                                DÕI</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-uppercase" href="~/Following/index">LỊCH SỬ</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-uppercase" href="#" id="genreDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle text-uppercase" href="#" id="genreDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                                 THỂ LOẠI
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="genreDropdown">
@@ -71,8 +52,11 @@
                     </ul>
 
                     <form class="d-flex ">
-                        <input class="form-control me-2 search-bar w-100" type="search" placeholder="Tìm kiếm..." aria-label="Search">
-                        <button class="btn btn-outline-light rounded-circle d-flex align-items-center justify-content-center" type="submit" style="width: 40px; height: 40px;">
+                        <input class="form-control me-2 search-bar w-100 my-search-bar" type="search"
+                            placeholder="Tìm kiếm..." aria-label="Search">
+                        <button
+                            class="btn btn-outline-light rounded-circle d-flex align-items-center justify-content-center"
+                            type="submit" style="width: 40px; height: 40px;">
                             <i class="bi bi-search "></i>
                         </button>
                     </form>
@@ -82,21 +66,20 @@
                 </div>
             </div>
         </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    </div>
+    <div class="container mt-3 mb-3 contents">
+        @RenderBody()
     </div>
 
-    <footer class="border-top footer text-muted">
+    <div class="my-footer">
         <div class="container">
             &copy; 2025 - WEBTRUYEN - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
-    </footer>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @* <script src="~/js/site.js" asp-append-version="true"></script> *@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

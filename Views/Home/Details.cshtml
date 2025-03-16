@@ -1,148 +1,103 @@
 ﻿@model WEBTRUYEN.Models.Comic
 
-@* <!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chi Tiết Truyện</title>
-    <link href="~/css/ChiTietTruyen.css" rel="stylesheet" />
-</head>
-<body>
-    <div class="container">
-        <h1 class="title">@Model.Name</h1>
-        <div class="truyen-info">
-            <img src="@Model.CoverUrl" class="truyen-cover">
-            <div class="info">
-                <div class="stats">
-                    <div class="stat-box"><span>❤️ 0</span> Yêu thích</div>
-                    <div class="stat-box"><span>🔖 @ViewBag.FollowerCount</span> Đánh dấu</div>
-                    <div class="stat-box"><span>😡 0</span> Hóng</div>
-                    <div class="stat-box"><span>📖 267</span> Lượt đọc</div>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Chi tiết truyện";
+}
+
+<!-- Thông tin truyện -->
+<div class="row g-4 align-items-stretch">
+    <!-- Ảnh bìa truyện -->
+    <div class="col-md-4 d-flex">
+        <div class="w-100 h-100 d-flex align-items-center justify-content-center">
+            <img src="@Model.CoverUrl" class="img-fluid shadow h-100 object-fit-cover" alt="@Model.Name">
+        </div>
+    </div>
+
+    <!-- Nội dung chi tiết -->
+    <div class="col-md-8 d-flex">
+        <div class="card shadow-sm p-3 w-100 h-100">
+            <div class="card-body d-flex flex-column my-card">
+                <!-- Thống kê -->
+                <div class="d-flex flex-wrap gap-3 mb-3">
+                    <div class="badge bg-danger p-2">❤️ 0 Yêu thích</div>
+                    <div class="badge bg-warning p-2">🔖 0 Đánh dấu</div>
+                    <div class="badge bg-info p-2">😡 0 Hóng</div>
+                    <div class="badge bg-success p-2">📖 267 Lượt đọc</div>
                 </div>
-                <div class="details">
-                    <p><strong>Tác giả:</strong> @Model.Author</p>
-                    <p><strong>Thể loại:</strong>
-                        @if(Model.Genres != null && Model.Genres.Any())
+
+                <!-- Thông tin chi tiết -->
+                <ul class="list-group list-group-flush flex-grow-1">
+                    <li class="list-group-item fs-5"><strong> @Model.Name</strong> </li>
+                    <li class="list-group-item"><strong>Tác giả:</strong> @Model.Author</li>
+                    <li class="list-group-item">
+                        <strong>Thể loại:</strong>
+                        @if (Model.Genres != null && Model.Genres.Any())
                         {
-                            foreach(var itemt in Model.Genres)
+                            foreach (var itemt in Model.Genres)
                             {
-                                <span class="tag">@itemt.Name</span>
+                                <span class="badge bg-secondary">@itemt.Name</span>
                             }
                         }
-                    </p>
-                    <p><strong>Phí xu:</strong> Miễn phí</p>
-                    <p><strong>Số chữ:</strong> 10.3K</p>
-                    <p><strong>Trạng thái:</strong> <span class="status">@Model.Status</span></p>
-                </div>
-                <div class="actions">
-                    <button class="read-btn">📖 Đọc ngay</button>
-                    <button class="donate-btn">💰 Donate</button>
-                </div>
-            </div>
-        </div>
-        <div class="comments">
-            <h2>Bình luận</h2>
-            <p>Chưa có bình luận</p>
-        </div>
-    </div>
-</body>
-</html>
- *@
+                    </li>
+                    <li class="list-group-item"><strong>Phí xu:</strong> <span class="text-success">Miễn phí</span>
+                    </li>
+                    <li class="list-group-item"><strong>Số chữ:</strong> 10.3K</li>
+                    <li class="list-group-item"><strong>Trạng thái:</strong> <span
+                            class="badge bg-primary">@Model.Status</span></li>
+                </ul>
 
-<div class="container mt-4">
-    <!-- Tiêu đề truyện -->
-    @* <h1 class="text-center fw-bold">@Model.Name</h1> *@
-
-    <!-- Thông tin truyện -->
-    <div class="row g-4 align-items-stretch">
-        <!-- Ảnh bìa truyện -->
-        <div class="col-md-4 d-flex">
-            <div class="w-100 h-100 d-flex align-items-center justify-content-center">
-                <img src="@Model.CoverUrl" class="img-fluid rounded shadow h-100 object-fit-cover" alt="@Model.Name">
-            </div>
-        </div>
-
-        <!-- Nội dung chi tiết -->
-        <div class="col-md-8 d-flex">
-            <div class="card shadow-sm p-3 w-100 h-100">
-                <div class="card-body d-flex flex-column">
-                    <!-- Thống kê -->
-                    <div class="d-flex flex-wrap gap-3 mb-3">
-                        <div class="badge bg-danger p-2">❤️ 0 Yêu thích</div>
-                        <div class="badge bg-warning p-2">🔖 0 Đánh dấu</div>
-                        <div class="badge bg-info p-2">😡 0 Hóng</div>
-                        <div class="badge bg-success p-2">📖 267 Lượt đọc</div>
-                    </div>
-
-                    <!-- Thông tin chi tiết -->
-                    <ul class="list-group list-group-flush flex-grow-1">
-                        <li class="list-group-item fs-5"><strong> @Model.Name</strong> </li>
-                        <li class="list-group-item"><strong>Tác giả:</strong> @Model.Author</li>
-                        <li class="list-group-item">
-                            <strong>Thể loại:</strong>
-                            @if (Model.Genres != null && Model.Genres.Any())
-                            {
-                                foreach (var itemt in Model.Genres)
-                                {
-                                    <span class="badge bg-secondary">@itemt.Name</span>
-                                }
-                            }
-                        </li>
-                        <li class="list-group-item"><strong>Phí xu:</strong> <span class="text-success">Miễn phí</span></li>
-                        <li class="list-group-item"><strong>Số chữ:</strong> 10.3K</li>
-                        <li class="list-group-item"><strong>Trạng thái:</strong> <span class="badge bg-primary">@Model.Status</span></li>
-                    </ul>
-
-                    <!-- Nút thao tác -->
+                <!-- Nút thao tác -->
+                <form class="follow-form" data-id="" asp-controller="Following" asp-action="Add"
+                    asp-route-id="@Model.Id" method="post">
                     <div class="d-flex gap-3 mt-3">
-                        <button class="btn btn-danger flex-grow-1">📖 Đọc ngay</button>
-                        <button class="btn btn-warning flex-grow-1">➕ Thêm</button>
-                        @* <form class="follow-form" data-id="" asp-controller="Following" asp-action="Add" asp-route-id="@item.Id" method="post"> *@
-                        @*     <button type="submit" class="btn btn-outline-danger follow-btn">➕ Thêm</button> *@
-                        @* </form> *@
+                        <button type="button" class="btn btn-danger flex-grow-1">📖 Đọc ngay</button>
+
+                        <button type="submit" class="btn btn-warning flex-grow-1">➕ Thêm</button>
+
                     </div>
-                </div>
+                </form>
             </div>
         </div>
-    </div>
-    <!-- Chapter -->
-<div class="container mt-1">
-    <h2 class="mb-3">Danh Sách Chương</h2>
-
-    <div class="list-group chapter-list" style="max-height: 400px; overflow-y: auto;">
-        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-            <span>📖 Chương 1: Khởi đầu mới</span>
-            <small class="text-muted">10/03/2025</small>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-            <span>📖 Chương 2: Hành trình bắt đầu</span>
-            <small class="text-muted">09/03/2025</small>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-            <span>📖 Chương 3: Bí mật trong rừng</span>
-            <small class="text-muted">08/03/2025</small>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-            <span>📖 Chương 4: Kẻ thù xuất hiện</span>
-            <small class="text-muted">07/03/2025</small>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-            <span>📖 Chương 5: Quyết đấu</span>
-            <small class="text-muted">06/03/2025</small>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-            <span>📖 Chương 6: Chiến thắng</span>
-            <small class="text-muted">05/03/2025</small>
-        </a>
     </div>
 </div>
 
-    <!-- Bình luận -->
-    <div class="mt-1">
-        <h2 class="text-center">Bình luận</h2>
-        <div class="alert alert-light text-center" role="alert">
-            Chưa có bình luận
-        </div>
+<!-- Chapter -->
+<h4 class="mt-3 mb-3">Danh Sách Chương</h4>
+
+<div class="list-group chapter-list" style="max-height: 400px; overflow-y: auto;">
+    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        <span>📖 Chương 1: Khởi đầu mới</span>
+        <small class="text-muted">10/03/2025</small>
+    </a>
+    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        <span>📖 Chương 2: Hành trình bắt đầu</span>
+        <small class="text-muted">09/03/2025</small>
+    </a>
+    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        <span>📖 Chương 3: Bí mật trong rừng</span>
+        <small class="text-muted">08/03/2025</small>
+    </a>
+    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        <span>📖 Chương 4: Kẻ thù xuất hiện</span>
+        <small class="text-muted">07/03/2025</small>
+    </a>
+    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        <span>📖 Chương 5: Quyết đấu</span>
+        <small class="text-muted">06/03/2025</small>
+    </a>
+    <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        <span>📖 Chương 6: Chiến thắng</span>
+        <small class="text-muted">05/03/2025</small>
+    </a>
+</div>
+
+
+<!-- Bình luận -->
+<div class="mt-3">
+    <h4 class="text-center">Bình luận</h4>
+    <div class="alert alert-light text-center" role="alert">
+        Chưa có bình luận
     </div>
 </div>

@@ -1,42 +1,41 @@
 ﻿@model IEnumerable<WEBTRUYEN.Models.Comic>
 
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Trang chủ";
+}
 
-    <main>
-    <section class="container bg-white home">
-            <h2>
-                Truyện Mới Cập Nhật
-            </h2>
-        <div class="">
-                @if (Model != null && Model.Any())
-                {
-                <div class="row g-3 ">
-                        @foreach (var item in Model)
-                        {
+<main>
+    <section class="bg-white home">
+        <div class="container-fluid">
+            <h4 class="mt-4 mb-0 d-inline-block">
+                Truyện mới cập nhật
+            </h4>
+            <hr>
+            <div class="">
+                @if (Model != null && Model.Any()){
+                    <div class="row">
+                        @foreach (var item in Model){
+                            <div class="col-md-4 col-sm-6 col-xs-12 col-lg-3 hover-scale p-3">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="card-link">
+                                    <!-- 3 cột trên màn hình lớn, 2 cột trên màn hình nhỏ -->
+                                    <div class="card shadow-sm h-100 d-flex flex-column my-card">
+                                        <img src="@Html.DisplayFor(modelItem => item.CoverUrl)" class="card-img-top" alt="@item.Name">
 
-                        <div class="col-md-4 col-sm-6 col-xs-12 col-lg-3 hover-scale ">
-                            <a asp-action="Details" asp-route-id="@item.Id" class="card-link">
-                                <!-- 3 cột trên màn hình lớn, 2 cột trên màn hình nhỏ -->
-                                <div class="card shadow-sm h-100 d-flex flex-column">
-                                    <img src="@Html.DisplayFor(modelItem => item.CoverUrl)" class="card-img-top" alt="@item.Name">
-
-                                <div class="card-body text-center d-flex flex-column ">
-                                    <h5 class="card-title text-truncate line-clamp-2">@Html.DisplayFor(modelItem => item.Name)</h5>
-                                    <p class="card-text mb-1 mt-auto">
-                                            @(item.Chapters?.OrderByDescending(c => c.CreatedDate).FirstOrDefault()?.Name ?? "No chapters")
-                                    </p>
+                                    <div class="card-body text-center d-flex flex-column ">
+                                        <h5 class="card-title text-truncate line-clamp-2">@Html.DisplayFor(modelItem => item.Name)</h5>
+                                        <p class="card-text mb-1 mt-auto">
+                                                @(item.Chapters?.OrderByDescending(c => c.CreatedDate).FirstOrDefault()?.Name ?? "No chapters")
+                                        </p>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
-                    }
+                                </a>
+                            </div>
+                         }
                     </div>
                 }
-                else
-                {
-                    <h5>Empty</h5>
-                }
-
              </div>
-        </section>
-    </main>
+        </div>
+    </section>
+</main>
 

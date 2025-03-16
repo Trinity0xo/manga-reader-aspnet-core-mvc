@@ -1,0 +1,72 @@
+﻿body{
+    background: linear-gradient(135deg, #ffccff, #99ccff, #ffffff);
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.my-header{
+    background: linear-gradient(90deg, #ff66b2, #66ccff, #b6abff);
+    padding: 10px 0px;
+    color: black;
+}
+
+.my-footer{
+    position: relative;
+    bottom: 0;
+    padding: 10px 0px;
+    background: linear-gradient(90deg, #ff66b2, #66ccff, #b6abff);
+    color: black;
+}
+
+.my-search-bar{
+    border-radius: 0;
+}
+
+.my-card{
+    border-radius: 0;
+}
+
+.contents{
+    flex-grow: 1;
+}
+
+/*---------------------------*/
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Giới hạn 2 dòng */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal; /* Cho phép xuống dòng */
+    max-height: 3em; /* Tùy chỉnh chiều cao */
+}
+.transition {
+    transition: all 0.5s ease-in-out;
+}
+.hover-scale {
+    transition: all 0.3s ease-in-out;
+}
+.hover-scale:hover {
+    transform: scale(1.025); /* Phóng to khi hover */
+}
+.card-link {
+    text-decoration: none; /* Xóa gạch chân */
+    color: inherit; /* Giữ màu gốc của nội dung */
+    display: block; /* Đảm bảo toàn bộ card là vùng bấm */
+}
+    .card-link:hover {
+        text-decoration: none; /* Không hiển thị gạch chân khi hover */
+        color: inherit; /* Giữ nguyên màu chữ khi hover */
+    }
+.home {
+/*    padding: 20px;*/
+    background: rgba(255, 255, 255, 0.8);
+    /* margin: 20px; */
+    /* border-radius: 15px; */
+    box-shadow: 0px 0px 20px rgba(102, 204, 255, 0.6);
+    /* transition: transform 0.3s; */
+    /* position: relative; */
+    color: #000;
+}
