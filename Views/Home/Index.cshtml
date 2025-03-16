@@ -1,163 +1,34 @@
 ﻿@model IEnumerable<WEBTRUYEN.Models.Comic>
 
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @* <title>THƯ VIỆN CỦA THANH NHÀN</title> *@
-    <link href="~/../../../../đồ án môn học/webtruyen/webtruyen/wwwroot/css/site.css" rel="stylesheet" />
-    <!-- Thư viện Swiper.js -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-@*     <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        nav ul {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            gap: 15px;
-        }
-
-            nav ul li {
-                position: relative;
-            }
-
-                nav ul li a {
-                    text-decoration: none;
-                    color: black;
-                    font-weight: bold;
-                    padding: 10px 15px;
-                    display: block;
-                }
-
-                nav ul li:hover a, .active {
-                    color: red;
-                }
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            background: white;
-            border: 1px solid #ccc;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-            width: 300px;
-            top: 30px;
-            left: 0;
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .column {
-            width: 100px;
-            padding: 5px;
-        }
-
-        p {
-            margin: 5px 0;
-            cursor: pointer;
-        }
-
-        .highlight {
-            color: red;
-            font-weight: bold;
-        }
-    </style> *@
-</head>
-<body>
-@*     <header>
-        <nav class="navbar navbar-expand-lg w-100">
-            <div class="container">
-                <a class="navbar-brand fw-bold" href="#">HOME</a>
-
-                <button class="navbar-toggler " type="button"
-                        data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon d-flex justify-content-center align-items-center">
-                        <i class="bi bi-list"></i>
-                    </span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="~/Hot/index">HOT</a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-controller="Following" asp-action="Index" class="nav-link text-uppercase" >THEO DÕI</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="~/Following/index">LỊCH SỬ</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-uppercase" href="#" id="genreDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                THỂ LOẠI
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="genreDropdown">
-                                <li><a class="dropdown-item" href="#">Hành động</a></li>
-                                <li><a class="dropdown-item" href="#">Phiêu lưu</a></li>
-                                <li><a class="dropdown-item" href="#">Hài hước</a></li>
-                                <li><a class="dropdown-item" href="#">Kinh dị</a></li>
-                                <li><a class="dropdown-item" href="#">Tình cảm</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-
-                    <form class="d-flex ">
-                        <input class="form-control me-2 search-bar w-100" type="search" placeholder="Tìm kiếm..." aria-label="Search">
-                        <button class="btn btn-outline-light rounded-circle d-flex align-items-center justify-content-center" type="submit" style="width: 40px; height: 40px;">
-                            <i class="bi bi-search "></i>
-                        </button>
-                    </form>
-                    <div class="account-menu">
-                        <partial name="_loginPartial" />
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header> *@
 
     <main>
-        <section class="truyen-hot">
+    <section class="container bg-white home">
             <h2>
                 Truyện Mới Cập Nhật
             </h2>
-            <div class="truyen-list">
+        <div class="">
                 @if (Model != null && Model.Any())
                 {
-                    <div class="row w-100">
+                <div class="row g-3 ">
                         @foreach (var item in Model)
                         {
-                            <div class="col-md-4 col-sm-6 col-lg-3 mb-4">
+
+                        <div class="col-md-4 col-sm-6 col-xs-12 col-lg-3 hover-scale ">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="card-link">
                                 <!-- 3 cột trên màn hình lớn, 2 cột trên màn hình nhỏ -->
                                 <div class="card shadow-sm h-100 d-flex flex-column">
                                     <img src="@Html.DisplayFor(modelItem => item.CoverUrl)" class="card-img-top" alt="@item.Name">
 
-                                    <div class="card-body text-center d-flex flex-column">
-                                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-                                        <p class="card-text">
+                                <div class="card-body text-center d-flex flex-column ">
+                                    <h5 class="card-title text-truncate line-clamp-2">@Html.DisplayFor(modelItem => item.Name)</h5>
+                                    <p class="card-text mb-1 mt-auto">
                                             @(item.Chapters?.OrderByDescending(c => c.CreatedDate).FirstOrDefault()?.Name ?? "No chapters")
-                                        </p>
-
-                                        <!-- Dùng mt-auto để đẩy button xuống đáy -->
-                                        <div class="mt-auto">
-                                            <div class="d-flex justify-content-center align-items-center gap-2">
-                                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-danger">👁 Xem</a>
-                                                <form class="follow-form" data-id="@item.Id">
-                                                    <button type="button" class="btn btn-outline-danger follow-btn">➕ Thêm</button>
-                                                </form>
-                                                <span class="followed-text d-none text-success">✅ Đã theo dõi</span>
-                                            </div>
-                                        </div>
+                                    </p>
                                     </div>
                                 </div>
-
-                            </div>
-                        }
+                            </a>
+                        </div>
+                    }
                     </div>
                 }
                 else
@@ -165,63 +36,7 @@
                     <h5>Empty</h5>
                 }
 
-                @* <div class="truyen-item">
-                    <img src="https://api.mottruyen.vn/api/v1/storage/images/2025-03-02/8bfe0a21-3077-4d66-a214-689c60c488fb.webp" alt="Truyện 2">
-                    <p>Ngày có chút ấm - Chapter 185</p>
-                    <button class="view-story-btn">👁 Xem</button>
-                    <input type="checkbox" name="follow-2" class="follow-checkbox" id="follow-2">
-                    <label for="follow-2" class="follow-btn">➕ Thêm</label>
-                    <span class="followed-text">✅ Đã theo dõi</span>
-                </div>
-
-                <div class="truyen-item">
-                    <img src="https://api.mottruyen.vn/api/v1/storage/images/2024-08-29/4c6ba302-bfa5-4668-82e0-8bb90da3a63c.webp" alt="Truyện 3">
-                    <p>Thiên mệnh lưu phong - Chapter 273</p>
-                    <button class="view-story-btn">👁 Xem</button>
-                    <input type="checkbox" name="follow-3" class="follow-checkbox" id="follow-3">
-                    <label for="follow-3" class="follow-btn">➕ Thêm</label>
-                    <span class="followed-text">✅ Đã theo dõi</span>
-                </div>
-
-                <div class="truyen-item">
-                    <img src="https://api.mottruyen.vn/api/v1/storage/images/2025-03-01/23400cf6-0e17-40b3-b235-6f1b5cfc2296.webp" alt="Truyện 4">
-                    <p>Vô hạn thiên biến giả - Chapter 273</p>
-                    <button class="view-story-btn">👁 Xem</button>
-                    <input type="checkbox" name="follow-4" class="follow-checkbox" id="follow-4">
-                    <label for="follow-4" class="follow-btn">➕ Thêm</label>
-                    <span class="followed-text">✅ Đã theo dõi</span>
-                </div> *@
              </div>
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2025 NetTruyen - Đọc truyện online</p>
-    </footer>
-
-@*     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let menuButton = document.getElementById("menu-button");
-            let dropdownMenu = document.getElementById("dropdown-menu");
-
-            menuButton.addEventListener("click", function (event) {
-                event.preventDefault(); // Ngăn link nhảy lên đầu trang
-                event.stopPropagation();
-                if (dropdownMenu.style.display === "none" || dropdownMenu.style.display === "") {
-                    dropdownMenu.style.display = "flex";
-                } else {
-                    dropdownMenu.style.display = "none";
-                }
-            });
-
-            document.addEventListener("click", function () {
-                dropdownMenu.style.display = "none";
-            });
-
-            dropdownMenu.addEventListener("click", function (event) {
-                event.stopPropagation();
-            });
-        });
-    </script> *@
-</body>
-</html>
