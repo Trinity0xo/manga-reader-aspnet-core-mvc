@@ -8,7 +8,7 @@ using WEBTRUYEN.Repository;
 namespace WEBTRUYEN.Controllers
 {
     [Route("/admin/comic")]
-    [Authorize(Roles ="admin")]
+    [Authorize(Roles = "admin")]
     public class ComicController : Controller
     {
         private readonly IComicRepository _comicRepositroy;
@@ -58,7 +58,7 @@ namespace WEBTRUYEN.Controllers
                 {
                     comic.CoverUrl = await SavePageImage(image);
                 }
-                
+
                 comic.Genres = await _genreRepositroy.GetByIdAsync(Genres);
                 await _comicRepositroy.AddAsync(comic);
 
@@ -75,7 +75,7 @@ namespace WEBTRUYEN.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var comic = await _comicRepositroy.GetByIdAsync(id);
-            if(comic == null)
+            if (comic == null)
             {
                 return NotFound();
             }
@@ -89,12 +89,13 @@ namespace WEBTRUYEN.Controllers
         }
 
         [HttpPost("edit"), ActionName("ConfirmEdit")]
-        public async Task<IActionResult> Edit(Comic comic, List<int> Genres, IFormFile image)
+        public async Task<IActionResult> Edit(Comic comic, List<int> Genres, IFormFile? image)
         {
             if (ModelState.IsValid)
             {
                 var comicDb = await _comicRepositroy.GetByIdAsync(comic.Id);
-                if (comicDb == null) { 
+                if (comicDb == null)
+                {
                     return NotFound();
                 }
 
@@ -116,6 +117,11 @@ namespace WEBTRUYEN.Controllers
             }
 
             var selectedGenres = comic.Genres.Select(g => g.Id).ToList();
+
+            if (selectedGenres == null)
+            {
+                selectedGenres = new List<int>();
+            }
 
             var genres = await _genreRepositroy.GetAllAsync();
             ViewBag.Genres = new MultiSelectList(genres, "Id", "Name", selectedGenres);

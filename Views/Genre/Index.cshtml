@@ -16,11 +16,7 @@
 
 <h3 class="mb-5">📚 Danh sách thể loại</h3>
 
-<div class="mb-2 d-flex justify-content-between">
-    <div class="input-group" style="width:400px">
-        <input type="text" class="form-control" placeholder="Tìm theo tên" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button class="btn btn-primary" type="button" id="button-addon2">Tìm kiếm</button>
-    </div>
+<div class="d-flex flex-sm-row flex-column">
     <a class="btn btn-primary" asp-action="Create">Tạo mới</a>
 </div>
 
@@ -33,9 +29,6 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.CreatedDate)
@@ -55,19 +48,16 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Id)
                     </td>
-                    <td>
+                    <td style="min-width: 300px;">
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
+                    <td style="min-width: 180px;">
                         @Html.DisplayFor(modelItem => item.CreatedDate)
                     </td>
-                    <td>
+                    <td style="min-width: 180px;">
                         @Html.DisplayFor(modelItem => item.UpdatedDate)
                     </td>
-                    <td>
+                    <td style="min-width: 300px;">
                         <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Cập nhật</a>
                         <a class="btn btn-success ms-2" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
                         <a class="btn btn-danger ms-2" asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
@@ -77,4 +67,3 @@
         </tbody>
     </table>
 </div>
-

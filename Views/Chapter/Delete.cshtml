@@ -54,12 +54,16 @@
 <hr />
 <p>Các trang truyện ( sau khi xác nhận xóa sẽ mất hết )</p>
 <div id="imagePreviewContainer" class="d-flex flex-wrap">
-    @if (Model.Pages != null && Model.Pages.Any())
-    {
-        @foreach (var item in Model.Pages.OrderByDescending(p => p.Id))
+    <div class="row">
+        @if (Model.Pages != null && Model.Pages.Any())
         {
-            <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" style="border-radius: 8px;width: 400px; object-fit:cover; margin-bottom:5px; margin-right: 5px; box-shadow:0px 2px 5px rgba(0,0,0,0.2)" />
+            @foreach (var item in Model.Pages)
+            {
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                    <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" style="border-radius: 8px; width:100%; margin-bottom:24px; object-fit:cover; box-shadow:0px 2px 5px rgba(0,0,0,0.2)" />
+                </div>
+            }
         }
-    }
+    </div>
 </div>
 

@@ -33,7 +33,8 @@ namespace WEBTRUYEN.Repository
 
         public async Task<Chapter> GetByIdAsync(int id)
         {
-            return await _context.Chapters.Include(p => p.Pages).SingleOrDefaultAsync(x => x.Id == id);
+            return await _context.Chapters.Include(p => p.Pages.
+                OrderByDescending(p => p.Id)).SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task UpdateAsync(Chapter chapter)

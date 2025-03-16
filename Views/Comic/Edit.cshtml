@@ -16,68 +16,80 @@
 
 <h3 class="mb-5">📚 Cập nhật truyện</h3>
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="ConfirmEdit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+<form asp-action="ConfirmEdit" enctype="multipart/form-data">
+    <div class="row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
 
+        <div class="col-sm-12 col-md-7 col-lg-8 col-xl-10">
+            <div class="row">
+                <div class="col-md-12 col-lg-6">
+                    <div class="form-group mb-4">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-lg-6">
+                    <div class="form-group mb-4">
+                        <label asp-for="Author" class="control-label"></label>
+                        <input asp-for="Author" class="form-control" />
+                        <span asp-validation-for="Author" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-lg-6">
+                    <div class="form-group mb-4">
+                        <label asp-for="PublicAt" class="control-label"></label>
+                        <input asp-for="PublicAt" class="form-control" type="datetime-local"
+                            value="@Model?.PublicAt.ToString("yyyy-MM-ddTHH:mm")" />
+                        <span asp-validation-for="PublicAt" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                    <div class="form-group mb-4">
+                        <label asp-for="Status" class="control-label"></label>
+                        <select asp-for="Status" class="form-control" type="datetime-local">
+                            <option value="Đang tiến hành">Đang tiến hành</option>
+                            <option value="Đã hoàn thành">Đã hoàn thành</option>
+                        </select>
+                        <span asp-validation-for="PublicAt" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group mb-4">
+                        <label asp-for="Genres" class="control-label"></label>
+                        <select style="height: 140px;" name="Genres" class="form-control" asp-items="ViewBag.Genres"
+                            multiple>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group mb-4">
+                        <label asp-for="Description" class="control-label"></label>
+                        <textarea asp-for="Description" class="form-control" rows="10"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-5 col-lg-4 col-xl-2 mb-4">
             <div class="form-group mb-4">
-                <label for="Image" class="control-label">Chọn 1 ảnh đại diện thay thế</label>
+                <label for="Image" class="control-label">Chọn ảnh bìa</label>
                 <input id="imageInput" type="file" name="Image" class="form-control" />
             </div>
-
-            <div id="imagePreviewContainer" class="d-flex flex-wrap">
-                <img src="@Model.CoverUrl" style="border-radius: 8px;width: 100%; object-fit:cover; margin-bottom:5px; box-shadow:0px 2px 5px rgba(0,0,0,0.2)" />
+            <div id="imagePreviewContainer">
+                <img src="@Model.CoverUrl"
+                    style="border-radius: 8px; width: 100%; box-shadow:0px 2px 5px rgba(0,0,0,0.2)" />
             </div>
-
-            <div class="form-group mb-4">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-4">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control" rows="5"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-4">
-                <label asp-for="Author" class="control-label"></label>
-                <input asp-for="Author" class="form-control" />
-                <span asp-validation-for="Author" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-4">
-                <label asp-for="PublicAt" class="control-label"></label>
-                <input asp-for="PublicAt" class="form-control" type="datetime-local"
-                       value="@Model?.PublicAt.ToString("yyyy-MM-ddTHH:mm")" />
-                <span asp-validation-for="PublicAt" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-4">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control" type="datetime-local">
-                    <option value="Đang tiến hành">Đang tiến hành</option>
-                    <option value="Đã hoàn thành">Đã hoàn thành</option>
-                </select>
-                  
-                <span asp-validation-for="PublicAt" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-4">
-                <label asp-for="Genres" class="control-label"></label>
-                <select name="Genres" class="form-control" asp-items="ViewBag.Genres" multiple> 
-                </select> 
-            </div>
-            <div class="d-flex gap-3">
-                <input type="submit" value="Cập nhật" class="btn btn-warning" />
-                <a class="btn btn-success" asp-action="Index">Quay lại</a>
-            </div>
-        </form>
+        </div>
+        <div class="d-flex gap-3 flex-column flex-sm-row">
+            <input type="submit" value="Cập nhật" class="btn btn-warning" />
+            <a class="btn btn-success" asp-action="Index">Quay lại</a>
+        </div>
     </div>
-</div>
+</form>
 
 <script>
     document.getElementById("imageInput").addEventListener("change", function () {
@@ -115,5 +127,7 @@
 </script>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

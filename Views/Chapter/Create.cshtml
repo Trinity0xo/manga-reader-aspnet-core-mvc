@@ -47,41 +47,60 @@
 <hr />
 
 <p>Xem trước (Theo thứ tự trên xuống)</p>
-<div id="imagePreviewContainer" class="d-flex flex-wrap"></div>
+<div id="imagePreviewContainer" class="d-flex flex-wrap">
+    <div class="row">
+      
+    </div>
+</div>
 
 <script>
     document.getElementById("imageInput").addEventListener("change", function () {
-        const previewContainer = document.getElementById("imagePreviewContainer");
-        previewContainer.innerHTML = ""; 
+        const previewContainer = document.querySelector("#imagePreviewContainer .row");
+        previewContainer.innerHTML = "";
 
         const allowedExtensions = ["jpg", "jpeg", "png", "gif", "webp"];
-        const files = this.files;
+        const files = Array.from(this.files);
 
-        for (let file of files) {
-            const fileExtension = file.name.split('.').pop().toLowerCase();
+        const filePromises = files.map((file) => {
+            return new Promise((resolve, reject) => {
+                const fileExtension = file.name.split('.').pop().toLowerCase();
+                if (!allowedExtensions.includes(fileExtension)) {
+                    alert("Only JPG, PNG, GIF, and WEBP images are allowed.");
+                    reject();
+                    return;
+                }
 
-            if (!allowedExtensions.includes(fileExtension)) {
-                alert("Only JPG, PNG, GIF, and WEBP images are allowed.");
-                this.value = "";
-                previewContainer.innerHTML = "";
-                return;
-            }
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    resolve(e.target.result);
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        });
 
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const img = document.createElement("img");
-                img.src = e.target.result;
-                img.style.width = "100%";
-                img.style.objectFit = "cover";
-                img.style.borderRadius = "8px";
-                img.style.margin = "5px";
-                img.style.boxShadow = "0 2px 5px rgba(0,0,0,0.2)";
-                previewContainer.prepend(img);
-            };
+        Promise.all(filePromises)
+            .then((imageURLs) => {
+                imageURLs.forEach((imageURL) => {
 
-            reader.readAsDataURL(file);
-        }
+                    const col = document.createElement("div");
+                    col.className = "col-xs-12 col-sm-6 col-md-4 col-lg-3";
+
+                    const img = document.createElement("img");
+                    img.src = imageURL;
+                    img.style.width = "100%";
+                    img.style.objectFit = "cover";
+                    img.style.borderRadius = "8px";
+                    img.style.marginBottom = "24px";
+                    img.style.boxShadow = "0 2px 5px rgba(0,0,0,0.2)";
+
+                    col.appendChild(img);
+                    previewContainer.prepend(col);
+                });
+            })
+            .catch((error) => console.error("Error loading images:", error));
     });
+
 </script>
 
 @section Scripts {

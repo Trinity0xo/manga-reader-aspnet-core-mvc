@@ -15,73 +15,73 @@
 
 <h3 class="mb-5">📚 Danh sách truyện</h3>
 
-<div class="mb-2 d-flex justify-content-between">
-    <div class="input-group" style="width:400px">
-        <input type="text" class="form-control" placeholder="Tìm theo tên" aria-label="Recipient's username" aria-describedby="button-addon2">
-        <button class="btn btn-primary" type="button" id="button-addon2">Tìm kiếm</button>
-    </div>
+
+<div class="d-flex flex-sm-row flex-column">
     <a class="btn btn-primary" asp-action="Create">Tạo mới</a>
 </div>
 
-<table class="table table-dark mt-3">
-    <thead>
-        <tr>
-            <th>
-                #
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CoverUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Author)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedDate)
-            </th>
-            <th>
-                Tác vụ
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                 <img src="@Html.DisplayFor(modelItem => item.CoverUrl)" style="width:80px"  />
-            </td>
-            <td style="max-width:280px">
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedDate)
-            </td>
-            <td >
-                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Cập nhật</a>
-                <a class="btn btn-success ms-2" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
-                <a class="btn btn-danger ms-2" asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="table-responsive">
+    <table class="table table-dark mt-3">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CoverUrl)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Author)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UpdatedDate)
+                </th>
+                <th>
+                    Tác vụ
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td style=" min-width: 80px;">
+                        <img src="@Html.DisplayFor(modelItem => item.CoverUrl)" style="width: 80px;" />
+                    </td>
+                    <td style="min-width: 300px; width: 300px;">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td style="min-width: 180px;">
+                        @Html.DisplayFor(modelItem => item.Author)
+                    </td>
+                    <td style="min-width: 180px;">
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td style="min-width: 140px;">
+                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                    </td>
+                    <td style="min-width: 140px;">
+                        @Html.DisplayFor(modelItem => item.UpdatedDate)
+                    </td>
+                    <td style="min-width: 300px;">
+                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Cập nhật</a>
+                        <a class="btn btn-success ms-2" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
+                        <a class="btn btn-danger ms-2" asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -15,15 +15,19 @@ namespace WEBTRUYEN.Models
         [DisplayName("Ảnh bìa")]
         public string? CoverUrl { get; set; }
 
+        [Required(ErrorMessage = "Tên truyện là bắt buộc")]
         [DisplayName("Tên truyện")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Mô tả là bắt buộc")]
         [DisplayName("Mô tả")]
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "Tác giá là bắt buộc")]
         [DisplayName("Tác giả")]
         public string Author { get; set; }
 
+        [Required(ErrorMessage = "Ngày xuất bản là bắt buộc")]
         [DisplayName("Ngày xuất bản")]
         public DateTime PublicAt { get; set; }
 

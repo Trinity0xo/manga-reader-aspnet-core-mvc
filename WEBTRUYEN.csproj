@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Page\**" />
+    <Content Remove="Views\Page\**" />
+    <EmbeddedResource Remove="Views\Page\**" />
+    <None Remove="Views\Page\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
     <PackageReference Include="Microsoft.EntityFrameWorkCore.Design" Version="9.0.3">
@@ -24,7 +31,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Views\Page\" />
     <Folder Include="wwwroot\images\comicCovers\" />
     <Folder Include="wwwroot\images\comicCovers\" />
     <Folder Include="wwwroot\images\comicImages\" />
