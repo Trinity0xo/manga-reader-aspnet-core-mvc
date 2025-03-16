@@ -1,202 +1,42 @@
 ﻿@model IEnumerable<WEBTRUYEN.Models.Comic>
 
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THƯ VIỆN CỦA THANH NHÀN</title>
-    <link href="~/../../../../đồ án môn học/webtruyen/webtruyen/wwwroot/css/site.css" rel="stylesheet" />
-    <!-- Thư viện Swiper.js -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        nav ul {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            gap: 15px;
-        }
-
-            nav ul li {
-                position: relative;
-            }
-
-                nav ul li a {
-                    text-decoration: none;
-                    color: black;
-                    font-weight: bold;
-                    padding: 10px 15px;
-                    display: block;
-                }
-
-                nav ul li:hover a, .active {
-                    color: red;
-                }
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            background: white;
-            border: 1px solid #ccc;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-            width: 300px;
-            top: 30px;
-            left: 0;
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .column {
-            width: 100px;
-            padding: 5px;
-        }
-
-        p {
-            margin: 5px 0;
-            cursor: pointer;
-        }
-
-        .highlight {
-            color: red;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="account-menu">
-                <partial name="_loginPartial"/>
-        </div>
-
-        <input type="text" class="search-bar" placeholder="Tìm truyện...">
-        <nav>
-            <ul>
-                <li><a href="~/Hot/index" class="active">HOT</a></li>
-                <li><a asp-controller="Following" asp-action="Index">THEO DÕI</a></li>
-                <li><a href="~/Following/index">LỊCH SỬ</a></li>
-                <li class="menu">
-                    <a href="#" id="menu-button">THỂ LOẠI</a>
-                    <div class="dropdown-menu" id="dropdown-menu">
-                        <div class="column">
-                            <p><strong>Tất cả</strong></p>
-                            <p>Action</p>
-                            <p>Adventure</p>
-                            <p>Anime</p>
-                            <p class="highlight">Chuyển Sinh</p>
-                            <p>Comedy</p>
-                            <p>Comic</p>
-                        </div>
-                        <div class="column">
-                            <p>Historical</p>
-                            <p>Horror</p>
-                            <p>Live action</p>
-                            <p>Manga</p>
-                            <p>Manhua</p>
-                            <p>Manhwa</p>
-                            <p>Martial Arts</p>
-                        </div>
-                        <div class="column">
-                            <p>Shoujo</p>
-                            <p>Shounen</p>
-                            <p>Slice of Life</p>
-                            <p>Sports</p>
-                            <p>Supernatural</p>
-                            <p>Trinh Thám</p>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-    </header>
 
     <main>
-        <section class="truyen-hot">
-            <h2>Thư Viện Đề Cử</h2>
-            <div class="truyen-list">
+    <section class="container bg-white home">
+            <h2>
+                Truyện Mới Cập Nhật
+            </h2>
+        <div class="">
                 @if (Model != null && Model.Any())
                 {
-                    @foreach (var item in Model)
-                    {
-                        <div class="truyen-item">
-                            <img src="@Html.DisplayFor(modelItem => item.CoverUrl)">
-                            <p>@Html.DisplayFor(modelItem => item.Name) - @(item.Chapters?.OrderByDescending(c => c.CreatedDate).FirstOrDefault()?.Name ?? "No chapters")</p>
-                            <a asp-action="Details" asp-route-id="@item.Id" class="view-story-btn">👁 Xem</a>
-                            <input type="checkbox" name="follow-1" class="follow-checkbox" id="follow-1">
-                            <form asp-controller="Following" asp-action="Add" asp-route-id="@item.Id" method="post">
-                                <button for="follow-1" class="follow-btn">➕ Thêm</button>
-                            </form>
-                            <span class="followed-text">✅ Đã theo dõi</span>
+                <div class="row g-3 ">
+                        @foreach (var item in Model)
+                        {
+
+                        <div class="col-md-4 col-sm-6 col-xs-12 col-lg-3 hover-scale ">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="card-link">
+                                <!-- 3 cột trên màn hình lớn, 2 cột trên màn hình nhỏ -->
+                                <div class="card shadow-sm h-100 d-flex flex-column">
+                                    <img src="@Html.DisplayFor(modelItem => item.CoverUrl)" class="card-img-top" alt="@item.Name">
+
+                                <div class="card-body text-center d-flex flex-column ">
+                                    <h5 class="card-title text-truncate line-clamp-2">@Html.DisplayFor(modelItem => item.Name)</h5>
+                                    <p class="card-text mb-1 mt-auto">
+                                            @(item.Chapters?.OrderByDescending(c => c.CreatedDate).FirstOrDefault()?.Name ?? "No chapters")
+                                    </p>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
                     }
+                    </div>
                 }
                 else
                 {
                     <h5>Empty</h5>
                 }
 
-                @* <div class="truyen-item">
-                    <img src="https://api.mottruyen.vn/api/v1/storage/images/2025-03-02/8bfe0a21-3077-4d66-a214-689c60c488fb.webp" alt="Truyện 2">
-                    <p>Ngày có chút ấm - Chapter 185</p>
-                    <button class="view-story-btn">👁 Xem</button>
-                    <input type="checkbox" name="follow-2" class="follow-checkbox" id="follow-2">
-                    <label for="follow-2" class="follow-btn">➕ Thêm</label>
-                    <span class="followed-text">✅ Đã theo dõi</span>
-                </div>
-
-                <div class="truyen-item">
-                    <img src="https://api.mottruyen.vn/api/v1/storage/images/2024-08-29/4c6ba302-bfa5-4668-82e0-8bb90da3a63c.webp" alt="Truyện 3">
-                    <p>Thiên mệnh lưu phong - Chapter 273</p>
-                    <button class="view-story-btn">👁 Xem</button>
-                    <input type="checkbox" name="follow-3" class="follow-checkbox" id="follow-3">
-                    <label for="follow-3" class="follow-btn">➕ Thêm</label>
-                    <span class="followed-text">✅ Đã theo dõi</span>
-                </div>
-
-                <div class="truyen-item">
-                    <img src="https://api.mottruyen.vn/api/v1/storage/images/2025-03-01/23400cf6-0e17-40b3-b235-6f1b5cfc2296.webp" alt="Truyện 4">
-                    <p>Vô hạn thiên biến giả - Chapter 273</p>
-                    <button class="view-story-btn">👁 Xem</button>
-                    <input type="checkbox" name="follow-4" class="follow-checkbox" id="follow-4">
-                    <label for="follow-4" class="follow-btn">➕ Thêm</label>
-                    <span class="followed-text">✅ Đã theo dõi</span>
-                </div> *@
              </div>
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2025 NetTruyen - Đọc truyện online</p>
-    </footer>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let menuButton = document.getElementById("menu-button");
-            let dropdownMenu = document.getElementById("dropdown-menu");
-
-            menuButton.addEventListener("click", function (event) {
-                event.preventDefault(); // Ngăn link nhảy lên đầu trang
-                event.stopPropagation();
-                if (dropdownMenu.style.display === "none" || dropdownMenu.style.display === "") {
-                    dropdownMenu.style.display = "flex";
-                } else {
-                    dropdownMenu.style.display = "none";
-                }
-            });
-
-            document.addEventListener("click", function () {
-                dropdownMenu.style.display = "none";
-            });
-
-            dropdownMenu.addEventListener("click", function (event) {
-                event.stopPropagation();
-            });
-        });
-    </script>
-</body>
-</html>
