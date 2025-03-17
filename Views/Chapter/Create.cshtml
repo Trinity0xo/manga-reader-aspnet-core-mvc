@@ -9,7 +9,7 @@
 <nav class="mt-2 mb-4" aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-        <li class="breadcrumb-item"><a asp-action="Index">Danh sách truyện</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Comic" asp-action="Index">Danh sách truyện</a></li>
         <li class="breadcrumb-item">
             <a asp-controller="Comic" asp-action="Details" asp-route-id="@Model.ComicId">Chi tiết truyện</a>
         </li>
@@ -33,9 +33,10 @@
 
             <div class="d-flex gap-3">
                 <input type="submit" value="Lưu" class="btn btn-primary" />
-                <a asp-controller="Comic" asp-action="Details" class="btn btn-success" asp-route-id="@Model.ComicId">Quay lại</a>
+                <a asp-controller="Comic" asp-action="Details" class="btn btn-success"
+                    asp-route-id="@Model.ComicId">Quay lại</a>
             </div>
-            <hr/>
+            <hr />
             <div class="form-group mb-3">
                 <label for="ImageUrls" class="control-label">Chọn nhiệu trang ảnh!!!</label>
                 <input id="imageInput" type="file" name="ImageUrls" class="form-control" multiple />
@@ -49,7 +50,7 @@
 <p>Xem trước (Theo thứ tự trên xuống)</p>
 <div id="imagePreviewContainer" class="d-flex flex-wrap">
     <div class="row">
-      
+
     </div>
 </div>
 
@@ -104,5 +105,7 @@
 </script>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

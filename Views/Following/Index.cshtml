@@ -1,47 +1,68 @@
 ﻿@model IEnumerable<WEBTRUYEN.Models.Comic>
 
 @{
-    ViewData["Title"] = "Following Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Danh sách theo dõi";
 }
 
-<!doctype html>
-<html lang="vi">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>theo dõi truyện</title>
-    <link href="~/css/theodoi.css" rel="stylesheet" />
-</head> 
-<body>
-    <div class="container">
-        <h2>Truyện đang theo dõi</h2>
-        <div class="tabs">
-            <span class="active">Mới cập nhật</span>
-        </div>
-        <div class="story-list" id="story-list">
-            @if (Model != null && Model.Any())
+<div class="p-3 bg-white">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a class="text-decoration-none" asp-controller="Home" asp-action="Index">Trang
+                    chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Danh sách theo dõi</li>
+        </ol>
+    </nav>
+    <h5 class="mb-0 d-inline-block">
+        Truyện đang theo dõi
+    </h5>
+    <hr>
+    <div class="row">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var item in Model)
             {
-                @foreach (var item in Model)
-                {
-                    <div class="story">
-                        <img src="@Html.DisplayFor(modelItem => item.CoverUrl)">
-                        <div class="info">
-                            <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
-                            <p>@(item.Chapters?.OrderByDescending(c => c.CreatedDate).FirstOrDefault()?.Name ?? "No chapters") <span>(1 ngày trước)</span></p>
-                            <form asp-action="Delete" asp-route-id="@item.Id" method="post">
-                                <button type="submit" class="delete-btn">❌ Xóa</button>
-                            </form>
+                <div class="col-lg-6 hover-scale p-2">
+                    <div class="d-flex gap-2 shadow-sm p-2 border">
+                        <img src="@Html.DisplayFor(modelItem => item.CoverUrl)" style="width: 80px;">
+                        <div class=" d-flex flex-grow-1 flex-column justify-content-between">
+                            <div>
+                                <a class="text-decoration-none fs-5 line-clamp-1">@Html.DisplayFor(modelItem => item.Name)</a>
+                                @if (@item.Chapters != null && @item.Chapters.Any())
+                                {
+                                    @* <p class="line-clamp-1">
+                                        @item.Chapters.FirstOrDefault().Name
+                                    </p> *@
+                                    <p class="time-ago" data-time="@item.Chapters.FirstOrDefault().CreatedDate.ToString("o")">
+                                        Loading...
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>
+                                        <span>
+                                            Chưa có chương nào
+                                        </span>
+                                    </p>
+                                }
+                            </div>
+                            <div class="d-flex justify-content-end gap-2">
+                                <a asp-controller="Home" asp-action="ComicDetails"
+                                    asp-route-id="@item.Id" class="btn btn-success my-button">Xem</a>
+                                <form asp-action="ConfirmUnfollowing" asp-route-id="@item.Id">
+                                    <button type="submit" class="btn btn-danger my-button">Xóa</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                }
+                </div>
             }
-            else
-            {
-                <h5>Empty</h5>
-            }
-        </div>
+        }
+        else
+        {
+            <div class="alert alert-light text-center" role="alert">
+                Trống
+            </div>
+        }
     </div>
-
-    <script src="TheoDoi.js"></script>
-</body>
-</html>
+</div>

@@ -4,7 +4,7 @@ using WEBTRUYEN.Models;
 
 namespace WEBTRUYEN.Repository
 {
-    public class EFComicRepository:IComicRepository
+    public class EFComicRepository : IComicRepository
     {
         private readonly ApplicationDbContext _context;
 
@@ -43,12 +43,17 @@ namespace WEBTRUYEN.Repository
 
         public async Task<IEnumerable<Comic>> GetAllAsync()
         {
-            return await _context.Comics.Include(c => c.Chapters).ToListAsync();
+            return await _context.Comics
+                .OrderByDescending(c => c.Chapters
+                    .OrderByDescending(c => c.CreatedDate)
+                        .Select(c => c.CreatedDate).FirstOrDefault())
+                            .Include(c => c.Chapters.OrderByDescending(ch => ch.CreatedDate))
+                .ToListAsync();
         }
 
         public async Task<Comic> GetByIdAsync(int id)
         {
-            return await _context.Comics.Include(g => g.Genres).Include(c => c.Chapters).SingleOrDefaultAsync(x => x.Id == id);
+            return await _context.Comics.Include(g => g.Genres).Include(c => c.Chapters.OrderByDescending(c => c.CreatedDate)).SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<Comic>> GetFollowingAsync(string userId)
@@ -60,6 +65,11 @@ namespace WEBTRUYEN.Repository
                             .Select(c => c.CreatedDate).FirstOrDefault())
                     .Include(c => c.Chapters.OrderByDescending(ch => ch.CreatedDate))
                 .ToListAsync();
+        }
+
+        public async Task<bool> IsFollowingAsync(User userWithComics, Comic comic)
+        {
+            return await Task.FromResult(userWithComics.Comics.Any(c => c.Id == comic.Id));
         }
 
         public async Task RemoveFromFollowing(User userWithComics, Comic comic)

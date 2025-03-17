@@ -13,5 +13,6 @@ namespace WEBTRUYEN.Repository
         Task<IEnumerable<Comic>> GetFollowingAsync(string userId);
         Task FollowComicAsync(User userWithComics, Comic comic);
         Task RemoveFromFollowing(User userWithComics, Comic comic);
+        Task<bool> IsFollowingAsync(User userWithComics, Comic comic);
     }
 }

@@ -47,3 +47,6 @@ coverage/
 # Ignore Docker related files
 .dockerignore
 docker-compose.override.yml
+
+wwwroot/images/*
+

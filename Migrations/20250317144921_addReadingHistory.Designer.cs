@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WEBTRUYEN.Models;
 
@@ -11,9 +12,11 @@ using WEBTRUYEN.Models;
 namespace WEBTRUYEN.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250317144921_addReadingHistory")]
+    partial class addReadingHistory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,6 +196,9 @@ namespace WEBTRUYEN.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("ChapterId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ComicId")
                         .HasColumnType("int");
 
@@ -206,9 +212,16 @@ namespace WEBTRUYEN.Migrations
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("ChapterId");
+
                     b.HasIndex("ComicId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Chapters");
                 });
@@ -301,24 +314,6 @@ namespace WEBTRUYEN.Migrations
                     b.HasIndex("ChapterId");
 
                     b.ToTable("Pages");
-                });
-
-            modelBuilder.Entity("WEBTRUYEN.Models.ReadingHistory", b =>
-                {
-                    b.Property<string>("UsersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ChaptersId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ReadAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("UsersId", "ChaptersId");
-
-                    b.HasIndex("ChaptersId");
-
-                    b.ToTable("ReadingHistories");
                 });
 
             modelBuilder.Entity("WEBTRUYEN.Models.User", b =>
@@ -478,13 +473,19 @@ namespace WEBTRUYEN.Migrations
 
             modelBuilder.Entity("WEBTRUYEN.Models.Chapter", b =>
                 {
-                    b.HasOne("WEBTRUYEN.Models.Comic", "Comic")
+                    b.HasOne("WEBTRUYEN.Models.Chapter", null)
+                        .WithMany("Chapters")
+                        .HasForeignKey("ChapterId");
+
+                    b.HasOne("WEBTRUYEN.Models.Comic", null)
                         .WithMany("Chapters")
                         .HasForeignKey("ComicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Comic");
+                    b.HasOne("WEBTRUYEN.Models.User", null)
+                        .WithMany("Chapters")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("WEBTRUYEN.Models.Page", b =>
@@ -496,30 +497,11 @@ namespace WEBTRUYEN.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WEBTRUYEN.Models.ReadingHistory", b =>
-                {
-                    b.HasOne("WEBTRUYEN.Models.Chapter", "Chapter")
-                        .WithMany("ReadingHistories")
-                        .HasForeignKey("ChaptersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WEBTRUYEN.Models.User", "User")
-                        .WithMany("ReadingHistories")
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Chapter");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("WEBTRUYEN.Models.Chapter", b =>
                 {
-                    b.Navigation("Pages");
+                    b.Navigation("Chapters");
 
-                    b.Navigation("ReadingHistories");
+                    b.Navigation("Pages");
                 });
 
             modelBuilder.Entity("WEBTRUYEN.Models.Comic", b =>
@@ -529,7 +511,7 @@ namespace WEBTRUYEN.Migrations
 
             modelBuilder.Entity("WEBTRUYEN.Models.User", b =>
                 {
-                    b.Navigation("ReadingHistories");
+                    b.Navigation("Chapters");
                 });
 #pragma warning restore 612, 618
         }

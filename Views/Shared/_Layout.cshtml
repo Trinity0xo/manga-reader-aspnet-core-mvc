@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -29,13 +34,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-uppercase" href="~/Hot/index">HOT</a>
                         </li>
-                        <li class="nav-item">
-                            <a asp-controller="Following" asp-action="Index" class="nav-link text-uppercase">THEO
-                                DÕI</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="~/Following/index">LỊCH SỬ</a>
-                        </li>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a asp-controller="Following" asp-action="Index" class="nav-link text-uppercase">THEO
+                                    DÕI</a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="History" asp-action="Index" class="nav-link text-uppercase">LỊCH SỬ</a>
+                            </li>
+                        }
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-uppercase" href="#" id="genreDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -76,10 +84,10 @@
             &copy; 2025 - WEBTRUYEN - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </div>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    @* <script src="~/js/site.js" asp-append-version="true"></script> *@
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/homeLayout.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
 
 </html>

@@ -25,7 +25,15 @@ namespace WEBTRUYEN.Controllers
 
         private async Task<string> SavePageImage(IFormFile image)
         {
-            var savePath = Path.Combine("wwwroot/images/comicImages", image.FileName);
+
+            var directoryPath = Path.Combine("wwwroot", "images", "comicImages");
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            var savePath = Path.Combine(directoryPath, image.FileName);
+
             using (var fileStream = new FileStream(savePath, FileMode.Create))
             {
 
@@ -40,7 +48,8 @@ namespace WEBTRUYEN.Controllers
         {
             var comic = await _comicRepository.GetByIdAsync(comicId);
 
-            if (comic == null) {
+            if (comic == null)
+            {
                 return NotFound();
             }
 
@@ -49,7 +58,7 @@ namespace WEBTRUYEN.Controllers
             return View(chapter);
         }
 
-        [HttpPost("create"),ActionName("ConfirmCreate")]
+        [HttpPost("create"), ActionName("ConfirmCreate")]
         public async Task<IActionResult> Create(Chapter chapter, List<IFormFile> imageUrls)
         {
 
@@ -59,7 +68,7 @@ namespace WEBTRUYEN.Controllers
 
                 if (!imageUrls.IsNullOrEmpty())
                 {
-                    foreach(IFormFile imageUrl in imageUrls)
+                    foreach (IFormFile imageUrl in imageUrls)
                     {
                         Page page = new()
                         {
@@ -119,12 +128,12 @@ namespace WEBTRUYEN.Controllers
 
                 if (!imageUrls.IsNullOrEmpty())
                 {
-            
+
                     if (chapterDb.Pages != null && chapterDb.Pages.Count != 0)
                     {
                         await _pageRepository.DeleteAllAsync(chapterDb.Pages);
                     }
-                    
+
                     foreach (IFormFile imageUrl in imageUrls)
                     {
                         Page page = new()

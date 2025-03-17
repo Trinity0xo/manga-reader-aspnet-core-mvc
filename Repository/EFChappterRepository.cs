@@ -26,9 +26,9 @@ namespace WEBTRUYEN.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Chapter>> GetAllAsync()
+        public async Task<IEnumerable<Chapter>> GetAllAsync(int id)
         {
-            return await _context.Chapters.ToListAsync();
+            return await _context.Chapters.Where(c => c.ComicId == id).ToListAsync();
         }
 
         public async Task<Chapter> GetByIdAsync(int id)

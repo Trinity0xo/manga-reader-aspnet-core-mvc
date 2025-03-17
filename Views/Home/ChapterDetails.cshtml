@@ -1,0 +1,50 @@
+﻿@model WEBTRUYEN.Models.Chapter
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Chi tiết chương";
+}
+<div class="bg-white p-3 mb-3">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a class="text-decoration-none" asp-action="Index">Trang chủ</a></li>
+            <li class="breadcrumb-item"><a class="text-decoration-none" asp-action="ComicDetails"
+                    asp-route-id="@ViewBag.ComicDetails.Id">@ViewBag.ComicDetails.Name</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+        </ol>
+    </nav>
+    <p class="text-md-start text-center m-0"><a class="text-decoration-none" asp-action="ComicDetails"
+            asp-route-id="@ViewBag.ComicDetails.Id">@ViewBag.ComicDetails.Name</a> -
+        @Model.Name (Cập
+        nhật lúc: @Model.UpdatedDate) </p>
+    <div class="d-flex align-items-center justify-content-center gap-2 mt-3">
+        @if (@ViewBag.PreviousChapter != null)
+        {
+            <a asp-action="ChapterDetails" asp-route-id="@ViewBag.PreviousChapter.Id"
+                class="btn btn-primary my-button">Chương
+                trước</a>
+        }
+        else
+        {
+            <button class="btn btn-secondary my-button" disabled>Chương trước</button>
+        }
+        @if (@ViewBag.NextChapter != null)
+        {
+            <a asp-action="ChapterDetails" asp-route-id="@ViewBag.NextChapter.Id" class="btn btn-primary my-button">Chương
+                sau</a>
+        }
+        else
+        {
+            <button class="btn btn-secondary my-button" disabled>Chương sau</button>
+        }
+    </div>
+</div>
+<div class="page-list">
+    @if (Model.Pages != null && Model.Pages.Any())
+    {
+        @foreach (var item in Model.Pages)
+        {
+            <img src="@Html.DisplayFor(modelItem => item.ImageUrl)" class="page-image" />
+        }
+    }
+</div>

@@ -22,10 +22,15 @@ namespace WEBTRUYEN.Controllers
 
         private async Task<string> SavePageImage(IFormFile image)
         {
-            var savePath = Path.Combine("wwwroot/images/comicCovers", image.FileName);
+            var directoryPath = Path.Combine("wwwroot", "images", "comicCovers");
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            var savePath = Path.Combine(directoryPath, image.FileName);
             using (var fileStream = new FileStream(savePath, FileMode.Create))
             {
-
                 await image.CopyToAsync(fileStream);
             }
 

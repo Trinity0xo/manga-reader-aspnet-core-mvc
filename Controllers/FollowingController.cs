@@ -8,7 +8,7 @@ using WEBTRUYEN.Repository;
 namespace WEBTRUYEN.Controllers
 {
     [Authorize]
-    [Route("/following")]
+    [Route("/followings")]
     public class FollowingController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -32,8 +32,8 @@ namespace WEBTRUYEN.Controllers
             return View(followingComics);
         }
 
-        [HttpPost("add/{id}")]
-        public async Task<IActionResult> Add(int id)
+        [HttpPost("following/{id}"), ActionName("ConfirmFollowing")]
+        public async Task<IActionResult> Following(int id)
         {
             var loggedInUser = await _userManager.GetUserAsync(User);
 
@@ -49,16 +49,21 @@ namespace WEBTRUYEN.Controllers
 
             await _comicRepository.FollowComicAsync(userWithComics, comic);
 
-            return RedirectToAction(nameof(Index));
+            var referer = Request.Headers["Referer"].ToString();
+
+            return Redirect(referer);
+
+            // return RedirectToAction("ComicDetails", "Home", new { id = comic.Id });
         }
 
-        [HttpPost("delete/{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpPost("unfollowing/{id}"), ActionName("ConfirmUnfollowing")]
+        public async Task<IActionResult> UnFollowing(int id)
         {
             var loggedInUser = await _userManager.GetUserAsync(User);
 
             var comic = await _comicRepository.GetByIdAsync(id);
-            if (comic == null) { 
+            if (comic == null)
+            {
                 return NotFound();
             }
 
@@ -68,7 +73,11 @@ namespace WEBTRUYEN.Controllers
 
             await _comicRepository.RemoveFromFollowing(userWithComics, comic);
 
-            return RedirectToAction(nameof(Index));
-        } 
+            var referer = Request.Headers["Referer"].ToString();
+
+            return Redirect(referer);
+
+            // return RedirectToAction("ComicDetails", "Home", new { id = comic.Id });
+        }
     }
 }

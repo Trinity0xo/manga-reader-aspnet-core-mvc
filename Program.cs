@@ -22,6 +22,7 @@ builder.Services.AddScoped<IGenreRepository, EFGenreRepository>();
 builder.Services.AddScoped<IComicRepository, EFComicRepository>();
 builder.Services.AddScoped<IChapterRepository, EFChapterRepository>();
 builder.Services.AddScoped<IPageRepository, EFPageRepository>();
+builder.Services.AddScoped<IReadingHistoryRepository, EFReadingHistoryRepository>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
