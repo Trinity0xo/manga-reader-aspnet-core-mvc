@@ -3,6 +3,7 @@ using AspNetCoreGeneratedDocument;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using WEBTRUYEN.Models;
 using WEBTRUYEN.Repository;
 
@@ -36,16 +37,38 @@ namespace WEBTRUYEN.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var genres = await _genreRepository.GetAllAsync();
-            ViewBag.Genres = genres;
+            // var genres = await _genreRepository.GetAllAsync();
+            // ViewBag.Genres = genres;
 
-            var comics = await _comicRepository.GetAllAsync();
+            int pageSize = 12;
+
+            var recentUpdateddComics = await _comicRepository.GetAllAsync(pageSize);
+
+            return View(recentUpdateddComics);
+        }
+
+        [HttpGet("/comic")]
+        public async Task<IActionResult> Comics(string? searchValue, int pageNumber, int genreId)
+        {
+            // var genres = await _genreRepository.GetAllNoPaginateAsync();
+            // ViewBag.Genres = genres;
+
+            int pageSize = 15;
+
+            var comics = await _comicRepository.GetAllAsync(pageSize, pageNumber, searchValue, genreId);
+
+            var totalComics = await _comicRepository.GetTotalCountAsync(searchValue, genreId);
+
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalComics / (double)pageSize);
+            ViewBag.searchValue = searchValue;
+            ViewBag.genre = await _genreRepository.GetByIdAsync(genreId);
 
             return View(comics);
         }
 
         [HttpGet("/comic/{id}"), ActionName("ComicDetails")]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> ComicDetails(int id)
         {
             var comic = await _comicRepository.GetByIdAsync(id);
             if (comic == null)

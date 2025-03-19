@@ -21,9 +21,17 @@ namespace WEBTRUYEN.Controllers
 
         //hiển thị trang có tất cả thể loại
         [HttpGet("")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchValue, int pageNumber)
         {
-            var genres = await _genreRepository.GetAllAsync();
+            int pageSize = 15;
+            var genres = await _genreRepository.GetAllAsync(pageSize, pageNumber, searchValue);
+
+            var totalGenres = await _genreRepository.GetTotalCountAsync(searchValue);
+
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalGenres / (double)pageSize);
+            ViewBag.searchValue = searchValue;
+
             return View(genres);
         }
 

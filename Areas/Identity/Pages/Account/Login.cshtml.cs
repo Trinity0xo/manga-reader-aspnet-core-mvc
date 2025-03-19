@@ -20,7 +20,9 @@ namespace WEBTRUYEN.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
+        // sửa lại để dùng người dùng mở rộng
         private readonly SignInManager<User> _signInManager;
+
         private readonly ILogger<LoginModel> _logger;
 
         public LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> logger)

@@ -133,10 +133,10 @@ namespace WEBTRUYEN.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     // gắn role cho người dùng 
-                    var defaultrole = _roleManager.FindByNameAsync("user").Result;
-                    if (defaultrole != null)
+                    var defaultRole = _roleManager.FindByNameAsync("user").Result;
+                    if (defaultRole != null)
                     {
-                        await _userManager.AddToRoleAsync(user, defaultrole.Name);
+                        await _userManager.AddToRoleAsync(user, defaultRole.Name);
                     }
 
                     _logger.LogInformation("User created a new account with password.");

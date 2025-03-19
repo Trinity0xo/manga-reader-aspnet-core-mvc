@@ -15,7 +15,12 @@ namespace WEBTRUYEN.Repository
 
         public async Task AddAsync(Chapter chapter)
         {
+            var comic = await _context.Comics.SingleOrDefaultAsync(c => c.Id == chapter.ComicId);
+
+            comic.UpdatedDate = DateTime.UtcNow;
+
             _context.Chapters.Add(chapter);
+
             await _context.SaveChangesAsync();
         }
 

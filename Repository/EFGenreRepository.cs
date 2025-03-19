@@ -25,9 +25,23 @@ namespace WEBTRUYEN.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Genre>> GetAllAsync()
+        public async Task<IEnumerable<Genre>> GetAllAsync(int pageSize, int pageNumber, string searchValue)
         {
-            return await _context.Genres.ToListAsync();
+            var query = _context.Genres.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                query = query.Where(c => c.Name.Contains(searchValue));
+            }
+
+            query = query.OrderByDescending(c => c.UpdatedDate).Skip(pageNumber * pageSize).Take(pageSize);
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Genre>> GetAllNoPaginateAsync()
+        {
+            return await _context.Genres.OrderBy(c => c.Name).ToListAsync();
         }
 
         public async Task<Genre> GetByIdAsync(int id)
@@ -42,8 +56,21 @@ namespace WEBTRUYEN.Repository
                          .ToListAsync();
         }
 
+        public async Task<int> GetTotalCountAsync(string? searchValue = null)
+        {
+            var query = _context.Genres.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                query = query.Where(c => c.Name.Contains(searchValue));
+            }
+
+            return await query.CountAsync();
+        }
+
         public async Task UpdateAsync(Genre genre)
         {
+            genre.UpdatedDate = DateTime.Now;
             _context.Genres.Update(genre);
             await _context.SaveChangesAsync();
         }

@@ -14,17 +14,22 @@ namespace WEBTRUYEN.Controllers
         private readonly UserManager<User> _userManager;
         private readonly ApplicationDbContext _context;
         private readonly IComicRepository _comicRepository;
+        private readonly IGenreRepository _genreRepository;
 
-        public FollowingController(UserManager<User> userManager, ApplicationDbContext context, IComicRepository comicRepository)
+        public FollowingController(UserManager<User> userManager, ApplicationDbContext context, IComicRepository comicRepository, IGenreRepository genreRepository)
         {
             _userManager = userManager;
             _context = context;
             _comicRepository = comicRepository;
+            _genreRepository = genreRepository;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
+            // var genres = await _genreRepository.GetAllNoPaginateAsync();
+            // ViewBag.Genres = genres;
+
             var loggedInUser = await _userManager.GetUserAsync(User);
 
             var followingComics = await _comicRepository.GetFollowingAsync(loggedInUser.Id);

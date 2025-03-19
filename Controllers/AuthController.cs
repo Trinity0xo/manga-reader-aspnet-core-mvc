@@ -6,9 +6,10 @@ namespace WEBTRUYEN.Controllers
 {
     public class AuthController : Controller
     {
-
         public IActionResult Index()
         {
+            //ViewBag.Hello = "hello world";
+
             return View();
         }
     }

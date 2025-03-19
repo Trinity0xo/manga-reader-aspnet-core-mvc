@@ -20,8 +20,8 @@
         <div>
             <h3>📖 Trang Admin</h3>
             <a asp-action="Index" asp-controller="Comic">Quản lý truyện</a>
-            <a asp-action="Index" asp-controller="User">Quản lý người dùng</a>
             <a asp-action="Index" asp-controller="Genre">Quản lý thể loại</a>
+            <a asp-action="Index" asp-controller="User">Quản lý người dùng</a>
         </div>
         <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
             asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
@@ -29,16 +29,12 @@
         </form>
     </div>
     <div class="overlay"></div>
-    <div class="nav-bar">
-        <div class="container-fluid d-flex justify-content-between" style="padding: 10px">
-            <div id="sideBarToggler" class="d-flex justify-content-center align-items-center fs-3"
-                style="cursor: pointer;">
-                ☰
-            </div>
-            <div>
-                <a id=" manage" class="nav-link text-white" asp-area="Identity" asp-page="/Account/Manage/Index"
-                    title="Manage">@UserManager.GetUserName(User)</a>
-            </div>
+    <div class="my-nav-bar">
+        <div id="sideBarToggler">
+            ☰
+        </div>
+        <div>
+            <p class="p-0 m-0 d-inline">@UserManager.GetUserName(User)</p>
         </div>
     </div>
     <div class="contents">

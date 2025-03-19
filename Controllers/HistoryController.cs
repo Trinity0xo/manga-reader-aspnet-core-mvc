@@ -15,21 +15,26 @@ namespace WEBTRUYEN.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IComicRepository _comicRepository;
         private readonly IChapterRepository _chapterRepository;
+        private readonly IGenreRepository _genreRepository;
 
         private readonly IReadingHistoryRepository _readingHistoryReposiory;
 
-        public HistoryController(UserManager<User> userManager, ApplicationDbContext context, IComicRepository comicRepository, IChapterRepository chapterRepository, IReadingHistoryRepository readingHistoryReposiory)
+        public HistoryController(UserManager<User> userManager, ApplicationDbContext context, IComicRepository comicRepository, IChapterRepository chapterRepository, IReadingHistoryRepository readingHistoryReposiory, IGenreRepository genreRepository)
         {
             _userManager = userManager;
             _chapterRepository = chapterRepository;
             _context = context;
             _comicRepository = comicRepository;
             _readingHistoryReposiory = readingHistoryReposiory;
+            _genreRepository = genreRepository;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
+            // var genres = await _genreRepository.GetAllNoPaginateAsync();
+            // ViewBag.Genres = genres;
+
             var loggedInUser = await _userManager.GetUserAsync(User);
 
             var readingHistory = await _readingHistoryReposiory.GetReadingHistoryAsync(loggedInUser.Id);

@@ -11,12 +11,12 @@ namespace WEBTRUYEN.Controllers
     [Authorize(Roles = "admin")]
     public class ComicController : Controller
     {
-        private readonly IComicRepository _comicRepositroy;
+        private readonly IComicRepository _comicRepository;
         private readonly IGenreRepository _genreRepositroy;
 
         public ComicController(IComicRepository comicRepositroy, IGenreRepository genreRepositroy)
         {
-            _comicRepositroy = comicRepositroy;
+            _comicRepository = comicRepositroy;
             _genreRepositroy = genreRepositroy;
         }
 
@@ -38,9 +38,16 @@ namespace WEBTRUYEN.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchValue, int pageNumber)
         {
-            var comics = await _comicRepositroy.GetAllAsync();
+            int pageSize = 15;
+            var comics = await _comicRepository.GetAllAsync(pageSize, pageNumber, searchValue);
+
+            var totalComics = await _comicRepository.GetTotalCountAsync(searchValue);
+
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalComics / (double)pageSize);
+            ViewBag.searchValue = searchValue;
 
             return View(comics);
         }
@@ -48,7 +55,7 @@ namespace WEBTRUYEN.Controllers
         [HttpGet("create")]
         public async Task<IActionResult> Create()
         {
-            var genres = await _genreRepositroy.GetAllAsync();
+            var genres = await _genreRepositroy.GetAllNoPaginateAsync();
             ViewBag.Genres = new MultiSelectList(genres, "Id", "Name");
 
             return View();
@@ -65,12 +72,12 @@ namespace WEBTRUYEN.Controllers
                 }
 
                 comic.Genres = await _genreRepositroy.GetByIdAsync(Genres);
-                await _comicRepositroy.AddAsync(comic);
+                await _comicRepository.AddAsync(comic);
 
                 return RedirectToAction(nameof(Index));
             }
 
-            var genres = await _genreRepositroy.GetAllAsync();
+            var genres = await _genreRepositroy.GetAllNoPaginateAsync();
             ViewBag.Genres = new MultiSelectList(genres, "Id", "Name");
 
             return View(comic);
@@ -79,7 +86,7 @@ namespace WEBTRUYEN.Controllers
         [HttpGet("edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
-            var comic = await _comicRepositroy.GetByIdAsync(id);
+            var comic = await _comicRepository.GetByIdAsync(id);
             if (comic == null)
             {
                 return NotFound();
@@ -87,7 +94,7 @@ namespace WEBTRUYEN.Controllers
 
             var selectedGenres = comic.Genres.Select(g => g.Id).ToList();
 
-            var genres = await _genreRepositroy.GetAllAsync();
+            var genres = await _genreRepositroy.GetAllNoPaginateAsync();
             ViewBag.Genres = new MultiSelectList(genres, "Id", "Name", selectedGenres);
 
             return View(comic);
@@ -98,7 +105,7 @@ namespace WEBTRUYEN.Controllers
         {
             if (ModelState.IsValid)
             {
-                var comicDb = await _comicRepositroy.GetByIdAsync(comic.Id);
+                var comicDb = await _comicRepository.GetByIdAsync(comic.Id);
                 if (comicDb == null)
                 {
                     return NotFound();
@@ -116,7 +123,7 @@ namespace WEBTRUYEN.Controllers
                 comicDb.Status = comic.Status;
                 comicDb.Genres = await _genreRepositroy.GetByIdAsync(Genres);
 
-                await _comicRepositroy.UpdateAsync(comicDb);
+                await _comicRepository.UpdateAsync(comicDb);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -128,7 +135,7 @@ namespace WEBTRUYEN.Controllers
                 selectedGenres = new List<int>();
             }
 
-            var genres = await _genreRepositroy.GetAllAsync();
+            var genres = await _genreRepositroy.GetAllNoPaginateAsync();
             ViewBag.Genres = new MultiSelectList(genres, "Id", "Name", selectedGenres);
 
             return View(comic);
@@ -137,7 +144,7 @@ namespace WEBTRUYEN.Controllers
         [HttpGet("details/{id}")]
         public async Task<IActionResult> Details(int id)
         {
-            var comic = await _comicRepositroy.GetByIdAsync(id);
+            var comic = await _comicRepository.GetByIdAsync(id);
             if (comic == null)
             {
                 return NotFound();
@@ -149,7 +156,7 @@ namespace WEBTRUYEN.Controllers
         [HttpGet("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var comic = await _comicRepositroy.GetByIdAsync(id);
+            var comic = await _comicRepository.GetByIdAsync(id);
             if (comic == null)
             {
                 return NotFound();
@@ -161,7 +168,7 @@ namespace WEBTRUYEN.Controllers
         [HttpPost("delete"), ActionName("ConfirmDelete")]
         public async Task<IActionResult> DeleteConfirm(int id)
         {
-            await _comicRepositroy.DeleteAsync(id);
+            await _comicRepository.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
     }

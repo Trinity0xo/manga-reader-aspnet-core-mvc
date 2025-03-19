@@ -1,51 +1,90 @@
 ﻿@{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    ViewBag.Title = "Home";
+    ViewBag.Title = "Dashboard";
 }
 
-<h3 class="mt-5">📚 Danh sách truyện</h3>
-<div class="table-responsive">
-    <table class="table table-dark mt-3">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Tên truyện</th>
-                <th>Tác giả</th>
-                <th>Thể loại</th>
-                <th>Hành động</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>One Piece</td>
-                <td>Eiichiro Oda</td>
-                <td>Hành động</td>
-                <td>
-                    <button class="btn btn-warning btn-sm">✏️ Sửa</button>
-                    <button class="btn btn-danger btn-sm">🗑️ Xóa</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Thám tử lừng danh Conan</td>
-                <td>Gosho Aoyama</td>
-                <td>Trinh thám</td>
-                <td>
-                    <button class="btn btn-warning btn-sm">✏️ Sửa</button>
-                    <button class="btn btn-danger btn-sm">🗑️ Xóa</button>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Attack on Titan</td>
-                <td>Hajime Isayama</td>
-                <td>Khoa học viễn tưởng</td>
-                <td>
-                    <button class="btn btn-warning btn-sm">✏️ Sửa</button>
-                    <button class="btn btn-danger btn-sm">🗑️ Xóa</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<h3 class="mt-2 mb-4">DASHBOARD</h3>
+
+<h2 class="mb-4">📊 Thống kê</h2>
+
+
+<div class="row g-4">
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="card bg-primary text-white shadow-lg rounded-3">
+            <div class="card-body text-center">
+                <h4 class="fw-bold">📖 Truyện</h4>
+                <p class="fs-1 fw-bold mb-2">@ViewBag.ComicCount</p>
+                <hr class="border-light" />
+                <a class="text-white text-decoration-none fw-semibold" asp-controller="Comic" asp-action="Index">Xem chi tiết →</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="card bg-success text-white shadow-lg rounded-3">
+            <div class="card-body text-center">
+                <h4 class="fw-bold">🏷️ Thể loại</h4>
+                <p class="fs-1 fw-bold mb-2">@ViewBag.GenreCount</p>
+                <hr class="border-light" />
+                <a class="text-white text-decoration-none fw-semibold" asp-controller="Genre" asp-action="Index">Xem chi tiết →</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <div class="card bg-secondary text-white shadow-lg rounded-3">
+            <div class="card-body text-center">
+                <h4 class="fw-bold">👥 Người dùng</h4>
+                <p class="fs-1 fw-bold mb-2">@ViewBag.UserCount</p>
+                <hr class="border-light" />
+                <a class="text-white text-decoration-none fw-semibold" asp-controller="User" asp-action="Index">Xem chi tiết →</a>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+@* <h3 class="mt-5">📚 Danh sách truyện</h3> *@
+@* <div class="table-responsive"> *@
+@*     <table class="table table-dark mt-3"> *@
+@*         <thead> *@
+@*             <tr> *@
+@*                 <th>#</th> *@
+@*                 <th>Tên truyện</th> *@
+@*                 <th>Tác giả</th> *@
+@*                 <th>Thể loại</th> *@
+@*                 <th>Hành động</th> *@
+@*             </tr> *@
+@*         </thead> *@
+@*         <tbody> *@
+@*             <tr> *@
+@*                 <td>1</td> *@
+@*                 <td>One Piece</td> *@
+@*                 <td>Eiichiro Oda</td> *@
+@*                 <td>Hành động</td> *@
+@*                 <td> *@
+@*                     <button class="btn btn-warning btn-sm">✏️ Sửa</button> *@
+@*                     <button class="btn btn-danger btn-sm">🗑️ Xóa</button> *@
+@*                 </td> *@
+@*             </tr> *@
+@*             <tr> *@
+@*                 <td>2</td> *@
+@*                 <td>Thám tử lừng danh Conan</td> *@
+@*                 <td>Gosho Aoyama</td> *@
+@*                 <td>Trinh thám</td> *@
+@*                 <td> *@
+@*                     <button class="btn btn-warning btn-sm">✏️ Sửa</button> *@
+@*                     <button class="btn btn-danger btn-sm">🗑️ Xóa</button> *@
+@*                 </td> *@
+@*             </tr> *@
+@*             <tr> *@
+@*                 <td>3</td> *@
+@*                 <td>Attack on Titan</td> *@
+@*                 <td>Hajime Isayama</td> *@
+@*                 <td>Khoa học viễn tưởng</td> *@
+@*                 <td> *@
+@*                     <button class="btn btn-warning btn-sm">✏️ Sửa</button> *@
+@*                     <button class="btn btn-danger btn-sm">🗑️ Xóa</button> *@
+@*                 </td> *@
+@*             </tr> *@
+@*         </tbody> *@
+@*     </table> *@
+@* </div> *@

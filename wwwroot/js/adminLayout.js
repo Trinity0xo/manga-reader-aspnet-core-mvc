@@ -14,7 +14,7 @@ $(document).on("click", function (e) {
     if ($(window).width() <= 768) {
       sideBar.removeClass("show");
       overlay.css("display", "none");
-      body.css("position", "unset");
+      // body.css("position", "unset");
     }
   }
 
@@ -22,7 +22,7 @@ $(document).on("click", function (e) {
     if ($(window).width() <= 768) {
       sideBar.addClass("show");
       overlay.css("display", "block");
-      body.css("position", "fixed");
+      // body.css("position", "fixed");
     }
   }
 });

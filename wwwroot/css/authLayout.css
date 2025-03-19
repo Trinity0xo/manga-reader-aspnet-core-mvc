@@ -1,0 +1,17 @@
+﻿body{
+    height: 100vh;
+    background: linear-gradient(135deg, #ffccff, #99ccff, #ffffff);
+}
+
+.my-input{
+    border-radius: 0;
+    padding: 8px;
+}
+
+.my-button{
+    border-radius: 0;
+}
+
+.form-container{
+    width: 460px;
+}

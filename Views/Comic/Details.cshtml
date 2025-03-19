@@ -8,13 +8,13 @@
 
 <nav class="mt-2 mb-4" aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-        <li class="breadcrumb-item"><a asp-action="Index">Danh sách truyện</a></li>
+        <li class="breadcrumb-item"><a class="text-decoration-none" asp-controller="Admin" asp-action="Index">Dashboard</a></li>
+        <li class="breadcrumb-item"><a class="text-decoration-none" asp-action="Index">Danh sách truyện</a></li>
         <li class="breadcrumb-item active" aria-current="page">Chi tiết truyện</li>
     </ol>
 </nav>
 
-<h3 class="mb-5">📚 Chi tiết truyện</h3>
+<h3 class="mb-5">Chi tiết truyện</h3>
 
 <div class="mb-4">
     <h4>Thông tin truyện</h4>
@@ -106,7 +106,7 @@
                 <thead>
                     <tr>
                         <th>
-                            #
+                            @Html.DisplayNameFor(model => model.Chapters.FirstOrDefault().Id)
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Chapters.FirstOrDefault().Name)

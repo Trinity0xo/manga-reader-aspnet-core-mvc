@@ -48,6 +48,3 @@ coverage/
 .dockerignore
 docker-compose.override.yml
 
-# Ignore content in images
-**/wwwroot/images/
-

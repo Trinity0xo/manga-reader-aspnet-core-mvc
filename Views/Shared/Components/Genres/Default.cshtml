@@ -1,0 +1,19 @@
+@model IEnumerable<WEBTRUYEN.Models.Genre>
+
+<a class="my-dropdown-toggler nav-link text-white">THỂ LOẠI</a>
+<div class="my-dropdown-menu">
+    <div class="container">
+        <div class="row">
+            @if (Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 p-2">
+                        <a asp-controller="Home" asp-action="Comics" asp-route-genreId="@item.Id"
+                            class="text-decoration-none d-inline-block">@item.Name</a>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

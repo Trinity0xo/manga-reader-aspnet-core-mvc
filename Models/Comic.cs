@@ -9,7 +9,6 @@ namespace WEBTRUYEN.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [DisplayName("Mã truyện")]
         public int Id { get; set; }
 
         [DisplayName("Ảnh bìa")]
@@ -43,10 +42,10 @@ namespace WEBTRUYEN.Models
         [DisplayName("người dùng theo dõi")]
         public List<User>? Users { get; set; }
 
-        [DisplayName("Khởi tạo lúc")]
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        [DisplayName("Khởi tạo truyện lúc")]
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
 
-        [DisplayName("Cập nhật lúc")]
-        public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
+        [DisplayName("Cập nhật chương lúc")]
+        public DateTime UpdatedDate { get; set; } = DateTime.Now;
     }
 }

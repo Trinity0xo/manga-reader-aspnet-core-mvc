@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using WEBTRUYEN.Repository
 
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
@@ -17,11 +18,29 @@
 </head>
 
 <body>
-    <div class="my-header">
-        <nav class="navbar navbar-expand-lg w-100">
+    <div class="d-none d-lg-block ">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between py-3">
+                <div class="d-flex align-items-center gap-5">
+                    <h4 class="m-0">WEBTRUYEN</h4>
+                    <form asp-action="Comics" method="get">
+                        <div class="input-group">
+                            <input name="searchValue" type="text" class="form-control my-input"
+                                placeholder="Bạn muốn tìm gì ?" value="@ViewBag.searchValue">
+                            <button class="btn btn-primary my-button" type="submit">Tìm kiếm</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="d-flex align-items-center gap-1">
+                    <partial name="_loginPartial" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="my-nav">
+        <nav class="navbar navbar-expand-xl w-100">
             <div class="container">
-                <a class="navbar-brand fw-bold" href="/">HOME</a>
-
+                <a class="navbar-brand d-block d-lg-none">WEBTRUYEN</a>
                 <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon d-flex justify-content-center align-items-center">
@@ -31,47 +50,63 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
+                        <li class="nav-item d-block d-lg-none">
+                            <div class="d-flex justify-content-start align-items-center gap-1">
+                                <partial name="_loginPartial" />
+                            </div>
+                        </li>
                         <li class="nav-item">
-                            <a class="nav-link text-uppercase" href="~/Hot/index">HOT</a>
+                            <a class="nav-link text-uppercase text-white ps-0" asp-controller="Home"
+                                asp-action="Index">TRANG CHỦ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase text-white" asp-controller="Home" asp-action="comics">TẤT
+                                CẢ</a>
                         </li>
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
-                                <a asp-controller="Following" asp-action="Index" class="nav-link text-uppercase">THEO
+                                <a asp-controller="Following" asp-action="Index" class="nav-link text-uppercase text-white">
+                                    THEO
                                     DÕI</a>
                             </li>
                             <li class="nav-item">
-                                <a asp-controller="History" asp-action="Index" class="nav-link text-uppercase">LỊCH SỬ</a>
+                                <a asp-controller="History" asp-action="Index"
+                                    class="nav-link text-uppercase text-white">LỊCH SỬ</a>
                             </li>
                         }
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-uppercase" href="#" id="genreDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                THỂ LOẠI
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="genreDropdown">
-                                <li><a class="dropdown-item" href="#">Hành động</a></li>
-                                <li><a class="dropdown-item" href="#">Phiêu lưu</a></li>
-                                <li><a class="dropdown-item" href="#">Hài hước</a></li>
-                                <li><a class="dropdown-item" href="#">Kinh dị</a></li>
-                                <li><a class="dropdown-item" href="#">Tình cảm</a></li>
-                            </ul>
+                        <li class="nav-item d-block d-lg-none">
+                            <form asp-action="Comics" method="get">
+                                <div class="input-group">
+                                    <input name="searchValue" type="text" class="form-control text-white my-input"
+                                        placeholder="Bạn muốn tìm gì ?" value="@ViewBag.searchValue">
+                                    <button class="btn btn-primary my-button" type="submit">Tìm kiếm</button>
+                                </div>
+                            </form>
+                        </li>
+                        <li class="nav-item">
+                            @await Component.InvokeAsync("Genres")
+                            @* <a class="my-dropdown-toggler nav-link text-white">THỂ LOẠI</a>
+                            <div class="my-dropdown-menu">
+                                <div class="container">
+                                    <div class="row">
+                                        @if (@ViewBag.Genres != null)
+                                        {
+                                            @foreach (var item in @ViewBag.Genres)
+                                            {
+                                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 p-2">
+                                                    <a asp-controller="Home" asp-action="Comics" asp-route-genreId="@item.Id"
+                                                        class="text-decoration-none d-inline-block">@item.Name</a>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div> *@
                         </li>
                     </ul>
-
-                    <form class="d-flex ">
-                        <input class="form-control me-2 search-bar w-100 my-search-bar" type="search"
-                            placeholder="Tìm kiếm..." aria-label="Search">
-                        <button
-                            class="btn btn-outline-light rounded-circle d-flex align-items-center justify-content-center"
-                            type="submit" style="width: 40px; height: 40px;">
-                            <i class="bi bi-search "></i>
-                        </button>
-                    </form>
-                    <div class="account-menu">
-                        <partial name="_loginPartial" />
-                    </div>
                 </div>
+
             </div>
         </nav>
     </div>

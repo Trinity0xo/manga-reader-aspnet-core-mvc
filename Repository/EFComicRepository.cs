@@ -1,5 +1,6 @@
 ﻿using Humanizer.Localisation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using WEBTRUYEN.Models;
 
 namespace WEBTRUYEN.Repository
@@ -41,19 +42,49 @@ namespace WEBTRUYEN.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Comic>> GetAllAsync()
+        public async Task<IEnumerable<Comic>> GetAllAsync(int pageSize, int pageNumber, string searchValue, int genreId)
         {
-            return await _context.Comics
-                .OrderByDescending(c => c.Chapters
-                    .OrderByDescending(c => c.CreatedDate)
-                        .Select(c => c.CreatedDate).FirstOrDefault())
-                            .Include(c => c.Chapters.OrderByDescending(ch => ch.CreatedDate))
-                .ToListAsync();
+            var query = _context.Comics.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                query = query.Where(c => c.Name.Contains(searchValue));
+            }
+
+            if (genreId > 0)
+            {
+                query = query.Where(c => c.Genres.Any(g => g.Id == genreId));
+            }
+
+            query = query.Include(c => c.Chapters.OrderByDescending(ch => ch.CreatedDate))
+                        .OrderByDescending(c => c.UpdatedDate)
+                        .Skip(pageNumber * pageSize)
+                        .Take(pageSize);
+
+            return await query.ToListAsync();
         }
 
         public async Task<Comic> GetByIdAsync(int id)
         {
             return await _context.Comics.Include(g => g.Genres).Include(c => c.Chapters.OrderByDescending(c => c.CreatedDate)).SingleOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<int> GetTotalCountAsync(string searchValue, int genreId)
+        {
+            var query = _context.Comics.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                query = query.Where(c => c.Name.Contains(searchValue));
+            }
+
+            if (genreId > 0)
+            {
+                query = query.Where(c => c.Genres.Any(c => c.Id == genreId));
+
+            }
+
+            return await query.CountAsync();
         }
 
         public async Task<IEnumerable<Comic>> GetFollowingAsync(string userId)

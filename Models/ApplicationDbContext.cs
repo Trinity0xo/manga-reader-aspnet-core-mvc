@@ -21,17 +21,17 @@ namespace WEBTRUYEN.Models
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<ReadingHistory>()
-                .HasKey(uc => new { uc.UsersId, uc.ChaptersId });
+                .HasKey(uc => new { uc.UserId, uc.ChapterId });
 
             modelBuilder.Entity<ReadingHistory>()
                 .HasOne(uc => uc.User)
                 .WithMany(u => u.ReadingHistories)
-                .HasForeignKey(uc => uc.UsersId);
+                .HasForeignKey(uc => uc.UserId);
 
             modelBuilder.Entity<ReadingHistory>()
                 .HasOne(uc => uc.Chapter)
                 .WithMany(c => c.ReadingHistories)
-                .HasForeignKey(uc => uc.ChaptersId);
+                .HasForeignKey(uc => uc.ChapterId);
         }
     }
 }

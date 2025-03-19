@@ -21,84 +21,34 @@ namespace WEBTRUYEN.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchValue, int pageNumber = 0)
         {
+            int pageSize = 15;
+
             var loggedInUser = await _userManager.GetUserAsync(User);
 
-            var users = new List<(User User, string? Role)>();
+            var query = _userManager.Users
+                .Where(u => u.Id != loggedInUser.Id).AsQueryable();
 
-            if (loggedInUser != null)
+            if (!string.IsNullOrEmpty(searchValue))
             {
-                var usersWithOutLoggedInUser = await _userManager.Users.Where(x => x.Id != loggedInUser.Id).ToListAsync();
-                foreach (var user in usersWithOutLoggedInUser)
-                {
-                    var roles = await _userManager.GetRolesAsync(user);
-                    string? firstRole = roles.FirstOrDefault();
-                    users.Add((user, firstRole));
-                }
+                query = query.Where(u => u.Email.Contains(searchValue));
             }
+
+            var totalUsers = await query.CountAsync();
+
+            query = query
+                .OrderBy(u => u.UserName)
+                .Skip(pageSize * pageNumber)
+                .Take(pageSize);
+
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalUsers / (double)pageSize);
+            ViewBag.searchValue = searchValue;
+
+            var users = await query.ToListAsync();
+
             return View(users);
-        }
-
-        [HttpGet("edit/{id}")]
-        public async Task<IActionResult> Edit(string id)
-        {
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            ViewBag.AllRoles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
-            var userRoles = await _userManager.GetRolesAsync(user);
-            string? firstRole = userRoles.FirstOrDefault();
-            ViewBag.UserRole = firstRole;
-
-            return View(user);
-        }
-
-        [HttpPost("edit"), ActionName("ConfirmEdit")]
-        public async Task<IActionResult> Edit(User user, string SelectedRole)
-        {
-            var userDb = await _userManager.FindByIdAsync(user.Id);
-            if(userDb == null)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                await _userManager.UpdateAsync(userDb);
-
-                var userDbRoles = await _userManager.GetRolesAsync(userDb);
-
-                if (userDbRoles.Any()) {
-                    await _userManager.RemoveFromRolesAsync(userDb, userDbRoles);
-                }
-
-
-                if (!string.IsNullOrEmpty(SelectedRole)) {
-                    await _userManager.AddToRoleAsync(userDb, SelectedRole);
-                }
-
-                return RedirectToAction(nameof(Index));
-            }
-            ViewBag.AllRoles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
-            ViewBag.UserRole = SelectedRole;
-
-            return View(user);
-        }
-
-        [HttpGet("details/{id}")]
-        public async Task<IActionResult> Details(string id)
-        {
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
         }
 
         [HttpGet("delete/{id}")]

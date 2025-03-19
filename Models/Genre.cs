@@ -9,23 +9,23 @@ namespace WEBTRUYEN.Models
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [DisplayName("Mã thể loại")]
         public int Id { get; set; }
 
-        [DisplayName("Truyện")]
-        public List<Comic>? Comics { get; set; }
-
+        [Required(ErrorMessage = "Tên thể loại là bắt buộc")]
         [DisplayName("Tên")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Tên mô tả là bắt buộc")]
         [DisplayName("Mô tả")]
         public string Description { get; set; }
 
+        public List<Comic>? Comics { get; set; }
+
         [DisplayName("Khởi tạo lúc")]
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         [DisplayName("Cập nhật lúc")]
-        public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedDate { get; set; } = DateTime.Now;
 
     }
 }

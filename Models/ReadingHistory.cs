@@ -1,15 +1,19 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WEBTRUYEN.Models
 {
     public class ReadingHistory
     {
-        [ForeignKey("User")]
-        public string UsersId { get; set; }
-        [ForeignKey("Chapter")]
-        public int ChaptersId { get; set; }
+        public string UserId { get; set; }
+
+        public int ChapterId { get; set; }
+
         public User User { get; set; }
+
         public Chapter Chapter { get; set; }
+
+        [DisplayName("Đọc lúc")]
         public DateTime ReadAt { get; set; } = DateTime.UtcNow;
     }
 }

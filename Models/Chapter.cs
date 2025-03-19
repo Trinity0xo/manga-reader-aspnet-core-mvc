@@ -20,14 +20,14 @@ namespace WEBTRUYEN.Models
 
         public Comic? Comic { get; set; }
 
-        [DisplayName("Trang truyện")]
         public List<Page>? Pages { get; set; }
+
         public List<ReadingHistory>? ReadingHistories { get; set; }
 
         [DisplayName("Khởi tạo lúc")]
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         [DisplayName("Cập nhật lúc")]
-        public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedDate { get; set; } = DateTime.Now;
     }
 }

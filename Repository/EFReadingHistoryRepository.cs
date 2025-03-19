@@ -15,7 +15,7 @@ namespace WEBTRUYEN.Repository
         public async Task AddToHistoryAsync(string userId, Chapter chapter)
         {
             var readingHistory = await _context.ReadingHistories
-                    .Where(r => r.UsersId == userId && r.Chapter.ComicId == chapter.ComicId)
+                    .Where(r => r.UserId == userId && r.Chapter.ComicId == chapter.ComicId)
                     .Include(r => r.Chapter)
                     .FirstOrDefaultAsync();
 
@@ -26,8 +26,8 @@ namespace WEBTRUYEN.Repository
 
             var newReadingHistory = new ReadingHistory
             {
-                UsersId = userId,
-                ChaptersId = chapter.Id,
+                UserId = userId,
+                ChapterId = chapter.Id,
             };
 
             _context.ReadingHistories.Add(newReadingHistory);
@@ -39,7 +39,7 @@ namespace WEBTRUYEN.Repository
         public async Task<IEnumerable<ReadingHistory>> GetReadingHistoryAsync(string userId)
         {
             return await _context.ReadingHistories
-                .Where(u => u.UsersId == userId)
+                .Where(u => u.UserId == userId)
                     .Include(c => c.Chapter)
                         .ThenInclude(c => c.Comic)
                 .OrderByDescending(c => c.ReadAt).ToListAsync();
@@ -48,7 +48,7 @@ namespace WEBTRUYEN.Repository
         public async Task RemoveFromHistoryAsync(string userId, Chapter chapter)
         {
             var readingHistory = await _context.ReadingHistories
-                .Where(r => r.UsersId == userId && r.Chapter.ComicId == chapter.ComicId)
+                .Where(r => r.UserId == userId && r.Chapter.ComicId == chapter.ComicId)
                 .Include(r => r.Chapter)
                 .FirstOrDefaultAsync();
 

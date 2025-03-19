@@ -52,10 +52,12 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// khởi tạo giá trị của role mỗi lận chạy dự án
+// khởi tạo giá trị của role và tài khoản admin mỗi lận chạy dự án
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+
     var roles = new[] { "admin", "user" };
     foreach (var role in roles)
     {
@@ -63,6 +65,25 @@ using (var scope = app.Services.CreateScope())
         {
             await roleManager.CreateAsync(new IdentityRole(role));
         }
+    }
+
+    string adminEmail = "admin@gmail.com";
+    string adminPassword = "Admin@123";
+
+    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+    if (adminUser == null)
+    {
+        adminUser = new User
+        {
+            UserName = adminEmail,
+            Email = adminEmail,
+        };
+        var result = await userManager.CreateAsync(adminUser, adminPassword);
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(adminUser, "admin");
+        }
+
     }
 }
 

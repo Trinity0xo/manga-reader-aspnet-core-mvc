@@ -12,20 +12,19 @@
                 Truyện mới cập nhật
             </h5>
             <hr>
-            <div class="">
+            <div class="mb-3">
                 @if (Model != null && Model.Any()){
                     <div class="row">
                         @foreach (var item in Model){
                             <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 hover-scale p-3">
                                 <a asp-action="ComicDetails" asp-route-id="@item.Id" class="card-link">
-                                    <!-- 3 cột trên màn hình lớn, 2 cột trên màn hình nhỏ -->
                                     <div class="card shadow-sm h-100 d-flex flex-column my-card">
                                         <img src="@Html.DisplayFor(modelItem => item.CoverUrl)" class="card-img-top" alt="@item.Name">
 
                                     <div class="card-body text-center d-flex flex-column ">
                                         <h5 class="card-title text-truncate line-clamp-2">@Html.DisplayFor(modelItem => item.Name)</h5>
                                         <p class="card-text mb-1 mt-auto">
-                                                @(item.Chapters?.OrderByDescending(c => c.CreatedDate).FirstOrDefault()?.Name ?? "No chapters")
+                                                @(item.Chapters?.OrderByDescending(c => c.CreatedDate).FirstOrDefault()?.Name ?? "Chưa có chương")
                                         </p>
                                         </div>
                                     </div>
@@ -35,7 +34,9 @@
                     </div>
                 }
              </div>
+            <div class="d-flex justify-content-center align-items-center">
+                <a asp-controller="Home" asp-action="Comics" class="btn btn-primary my-button">Xem tất cả</a>
+            </div>
         </div>
     </section>
 </main>
-
