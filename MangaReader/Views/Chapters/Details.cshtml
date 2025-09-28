@@ -1,0 +1,172 @@
+﻿@model MangaReader.ViewModels.ChapterDetailsViewModel;
+@using MangaReader.Utils.Constants
+@using MangaReader.Utils
+
+@{
+    ViewData["Title"] = Model.Chapter.Title;
+    var ChaptersFolder = ViewBag.ChaptersFolder;
+    var basePath = ViewBag.BasePath as string;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-controller="Home" asp-action="Index">Trang chủ</a>
+        </li>
+
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-controller="Mangas" asp-action="Index">Truyện</a>
+        </li>
+
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-controller="Mangas" asp-action="Details" asp-route-mangaId="@Model.Chapter.Manga.Id" asp-route-mangaSlug="@Model.Chapter.Manga.Id">
+                @Model.Chapter.Manga.Title
+            </a>
+        </li>
+
+        <li class="breadcrumb-item active" aria-current="page">@Model.Chapter.Title</li>
+    </ol>
+</nav>
+
+<div class="d-flex flex-column gap-3 mb-4">
+    <h2 class="text-center m-0">@Model.Chapter.Title</h2>
+
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+        @if (Model.PreviousChapter != null)
+        {
+            <a class="btn btn-primary d-flex justify-content-center align-items-center"
+               asp-controller="Chapters"
+               asp-action="Details"
+               asp-route-chapterId="@Model.PreviousChapter.Id"
+               asp-route-chapterSlug="@Model.PreviousChapter.Slug">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
+                </svg>
+            </a>
+        }
+        else
+        {
+            <button class="btn btn-primary disabled d-flex justify-content-center align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
+                </svg>
+            </button>
+        }
+
+        <select class="form-select w-auto d-inline-block" style="min-width: 200px; max-width: 200px" onchange="if(this.value) window.location.href=this.value;">
+            <option value="">Chọn chương</option>
+            @foreach (var item in Model.Chapters)
+            {
+                <option class="text-truncate" selected="@(Model.Chapter.Id == item.Id)" value="@Url.Action("Details", "Chapters", new { chapterId = item.Id, chapterSlug = item.Slug })">
+                    @item.Title
+                </option>
+            }
+        </select>
+
+        @if (Model.NextChapter != null)
+        {
+            <a class="btn btn-primary d-flex justify-content-center align-items-center"
+               asp-controller="Chapters"
+               asp-action="Details"
+               asp-route-chapterId="@Model.NextChapter.Id"
+               asp-route-chapterSlug="@Model.NextChapter.Slug">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+                </svg>
+            </a>
+        }
+        else
+        {
+            <button class="btn btn-primary disabled d-flex justify-content-center align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+                </svg>
+            </button>
+        }
+    </div>
+</div>
+
+<div class="d-flex flex-column gap-3">
+    @if (Model.Chapter.Pages != null && Model.Chapter.Pages.Any())
+    {
+        foreach (var item in Model.Chapter.Pages)
+        {
+            <div class="card rounded-0 mx-auto" style="max-width: 900px">
+                <img src="@($"/{basePath}/{Model.Chapter.Manga.Slug}/{ChaptersFolder}/{Model.Chapter.Slug}/{item.Image}")" class="img-fluid" alt="@item.Image">
+            </div>
+        }
+    }
+    else
+    {
+        <p>Không có trang nào trong chương này.</p>
+    }
+</div>
+
+<div class="d-flex flex-column gap-3 my-4">
+    <a href="#" onclick="scrollToTop()" class="text-decoration-none text-center">
+        Trở lên trên
+    </a>
+
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+        @if (Model.PreviousChapter != null)
+        {
+            <a class="btn btn-primary d-flex justify-content-center align-items-center"
+               asp-controller="Chapters"
+               asp-action="Details"
+               asp-route-chapterId="@Model.PreviousChapter.Id"
+               asp-route-chapterSlug="@Model.PreviousChapter.Slug">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
+                </svg>
+            </a>
+        }
+        else
+        {
+            <button class="btn btn-primary disabled d-flex justify-content-center align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
+                </svg>
+            </button>
+        }
+
+        <select class="form-select w-auto d-inline-block" style="min-width: 200px; max-width: 200px" onchange="if(this.value) window.location.href=this.value;">
+            <option value="">Chọn chương</option>
+            @foreach (var item in Model.Chapters)
+            {
+                <option class="text-truncate" selected="@(Model.Chapter.Id == item.Id)" value="@Url.Action("Details", "Chapters", new { chapterId = item.Id, chapterSlug = item.Slug })">
+                    @item.Title
+                </option>
+            }
+        </select>
+
+        @if (Model.NextChapter != null)
+        {
+            <a class="btn btn-primary d-flex justify-content-center align-items-center"
+               asp-controller="Chapters"
+               asp-action="Details"
+               asp-route-chapterId="@Model.NextChapter.Id"
+               asp-route-chapterSlug="@Model.NextChapter.Slug">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+                </svg>
+            </a>
+        }
+        else
+        {
+            <button class="btn btn-primary disabled d-flex justify-content-center align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+                </svg>
+            </button>
+        }
+    </div>
+</div> 
+
+@section Scripts {
+    <script>
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+}
+

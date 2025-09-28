@@ -1,0 +1,142 @@
+﻿@model MangaReader.ViewModels.MangaDetailsViewModel
+@using MangaReader.Utils
+@using MangaReader.Utils.Constants
+
+@{
+    ViewData["Title"] = Model.Manga.Title;
+    var coversFolder = ViewBag.CoversFolder as string;
+    var basePath = ViewBag.BasePath as string;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-controller="Home" asp-action="Index">Trang chủ</a>
+        </li>
+
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-controller="Mangas" asp-action="Index">Truyện</a>
+        </li>
+
+        <li class="breadcrumb-item active" aria-current="page">@Model.Manga.Title</li>
+    </ol>
+</nav>
+
+<div class="card rounded-0 d-flex flex-column p-3 shadow-sm">
+    <div class="row">
+        <div class="col-md-4 col-lg-3 mb-4 mb-md-auto">
+            <img src="@($"/{basePath}/{Model.Manga.Slug}/{coversFolder}/{Model.Manga.Cover}")" class="img-fluid" alt="@Model.Manga.Cover">
+        </div>
+        <div class="col-md-8 col-lg-9 d-flex flex-column">
+            <div class="d-flex flex-wrap gap-2 mb-3">
+                <div class="badge bg-success p-2 gap-1 d-flex justify-content-center align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z" />
+                    </svg> @Model.TotalFollowed Lượt theo dõi
+                </div>
+                <div class="badge bg-info p-2 gap-1 d-flex justify-content-center align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book-fill" viewBox="0 0 16 16">
+                        <path d="M8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
+                    </svg> @Model.TotalViewed Lượt đọc
+                </div>
+            </div>
+            <ul class="list-group list-group-flush flex-grow-1">
+                <li class="list-group-item px-0 pt-0"><h1 class="m-0 fs-2">@Model.Manga.Title</h1></li>
+                <li class="list-group-item px-0"><strong>Tác giả:</strong> <a class="text-decoration-none" asp-action="Index" asp-route-AuthorName="@Model.Manga.AuthorName">@Model.Manga.AuthorName</a></li>
+                <li class="list-group-item px-0"><strong>Ngày phát hành:</strong> @Model.Manga.PublishedAt.ToString("dd/MM/yyyy")</li>
+                <li class="list-group-item px-0">
+                    <strong>Thể loại:</strong>
+                    @if (Model.Manga.Genres != null && Model.Manga.Genres.Any())
+                    {
+                        @foreach (var genre in Model.Manga.Genres)
+                        {
+                            <a asp-action="Index"
+                               asp-route-Genres="@genre.Slug"
+                               class="badge bg-secondary text-decoration-none link-light">
+                                @genre.Name
+                            </a>
+                        }
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </li>
+                <li class="list-group-item px-0">
+                    <strong>Trạng thái:</strong>
+                    @{
+                        var badgeClass = Model.Manga.Status switch
+                        {
+                            MangaStatusEnum.OnGoing => "bg-primary",
+                            MangaStatusEnum.Completed => "bg-success",
+                            MangaStatusEnum.Hiatus => "bg-warning text-white",
+                            MangaStatusEnum.Cancelled => "bg-danger",
+                            _ => "bg-secondary"
+                        };
+                    }
+                    <span class="badge @badgeClass">@EnumUtils.GetEnumDisplayName(Model.Manga.Status)</span>
+                </li>
+                <li class="list-group-item px-0">
+                    <strong>Sơ lược:</strong> <p>@Model.Manga.Description</p>
+                </li>
+            </ul>
+            <div class="d-flex flex-column flex-md-row gap-3 mt-3">
+                @if (@Model.Manga.Chapters != null && @Model.Manga.Chapters.Any())
+                {
+                    <a asp-controller="Chapters" asp-action="Details" asp-route-chapterId="@Model.Manga.Chapters?.LastOrDefault()?.Id" asp-route-chapterSlug="@Model.Manga.Chapters?.LastOrDefault()?.Slug"
+                       class="btn btn-primary flex-fill my-button">Đọc ngay</a>
+                }
+                else
+                {
+                    <button class="btn btn-secondary flex-fill my-button" disabled>Chưa có chương nào</button>
+                }
+
+                @if (!@Model.IsFollowed)
+                {
+                    <form class="flex-fill" asp-controller="Followings" asp-action="Follow">
+                        <input type="hidden" name="mangaId" value="@Model.Manga.Id" />
+                        <button type="submit" class="btn btn-success w-100 my-button">Theo dõi</button>
+                    </form>
+                }
+                else
+                {
+                    <form class="flex-fill" asp-controller="Followings" asp-action="Unfollow">
+                        <input type="hidden" name="mangaId" value="@Model.Manga.Id" />
+                        <button type="submit" class="btn btn-warning text-white w-100 my-button">Hủy theo dõi</button>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4 class="m-0">Chương truyện</h4>
+
+<div class="list-group rounded-0 shadow-sm">
+    @if (Model.Manga.Chapters != null && Model.Manga.Chapters.Any())
+    {
+        @foreach (var item in Model.Manga.Chapters)
+        {
+            <a asp-controller="Chapters" asp-action="Details" asp-route-chapterId="@item.Id" asp-route-chapterSlug="@item.Slug" 
+               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <span>@item.Title</span>
+                <small class="text-muted">@DateTimeUtils.TimeAgo(item.CreatedAt)</small>
+            </a>
+        }
+    }
+    else
+    {
+        <div class="text-center rounded-0 shadow-sm card p-5">
+            Chưa có chương
+        </div>
+    }
+</div>
+
+
+<h4 class="m-0">
+    Bình luận
+</h4>
+
+<div class="card rounded-0 p-5 shadow-sm text-center">
+    Chức năng bình luận hiện chưa được phát triển.
+</div>

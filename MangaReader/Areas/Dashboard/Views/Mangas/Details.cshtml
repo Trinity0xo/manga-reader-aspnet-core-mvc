@@ -1,0 +1,184 @@
+﻿@model MangaReader.Models.Manga
+@using MangaReader.Utils
+@using MangaReader.Utils.Constants
+
+@{
+    ViewData["Title"] = "Truyện";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var CoversFolder = ViewBag.CoversFolder;
+    var BasePath = ViewBag.BasePath;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-area="Dashboard" asp-controller="Home" asp-action="Index">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-area="Dashboard" asp-controller="Mangas" asp-action="Index">Truyện</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            @Model.Title
+        </li>
+    </ol>
+</nav>
+
+
+<h3 class="mb-0">Chi tiết truyện <span class="text-primary">@Model.Title</span></h3>
+
+<div class="card shadow-sm p-3 rounded-0 shadow-sm">
+    <dl class="row">
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Cover)</dt>
+        <dd class="col-sm-10">
+            <img src="@($"/{BasePath}/{Model.Slug}/{CoversFolder}/{Model.Cover}")" alt="@Model.Title" style="max-width: 300px" />
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Title
+        </dd>
+
+        @* <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Slug)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Slug
+        </dd> *@
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Genres)</dt>
+        <dd class="col-sm-10">
+            @if (Model.Genres != null && Model.Genres.Any())
+            {
+                @foreach (var genre in Model.Genres)
+                {
+                    <span class="badge bg-secondary me-1">@genre.Name</span>
+                }
+            }
+            else
+            {
+                <span>N/A</span>
+            }
+        </dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.AuthorName)</dt>
+        <dd class="col-sm-10">@Model.AuthorName</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.PublishedAt)</dt>
+        <dd class="col-sm-10">@(Model.PublishedAt.ToString("yyyy-MM-dd"))</dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Status)</dt>
+        <dd class="col-sm-10">
+            @switch (Model.Status)
+            {
+                case MangaStatusEnum.OnGoing:
+                    <span class="badge bg-primary">@EnumUtils.GetEnumDisplayName(Model.Status)</span>
+                    break;
+                case MangaStatusEnum.Completed:
+                    <span class="badge bg-success">@EnumUtils.GetEnumDisplayName(Model.Status)</span>
+                    break;
+                case MangaStatusEnum.Hiatus:
+                    <span class="badge bg-warning text-white">@EnumUtils.GetEnumDisplayName(Model.Status)</span>
+                    break;
+                case MangaStatusEnum.Cancelled:
+                    <span class="badge bg-danger">@EnumUtils.GetEnumDisplayName(Model.Status)</span>
+                    break;
+                default:
+                    <span class="badge bg-secondary">@EnumUtils.GetEnumDisplayName(Model.Status)</span>
+                    break;
+            }
+        </dd>
+
+        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Description)</dt>
+        <dd class="col-sm-10">@(!string.IsNullOrEmpty(Model.Description) ? Model.Description : "N/A")</dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UpdatedAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.UpdatedAt.ToString("yyyy-MM-dd HH:mm")
+        </dd>
+    </dl>
+
+    <div class="d-flex flex-column flex-sm-row gap-2">
+        <a class="btn btn-warning text-white" asp-area="Dashboard" asp-controller="Mangas" asp-action="Edit" asp-route-id="@Model?.Id">Cập nhật</a>
+        <a class="btn btn-danger" asp-area="Dashboard" asp-controller="Mangas" asp-action="Delete" asp-route-id="@Model?.Id">Xóa</a>
+        <a class="btn btn-secondary" asp-area="Dashboard" asp-controller="Mangas" asp-action="Index">Quay lại</a>
+    </div>
+</div>
+
+<div class="d-flex flex-sm-row flex-column justify-content-between align-items-sm-center gap-2">
+    <h3 class="mb-0">Chương mới</h3>
+    <a class="btn btn-primary d-flex justify-content-center align-items-center gap-1" asp-area="Dashboard" asp-controller="Chapters" asp-route-mangaId="@Model.Id" asp-action="Create">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+        </svg> Mới
+    </a>
+</div>
+
+@if (Model != null &&  Model.Chapters != null && Model.Chapters.Any()){
+    <div class="card shadow-sm p-3 rounded-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Chapters.First().Title)</th>
+                        <th>@Html.DisplayNameFor(model => model.Chapters.First().CreatedAt)</th>
+                        <th>@Html.DisplayNameFor(model => model.Chapters.First().UpdatedAt)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Chapters)
+                    {
+                        <tr>
+                            <td class="table-col-6"><span class="d-inline-block text-truncate mw-100">@item.Title</span></td>
+                            <td class="table-col-2"><span class="d-inline-block text-truncate mw-100">@item.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span></td>
+                            <td class="table-col-2"><span class="d-inline-block text-truncate mw-100">@item.UpdatedAt.ToString("yyyy-MM-dd HH:mm")</span></td>
+                            <td class="table-col-2 text-end">
+                                        <a class="btn btn-sm btn-success ms-1" asp-area="Dashboard" asp-controller="Chapters" asp-action="Details" asp-route-id="@item.Id">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M7.364 3.5a.5.5 0 0 1 .5-.5H14.5A1.5 1.5 0 0 1 16 4.5v10a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 3 14.5V7.864a.5.5 0 1 1 1 0V14.5a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5v-10a.5.5 0 0 0-.5-.5H7.864a.5.5 0 0 1-.5-.5" />
+                                        <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h5a.5.5 0 0 1 0 1H1.707l8.147 8.146a.5.5 0 0 1-.708.708L1 1.707V5.5a.5.5 0 0 1-1 0z" />
+                                    </svg>
+                                </a>
+                                        <a class="btn btn-sm btn-warning text-white" asp-area="Dashboard" asp-controller="Chapters" asp-action="Edit" asp-route-id="@item?.Id">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                    </svg>
+                                </a>
+                                        <a class="btn btn-sm btn-danger ms-1" asp-area="Dashboard" asp-controller="Chapters" asp-action="Delete" asp-route-id="@item?.Id">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-end mt-3">
+            <a class="btn btn-primary" asp-area="Dashboard" asp-controller="Chapters" asp-action="MangaChapters" asp-route-mangaId="@Model?.Id">Xem tất cả</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center rounded-0 shadow-sm card p-5">
+        Chưa có chương
+    </div>
+}
+
+

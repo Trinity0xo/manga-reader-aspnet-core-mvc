@@ -1,0 +1,146 @@
+﻿@model MangaReader.Dto.Manga.UpdateMangaDto
+@using MangaReader.Utils
+@using MangaReader.Utils.Constants
+
+@{
+    ViewData["Title"] = "Truyện";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var Genres = ViewBag.Genres as List<MangaReader.Models.Genre>;
+    var CoversFolder = ViewBag.CoversFolder;
+    var BasePath = ViewBag.BasePath;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-area="Dashboard" asp-controller="Home" asp-action="Index">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-area="Dashboard" asp-controller="Mangas" asp-action="Index">Truyện</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none"
+               asp-area="Dashboard"
+               asp-controller="Mangas"
+               asp-action="Details"
+               asp-route-id="@Model.Id">
+                @Model.OldTitle
+            </a>
+        </li>
+
+        <li class="breadcrumb-item active" aria-current="page">Cập nhật</li>
+    </ol>
+</nav>
+
+
+<h3 class="mb-0">Cập nhật truyện <span class="text-primary">@Model.OldTitle</span></h3>
+
+<div class="card shadow-sm p-3 rounded-0 shadow-sm">
+    <form asp-action="Edit" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="d-flex flex-column gap-3 mb-3">
+            <div class="d-flex flex-column flex-md-row">
+                <label asp-for="NewCover" style="max-width: 300px" class="w-100 control-label"></label>
+                <div class="d-flex flex-column w-100">
+                    <input asp-for="NewCover" type="file" class="form-control" accept="image/*" />
+                    <span asp-validation-for="NewCover" class="text-danger"></span>
+
+                    <div class="mt-2">
+                        <img id="coverPreview"
+                             src="@(string.IsNullOrEmpty(Model.OldCover)
+                                ? ""
+                                : Url.Content($"/{ViewBag.BasePath}/{SlugUtils.GenerateSlug(Model.OldTitle)}/{ViewBag.CoversFolder}/{Model.OldCover}"))"
+                             alt="Preview"
+                             class="border rounded-0 @(string.IsNullOrEmpty(Model.OldCover) ? "d-none" : "")" style="max-width:260px;"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row">
+                <label asp-for="NewTitle" style="max-width: 300px" class="w-100 control-label"></label>
+                <div class="d-flex flex-column w-100">
+                    <input asp-for="NewTitle" class="form-control" placeholder="Tên truyện" />
+                    <span asp-validation-for="NewTitle" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row">
+                <label asp-for="Description" style="max-width: 300px" class="w-100 control-label"></label>
+                <div class="d-flex flex-column w-100">
+                    <textarea asp-for="Description" class="form-control" rows="3" placeholder="Mô tả"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row">
+                <label asp-for="AuthorName" style="max-width: 300px" class="w-100 control-label"></label>
+                <div class="d-flex flex-column w-100">
+                    <input asp-for="AuthorName" class="form-control" placeholder="Tên tác giả"/>
+                    <span asp-validation-for="AuthorName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row">
+                <label asp-for="Status" style="max-width: 300px" class="w-100 control-label"></label>
+                <div class="d-flex flex-column w-100">
+                    <select asp-for="Status" class="form-select"
+                            asp-items="Html.GetEnumSelectList<MangaStatusEnum>()">
+                        <option value="">Chọn trạng thái</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row">
+                <label asp-for="PublishedAt" style="max-width: 300px" class="w-100 control-label"></label>
+                <div class="d-flex flex-column w-100">
+                    <input asp-for="PublishedAt" class="form-control" type="date" />
+                    <span asp-validation-for="PublishedAt" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row">
+                <label asp-for="GenreIds" style="max-width: 300px" class="w-100 control-label"></label>
+                <div class="d-flex flex-column w-100">
+                    <select asp-for="GenreIds"
+                            asp-items="@(new MultiSelectList(Genres, "Id", "Name", Model.GenreIds))"
+                            multiple
+                            class="form-select">
+                    </select>
+                    <span asp-validation-for="GenreIds" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row">
+                <div style="max-width: 300px" class="w-100"></div>
+                <div class="d-flex flex-column flex-sm-row gap-2 mt-2 mt-md-0">
+                    <input type="submit" value="Lưu" class="btn btn-warning text-white" />
+                    <a class="btn btn-secondary" asp-area="Dashboard" asp-controller="Mangas" asp-action="Details" asp-route-id="@Model?.Id">Quay lại</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).on("change", "input[name='NewCover']", function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (ev) {
+                    const $coverPreview = $("#coverPreview");
+                    $coverPreview.attr("src", ev.target.result).removeClass("d-none");
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+}

@@ -1,0 +1,84 @@
+﻿:root {
+    --table-width: 1200px;
+    --col-base: calc(var(--table-width) / 12);
+}
+
+.table-col-1 {
+    min-width: calc(1 * var(--col-base));
+    max-width: calc(1 * var(--col-base));
+}
+
+.table-col-2 {
+    min-width: calc(2 * var(--col-base));
+    max-width: calc(2 * var(--col-base));
+}
+
+.table-col-3 {
+    min-width: calc(3 * var(--col-base));
+    max-width: calc(3 * var(--col-base));
+}
+
+.table-col-4 {
+    min-width: calc(4 * var(--col-base));
+    max-width: calc(4 * var(--col-base));
+}
+
+.table-col-5 {
+    min-width: calc(5 * var(--col-base));
+    max-width: calc(5 * var(--col-base));
+}
+
+.table-col-6 {
+    min-width: calc(6 * var(--col-base));
+    max-width: calc(6 * var(--col-base));
+}
+
+.table-col-7 {
+    min-width: calc(7 * var(--col-base));
+    max-width: calc(7 * var(--col-base));
+}
+
+.table-col-8 {
+    min-width: calc(8 * var(--col-base));
+    max-width: calc(8 * var(--col-base));
+}
+
+.table-col-9 {
+    min-width: calc(9 * var(--col-base));
+    max-width: calc(9 * var(--col-base));
+}
+
+.table-col-10 {
+    min-width: calc(10 * var(--col-base));
+    max-width: calc(10 * var(--col-base));
+}
+
+.table-col-11 {
+    min-width: calc(11 * var(--col-base));
+    max-width: calc(11 * var(--col-base));
+}
+
+.table-col-12 {
+    min-width: calc(12 * var(--col-base));
+    max-width: calc(12 * var(--col-base));
+}
+
+
+
+.text-truncate-4 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+}
+
+.manga-cover {
+    width: 100%;
+}
+
+.manga-cover img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

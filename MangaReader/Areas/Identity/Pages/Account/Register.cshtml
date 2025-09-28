@@ -1,0 +1,63 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Đăng ký";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+<div class="card p-3 rounded-0 shadow-sm" style="max-width: 500px; width: 100%">
+    <a href="/" class="text-decoration-none text-center mb-3 p-0"><h1 class="p-0 m-0">MANGAR</h1></a>
+    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <h5 class="text-center">Đăng ký</h5>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert">
+        </div>
+
+        <div class="form-input mb-3">
+            <label asp-for="Input.FirstName" class="form-label"></label>
+            <input asp-for="Input.FirstName" class="form-control my-input" autocomplete="username" aria-required="true"
+                   placeholder="Tên" />
+            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+        </div>
+
+        <div class="form-input mb-3">
+            <label asp-for="Input.LastName" class="form-label"></label>
+            <input asp-for="Input.LastName" class="form-control my-input" autocomplete="username" aria-required="true"
+                   placeholder="Họ" />
+            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-input mb-3">
+            <label asp-for="Input.Email" class="form-label"></label>
+            <input asp-for="Input.Email" class="form-control my-input" autocomplete="username" aria-required="true"
+                   placeholder="example@example.com" />
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-input mb-3">
+            <label asp-for="Input.Password" class="form-label"></label>
+            <input asp-for="Input.Password" class="form-control my-input" autocomplete="new-password"
+                   aria-required="true" placeholder="Mật khẩu" />
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-input mb-3">
+            <label asp-for="Input.ConfirmPassword" class="form-label"></label>
+            <input asp-for="Input.ConfirmPassword" class="form-control my-input" autocomplete="new-password"
+                   aria-required="true" placeholder="Xác nhận mật khẩu" />
+            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+        </div>
+
+        <button id="registerSubmit" type="submit" class="w-100 btn btn-primary mb-3 my-button">
+            Đăng ký
+        </button>
+        <p class="m-0 text-center">
+            Đã có tài khoản ? <a class="text-decoration-none" asp-area="Identity" asp-page="/Account/Login">Đăng nhập</a>
+        </p>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

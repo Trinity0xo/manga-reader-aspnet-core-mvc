@@ -1,0 +1,190 @@
+﻿﻿@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@{
+	var fullName = User.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value
+							?? User.Identity?.Name ?? "User" as string;
+	var avatar = User.Claims.FirstOrDefault(c => c.Type == "Avatar")?.Value as string;
+	var currentRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value as string;
+	var roleDisplayName = User.Claims.FirstOrDefault(c => c.Type == "RoleDisplayName")?.Value as string;
+	var avatarsFolder = ViewBag.AvatarsFolder as string;
+	var basePath = ViewBag.BasePath as string;
+}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="vi">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>MangaR - @ViewData["Title"]</title>
+	<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="~/css/styles.css" rel="stylesheet" />
+	<link href="~/css/admin.css" rel="stylesheet" />
+</head>
+<body>
+	<div class="layout bg-light">
+		<div class="sidebar bg-dark">
+			<ul class="nav nav-pills flex-column gap-2">
+				<li class="nav-item">
+					<a class="nav-link text-white d-flex align-items-center gap-3 @(ViewContext.HttpContext.Request.Path == "/dashboard" ? "active" : "")" asp-area="Dashboard" asp-controller="Home" asp-action="Index">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-speedometer" viewBox="0 0 16 16">
+							<path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2M3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.39.39 0 0 0-.029-.518z" />
+							<path fill-rule="evenodd" d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.95 11.95 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0" />
+						</svg> 
+						Dashboard
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-white d-flex align-items-center gap-3 @(ViewContext.HttpContext.Request.Path == "/dashboard/mangas" ? "active" : "")" asp-area="Dashboard" asp-controller="Mangas" asp-action="Index">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book-fill" viewBox="0 0 16 16">
+							<path d="M8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
+						</svg>
+						Truyện
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-white d-flex align-items-center gap-3 @(ViewContext.HttpContext.Request.Path == "/dashboard/chapters" ? "active" : "")" asp-area="Dashboard" asp-controller="Chapters" asp-action="Index">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-book-half" viewBox="0 0 16 16">
+							<path d="M8.5 2.687c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783" />
+						</svg>
+						Chương
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-white d-flex align-items-center gap-3 @(ViewContext.HttpContext.Request.Path == "/dashboard/genres" ? "active" : "")" asp-area="Dashboard" asp-controller="Genres" asp-action="Index">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+							<path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2" />
+						</svg>
+						Thể loại
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-white d-flex align-items-center gap-3 @(ViewContext.HttpContext.Request.Path == "/dashboard/users" ? "active" : "")" asp-area="Dashboard" asp-controller="Users" asp-action="Index">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+							<path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.24 2.24 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.3 6.3 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
+						</svg>
+						Người dùng
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-white d-flex align-items-center gap-3 @(ViewContext.HttpContext.Request.Path == "/dashboard/roles" ? "active" : "")" asp-area="Dashboard" asp-controller="Roles" asp-action="Index" ">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-lock" viewBox="0 0 16 16">
+							<path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5v-1a2 2 0 0 1 .01-.2 4.49 4.49 0 0 1 1.534-3.693Q8.844 9.002 8 9c-5 0-6 3-6 4m7 0a1 1 0 0 1 1-1v-1a2 2 0 1 1 4 0v1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1zm3-3a1 1 0 0 0-1 1v1h2v-1a1 1 0 0 0-1-1" />
+						</svg>
+						Vai trò
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="main">
+			<header class="bg-dark">
+				<div class="header-left">
+					<div class="text-center">
+						<div class="logo h4 fw-bold text-white mb-0">
+							MangaR
+						</div>
+					</div>
+				</div>
+				<div class="header-right">
+					<button class="btn btn-outline-light d-flex justify-content-center align-items-center" type="button" id="sidebarToggle">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+							<path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+						</svg>
+					</button>
+
+					<div class="dropdown">
+						<a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+						   data-bs-toggle="dropdown" aria-expanded="false">
+							<img src="@(string.IsNullOrEmpty(avatar)
+								? "/images/default-avatar.png"
+								: Url.Content($"/{basePath}/{avatarsFolder}/{avatar}"))"
+								 width="32" height="32" class="rounded-circle me-2" alt="@(avatar != null ? avatar : " default-avatar.png")" />
+							<span class="d-none d-md-inline">@fullName</span>
+						</a>
+
+						<ul class="dropdown-menu dropdown-menu-end">
+							<li class="px-3 py-2">
+								<div>
+									<div class="d-md-none">@fullName</div>
+									@if (!string.IsNullOrEmpty(roleDisplayName))
+									{
+										<span class="badge bg-primary">@roleDisplayName</span>
+									}
+								</div>
+							</li>
+							<li class="d-md-none"><hr class="dropdown-divider" /></li>
+
+							<li><a class="dropdown-item" href="/">Trang chủ</a></li>
+							<li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Tài khoản</a></li>
+							<li><hr class="dropdown-divider" /></li>
+							<li>
+								<form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
+									  asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+									<button type="submit" class="dropdown-item">Đăng xuất</button>
+								</form>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+			</header>
+			<div class="content">
+				<div class="container-fluid d-flex flex-column gap-3 pt-3 pb-5">
+					@if (TempData["SuccessMessage"] != null)
+					{
+						<div class="alert alert-success alert-dismissible fade show m-0" role="alert">
+							@TempData["SuccessMessage"]
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					}
+					@RenderBody()
+				</div>
+			</div>
+
+			<footer class="border-top footer text-muted bg-dark">
+				<div class="container text-white text-center">
+					&copy; 2025 MangaR. Design by
+					<a class="text-decoration-none" href="#">Trinity0xo</a>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	@RenderSection("Scripts", required: false)
+	<script>
+		const MIN_WIDTH = 1200;
+		const $sideBar = $(".sidebar");
+		const $sidebarToggle = $("#sidebarToggle");
+		const $layout = $(".layout");
+
+		$sidebarToggle.click(function (e) {
+			console.log(true);
+			e.stopPropagation();
+			if ($(window).outerWidth() >= MIN_WIDTH) {
+				$layout.removeClass("mobile-show");
+				$layout.toggleClass("desktop-hide");
+			} else {
+				$layout.removeClass("desktop-hide");
+				$layout.toggleClass("mobile-show");
+			}
+		});
+
+		$(document).click(function (e) {
+			if (
+				$(window).outerWidth() < MIN_WIDTH &&
+				!$sideBar.is(e.target) &&
+				$sideBar.has(e.target).length === 0 &&
+				!$sidebarToggle.is(e.target)
+			) {
+				$layout.removeClass("mobile-show");
+			}
+		});
+	</script>
+
+</body>
+</html>

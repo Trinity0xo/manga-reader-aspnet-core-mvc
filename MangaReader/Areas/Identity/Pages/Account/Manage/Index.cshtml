@@ -1,0 +1,78 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Quản lý hồ sơ";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<div class="card p-3 rounded-0 shadow-sm d-flex flex-column gap-3">
+    <h3>Quản lý hồ sơ</h3>
+    <partial name="_StatusMessage" for="StatusMessage" />
+    <form id="profile-form" method="post" class="d-flex flex-column gap-3" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+        <div class="d-flex flex-column flex-md-row">
+            <label asp-for="Input.NewAvatar" style="max-width: 300px" class="w-100 control-label"></label>
+            <div class="d-flex flex-column w-100">
+                <input id="avatarUploader" asp-for="Input.NewAvatar" type="file" class="form-control" accept="image/*" />
+                <span asp-validation-for="Input.NewAvatar" class="text-danger"></span>
+
+                <div class="mt-2">
+                    <img id="avatarPreview" src="@(string.IsNullOrEmpty(Model.OldAvatar)
+                                                ? "/images/default-avatar.png"
+                                                : Url.Content($"/{Model.BasePath}/{Model.AvatarsFolder}/{Model.OldAvatar}"))"
+                         class="img-thumbnail rounded-circle" alt="@(Model.OldAvatar != null ? Model.OldAvatar : " default-avatar.png")" style="width: 200px; height: 200px; object-fit: cover;" />
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column flex-md-row">
+            <label style="max-width: 300px" class="w-100 control-label">Email</label>
+            <div class="d-flex flex-column w-100">
+                <input asp-for="Username" class="form-control" disabled />
+            </div>
+        </div>
+
+        <div class="d-flex flex-column flex-md-row">
+            <label asp-for="Input.FirstName" style="max-width: 300px" class="w-100 control-label"></label>
+            <div class="d-flex flex-column w-100">
+                <input asp-for="Input.FirstName" class="form-control" placeholder="Họ" />
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column flex-md-row">
+            <label asp-for="Input.LastName" style="max-width: 300px" class="w-100 control-label"></label>
+            <div class="d-flex flex-column w-100">
+                <input asp-for="Input.LastName" class="form-control" placeholder="Họ" />
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column flex-md-row">
+            <div style="max-width: 300px" class="w-100"></div>
+            <div class="d-flex flex-column flex-sm-row gap-2 mt-2 mt-md-0">
+                <input id="update-profile-button" type="submit" value="Lưu" class="btn btn-primary" />
+                <a class="btn btn-secondary" asp-area="" asp-controller="Home" asp-action="Index">Quay lại</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).on("change", "#avatarUploader", function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (ev) {
+                    const $avatarPreview = $("#avatarPreview");
+                    $avatarPreview.attr("src", ev.target.result).removeClass("d-none");
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+}

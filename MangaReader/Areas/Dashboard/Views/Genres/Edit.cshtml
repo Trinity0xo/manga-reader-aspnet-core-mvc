@@ -1,0 +1,66 @@
+﻿@model MangaReader.Dto.Genre.UpdateGenreDto
+
+@{
+    ViewData["Title"] = "Thể loại";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-area="Dashboard" asp-controller="Home" asp-action="Index">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-area="Dashboard" asp-controller="Genres" asp-action="Index">Thể loại</a>
+        </li>
+
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none"
+               asp-area="Dashboard"
+               asp-controller="Genres"
+               asp-action="Details"
+               asp-route-id="@Model.Id">
+                @Model.OldName
+            </a>
+        </li>
+
+        <li class="breadcrumb-item active" aria-current="page">Cập nhật</li>
+    </ol>
+</nav>
+
+<h3 class="mb-0">Cập nhật thể loại <span class="text-primary">@Model.OldName</span></h3>
+
+<div class="card shadow-sm p-3 rounded-0">
+    <form asp-action="Edit" class="d-flex flex-column gap-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <div class="d-flex flex-column flex-md-row">
+            <label asp-for="NewName" style="max-width: 300px" class="w-100 control-label"></label>
+            <div class="d-flex flex-column w-100">
+                <input asp-for="NewName" class="form-control" placeholder="Tên" />
+                <span asp-validation-for="NewName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="d-flex flex-column flex-md-row">
+            <label asp-for="Description" style="max-width: 300px" class="w-100 control-label"></label>
+            <div class="d-flex flex-column w-100">
+                <textarea asp-for="Description" class="form-control" rows="3" placeholder="Mô tả"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="d-flex flex-column flex-md-row">
+            <div style="max-width: 300px" class="w-100"></div>
+            <div class="d-flex flex-column flex-sm-row gap-2 mt-2 mt-md-0">
+                <input type="submit" value="Lưu" class="btn btn-primary" />
+                <a class="btn btn-secondary" asp-area="Dashboard" asp-controller="Genres" asp-action="Index">Quay lại</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

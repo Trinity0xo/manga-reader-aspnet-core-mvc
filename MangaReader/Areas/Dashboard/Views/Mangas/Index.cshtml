@@ -1,0 +1,245 @@
+﻿@model MangaReader.Dto.PageResponse<IEnumerable<Manga>>
+@using MangaReader.Utils
+@using MangaReader.Utils.Constants
+
+@{
+    ViewData["Title"] = "Truyện";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var filterMangaDto = ViewBag.FilterMangaDto as MangaReader.Dto.Manga.FilterMangaDto ?? new MangaReader.Dto.Manga.FilterMangaDto();
+    var coversFolder = ViewBag.CoversFolder as string;
+    var basePath = ViewBag.BasePath as string;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-area="Dashboard" asp-controller="Home" asp-action="Index">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Truyện</li>
+    </ol>
+</nav>
+
+<h3 class="mb-0">Danh sách truyện</h3>
+
+<div class="card rounded-0 p-3 d-flex flex-column gap-3 shadow-sm">
+    <form asp-area="Dashboard" asp-controller="Mangas" asp-action="Index" method="get" class="d-flex flex-md-row flex-column gap-3">  
+        <div class="flex-shrink-0">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filterModal">
+                <span>Bộ lọc</span>
+                @if (filterMangaDto.ActiveFilterCount > 0)
+                {
+                    <span class="badge bg-warning rounded-circle">@filterMangaDto.ActiveFilterCount</span>
+                }
+            </button>
+
+            <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="filterModalLabel">Bộ lọc</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="d-flex gap-3 align-items-start">
+                                <h6 class="flex-shrink-0">Trạng thái:</h6>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    @foreach (var status in Enum.GetValues(typeof(MangaStatusEnum)).Cast<MangaStatusEnum>())
+                                    {
+                                        var badgeClass = status switch
+                                        {
+                                            MangaStatusEnum.OnGoing => "bg-primary",
+                                            MangaStatusEnum.Completed => "bg-success",
+                                            MangaStatusEnum.Hiatus => "bg-warning text-white",
+                                            MangaStatusEnum.Cancelled => "bg-danger",
+                                            _ => "bg-secondary"
+                                        };
+
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="Status" value="@status"
+                                                   id="status_@status"
+                                                   @(filterMangaDto.Status != null && filterMangaDto.Status.Contains(status) ? "checked" : "")>
+                                            <label class="form-check-label">
+                                                <span class="badge @badgeClass">@EnumUtils.GetEnumDisplayName(status)</span>
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <a asp-action="Index" 
+                               asp-route-Search="@filterMangaDto.Search"
+                               asp-route-Limit="@filterMangaDto.Limit"
+                               class="btn btn-secondary">
+                               Đặt lại
+                            </a>
+                            <button type="submit" class="btn btn-primary">Áp dụng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="d-flex align-items-center gap-1 flex-shrink-0">
+            <label for="limit" class="form-label flex-shrink-0 m-0">Giới hạn: </label>
+            <select id="limit" name="limit" class="form-select w-auto" onchange="this.form.submit()">
+                @{
+                    var sizes = new[] { 5, 10, 15, 20, 50 };
+                }
+                @foreach (var size in sizes)
+                {
+                    <option value="@size" selected="@(size == filterMangaDto.Limit)">@size</option>
+                }
+            </select>
+        </div>
+
+        <div class="row">
+            <div class="input-group col-lg-10">
+                <input id="search" name="search" type="text" class="form-control"
+                       placeholder="Tìm theo tên..." value="@filterMangaDto.Search">
+                <button class="btn btn-primary d-flex align-items-center gap-1" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg> Tìm kiếm
+                </button>
+            </div>
+        </div>
+        <a class="btn btn-primary d-flex justify-content-center align-items-center gap-1" asp-action="Create">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+            </svg> Mới
+        </a>
+    </form>
+
+    @if (!string.IsNullOrWhiteSpace(filterMangaDto.Search))
+    {
+        <div class="alert alert-success py-2 px-3 d-flex flex-column flex-md-row gap-md-0 gap-2 justify-content-between align-items-center m-0">
+            <span>
+                Kết quả cho từ khóa: <strong>@filterMangaDto.Search</strong>
+                (tổng: @Model.TotalItems mục)
+            </span>
+            <a asp-action="Index"
+               asp-route-Limit="@filterMangaDto.Limit"
+               class="btn btn-outline-danger">
+                Đặt lại
+            </a>
+        </div>
+    }
+    @if(Model.Data.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Data.First().Cover)</th>
+                        <th>@Html.DisplayNameFor(model => model.Data.First().Title)</th>
+                        <th>@Html.DisplayNameFor(model => model.Data.First().AuthorName)</th>
+                        <th class="table-col-2 text-truncate">@Html.DisplayNameFor(model => model.Data.First().Status)</th>
+                        <th class="table-col-2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Data)
+                    {
+                        <tr>
+                            <td class="table-col-1">
+                                <img src="@($"/{basePath}/{item.Slug}/{coversFolder}/{item.Cover}")" alt="@item.Cover" style="width: 60px; height: auto;" />
+                            </td>
+                            <td class="table-col-5"><span class="d-inline-block text-truncate mw-100">@item.Title</span></td>
+                            <td class="table-col-2"><span class="d-inline-block text-truncate mw-100">@item.AuthorName</span></td>
+                            <td class="table-col-2">
+                                @switch (item.Status)
+                                {
+                                    case MangaStatusEnum.OnGoing:
+                                        <span class="badge bg-primary">@EnumUtils.GetEnumDisplayName(item.Status)</span>
+                                        break;
+                                    case MangaStatusEnum.Completed:
+                                        <span class="badge bg-success">@EnumUtils.GetEnumDisplayName(item.Status)</span>
+                                        break;
+                                    case MangaStatusEnum.Hiatus:
+                                        <span class="badge bg-warning text-white">@EnumUtils.GetEnumDisplayName(item.Status)</span>
+                                        break;
+                                    case MangaStatusEnum.Cancelled:
+                                        <span class="badge bg-danger">@EnumUtils.GetEnumDisplayName(item.Status)</span>
+                                        break;
+                                    default:
+                                        <span class="badge bg-secondary">@EnumUtils.GetEnumDisplayName(item.Status)</span>
+                                        break;
+                                }
+                            </td>
+                            <td class="table-col-2 text-end">
+                                <a class="btn btn-sm btn-success ms-1" asp-action="Details" asp-route-id="@item.Id">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M7.364 3.5a.5.5 0 0 1 .5-.5H14.5A1.5 1.5 0 0 1 16 4.5v10a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 3 14.5V7.864a.5.5 0 1 1 1 0V14.5a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5v-10a.5.5 0 0 0-.5-.5H7.864a.5.5 0 0 1-.5-.5" />
+                                        <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h5a.5.5 0 0 1 0 1H1.707l8.147 8.146a.5.5 0 0 1-.708.708L1 1.707V5.5a.5.5 0 0 1-1 0z" />
+                                    </svg>
+                                </a>
+                                <a class="btn btn-sm btn-warning text-white" asp-action="Edit" asp-route-id="@item.Id">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                    </svg>
+                                </a>
+                                <a class="btn btn-sm btn-danger ms-1" asp-action="Delete" asp-route-id="@item.Id">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (Model.TotalPages > 1)
+        {
+            <nav aria-label="Trang" class="d-flex justify-content-center mt-3">
+                <ul class="pagination m-0">
+                    <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-Page="@(Model.CurrentPage - 1)"
+                           asp-route-Limit="@filterMangaDto.Limit"
+                           asp-route-Search="@filterMangaDto.Search">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                            <a class="page-link"
+                               asp-action="Index"
+                               asp-route-Page="@i"
+                               asp-route-Limit="@filterMangaDto.Limit"
+                               asp-route-Search="@filterMangaDto.Search">
+                                @i
+                            </a>
+                        </li>
+                    }
+
+                    <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-Page="@(Model.CurrentPage + 1)"
+                           asp-route-Limit="@filterMangaDto.Limit"
+                           asp-route-Search="@filterMangaDto.Search">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    }
+    else
+    {
+        <div class="text-center text-muted p-5">
+            Không có truyện nào
+        </div>
+    }
+</div>

@@ -1,0 +1,95 @@
+﻿@model MangaReader.Models.Chapter
+@using MangaReader.Utils
+
+@{
+    ViewData["Title"] = "Chương";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var ChaptersFolder = ViewBag.ChaptersFolder;
+    var BasePath = ViewBag.BasePath;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-area="Dashboard" asp-controller="Home" asp-action="Index">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-area="Dashboard" asp-controller="Mangas" asp-action="Index">Truyện</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none"
+               asp-area="Dashboard"
+               asp-controller="Mangas"
+               asp-action="Details"
+               asp-route-id="@Model.MangaId">
+                @Model.Manga?.Title
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none"
+               asp-area="Dashboard"
+               asp-controller="Chapters"
+               asp-action="MangaChapters"
+               asp-route-mangaId="@Model.MangaId">
+                Chương
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none"
+               asp-area="Dashboard"
+               asp-controller="Chapters"
+               asp-action="Details"
+               asp-route-id="@Model.Id">
+                @Model.Title
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Xóa
+        </li>
+    </ol>
+</nav>
+
+<h3 class="mb-0">Xóa chương <span class="text-primary">@Model.Title</span> của truyện <span class="text-primary">@Model.Manga?.Title</span> (không thể khôi phục)</h3>
+
+<div class="card shadow-sm p-3 rounded-0">
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Title
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UpdatedAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.UpdatedAt.ToString("yyyy-MM-dd HH:mm")
+        </dd>
+    </dl>
+    <form asp-action="Delete" class="d-flex flex-column flex-sm-row gap-2">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="MangaId" />
+        <input type="submit" value="Xóa" class="btn btn-danger" />
+        <a class="btn btn-secondary text-white" asp-area="Dashboard" asp-controller="Chapters" asp-action="Details"asp-route-id="@Model?.Id">Quay lại</a>
+    </form>
+</div>
+
+<h3 class="mb-0">Trang truyện</h3>
+<div class="row">
+    @foreach (var item in Model.Pages)
+    {
+        <div class="col-xs-12 col-sm-6 col-md-4 mb-3">
+            <div class="card rounded-0 shadow-sm">
+                <img src="@($"/{BasePath}/{Model.Manga?.Slug}/{ChaptersFolder}/{Model.Slug}/{item.Image}")" class="img-fluid" alt="Page image">
+            </div>
+        </div>
+    }
+</div>

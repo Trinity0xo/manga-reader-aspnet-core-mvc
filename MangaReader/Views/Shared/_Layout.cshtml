@@ -1,0 +1,130 @@
+﻿﻿@using System.Security.Claims
+@using MangaReader.Services
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@inject IAppConfigService AppConfigService;
+
+@{
+	var fullName = User.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value
+							?? User.Identity?.Name ?? "User" as string;
+	var avatar = User.Claims.FirstOrDefault(c => c.Type == "Avatar")?.Value as string;
+	var currentRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value as string;
+	var roleDisplayName = User.Claims.FirstOrDefault(c => c.Type == "RoleDisplayName")?.Value as string;
+	var avatarsFolder = AppConfigService.GetAvatarsFolderName() as string;
+    var basePath = AppConfigService.GetBasePath() as string;
+}
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MangaR</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/styles.css" />
+    <link rel="stylesheet" href="~/css/client.css" />
+    <link rel="stylesheet" href="~/css/home.css" />
+</head>
+<body>
+    <div class="layout bg-light">
+        <header class="bg-dark">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-dark py-3">
+                    <a class="navbar-brand text-primary" href="/">MANGAR</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.HttpContext.Request.Path == "/" ? "active" : "")" asp-area="" asp-controller="Home" asp-action="Index" aria-current="page">Trang chủ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.HttpContext.Request.Path == "/mangas" ? "active" : "")" asp-area="" asp-controller="Mangas" asp-action="Index">Truyện</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.HttpContext.Request.Path == "/about" ? "active" : "")" href="#">Giới thiệu</a>
+                            </li>
+                        </ul>
+                 
+                        <ul class="navbar-nav mb-2 mb-lg-0">
+                            @if (User.Identity?.IsAuthenticated ?? false)
+                            {
+                                <li class="dropdown">
+                                    <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-white"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="@(string.IsNullOrEmpty(avatar)
+                                                ? "/images/default-avatar.png"
+                                                : Url.Content($"/{basePath}/{avatarsFolder}/{avatar}"))"
+                                             width="32" height="32" class="rounded-circle me-2" alt="@(avatar != null ? avatar : " default-avatar.png")" />
+                                        <span>@fullName</span>
+                                    </a>
+
+                                    <ul class="dropdown-menu dropdown-menu-end mt-2">
+                                        @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+                                        {
+                                            <li><a class="dropdown-item" asp-area="Dashboard" asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                                        }
+                                        <li> <a class="dropdown-item" asp-area="" asp-controller="Followings" asp-action="Index">Truyện theo dõi</a></li>
+                                        <li> <a class="dropdown-item" asp-area="" asp-controller="ReadingHistories" asp-action="Index">Lịch sử đọc</a></li>
+                                        <li> <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Tài khoản</a></li>
+                                        <li><hr class="dropdown-divider" /></li>
+                                        <li>
+                                            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
+                                                    asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                                <button type="submit" class="dropdown-item">Đăng xuất</button>
+                                            </form>
+                                        </li>
+                                    </ul>   
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="btn btn-primary mt-md-0" asp-area="Identity" asp-page="/Account/Login">Đăng nhập</a>
+                                </li>
+                                    
+                            }
+                        </ul>
+                          
+                    </div>
+                 
+                </nav>
+            </div>
+        </header>
+        <div class="main">
+            <div class="container d-flex flex-column gap-3 pt-3 pb-5">
+                @RenderBody()
+            </div>
+        </div>
+        <footer class="border-top footer d-flex align-items-center py-3 bg-dark text-white">
+            <div class="container text-center">
+                &copy; 2025 MangaR. Design by
+                <a class="text-decoration-none" href="#">Trinity0xo</a>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function resizeMangaCovers() {
+            $('.manga-cover').each(function () {
+                const $this = $(this);
+                const width = $this.width();
+                $this.css('height', width * 1.5 + 'px');
+            });
+        }
+
+        $(document).ready(function () {
+            resizeMangaCovers();
+            $(window).on('resize', resizeMangaCovers);
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

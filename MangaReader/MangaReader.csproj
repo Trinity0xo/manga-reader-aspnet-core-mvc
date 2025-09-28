@@ -1,0 +1,71 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\uploads\avatars\**" />
+    <Compile Remove="wwwroot\uploads\truyen-01\**" />
+    <Compile Remove="wwwroot\uploads\truyen-02\**" />
+    <Compile Remove="wwwroot\uploads\truyen-trang-02\**" />
+    <Compile Remove="wwwroot\uploads\truyen-tranh-01\**" />
+    <Compile Remove="wwwroot\uploads\truyen-tranh-03\**" />
+    <Compile Remove="wwwroot\uploads\truyen-tranh-04\**" />
+    <Compile Remove="wwwroot\uploads\truyen-tranh-05\**" />
+    <Compile Remove="wwwroot\uploads\truyen-tranh-06\**" />
+    <Content Remove="wwwroot\uploads\avatars\**" />
+    <Content Remove="wwwroot\uploads\truyen-01\**" />
+    <Content Remove="wwwroot\uploads\truyen-02\**" />
+    <Content Remove="wwwroot\uploads\truyen-trang-02\**" />
+    <Content Remove="wwwroot\uploads\truyen-tranh-01\**" />
+    <Content Remove="wwwroot\uploads\truyen-tranh-03\**" />
+    <Content Remove="wwwroot\uploads\truyen-tranh-04\**" />
+    <Content Remove="wwwroot\uploads\truyen-tranh-05\**" />
+    <Content Remove="wwwroot\uploads\truyen-tranh-06\**" />
+    <EmbeddedResource Remove="wwwroot\uploads\avatars\**" />
+    <EmbeddedResource Remove="wwwroot\uploads\truyen-01\**" />
+    <EmbeddedResource Remove="wwwroot\uploads\truyen-02\**" />
+    <EmbeddedResource Remove="wwwroot\uploads\truyen-trang-02\**" />
+    <EmbeddedResource Remove="wwwroot\uploads\truyen-tranh-01\**" />
+    <EmbeddedResource Remove="wwwroot\uploads\truyen-tranh-03\**" />
+    <EmbeddedResource Remove="wwwroot\uploads\truyen-tranh-04\**" />
+    <EmbeddedResource Remove="wwwroot\uploads\truyen-tranh-05\**" />
+    <EmbeddedResource Remove="wwwroot\uploads\truyen-tranh-06\**" />
+    <None Remove="wwwroot\uploads\avatars\**" />
+    <None Remove="wwwroot\uploads\truyen-01\**" />
+    <None Remove="wwwroot\uploads\truyen-02\**" />
+    <None Remove="wwwroot\uploads\truyen-trang-02\**" />
+    <None Remove="wwwroot\uploads\truyen-tranh-01\**" />
+    <None Remove="wwwroot\uploads\truyen-tranh-03\**" />
+    <None Remove="wwwroot\uploads\truyen-tranh-04\**" />
+    <None Remove="wwwroot\uploads\truyen-tranh-05\**" />
+    <None Remove="wwwroot\uploads\truyen-tranh-06\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.20" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.20" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.20" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
+</Project>

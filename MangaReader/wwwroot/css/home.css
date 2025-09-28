@@ -1,0 +1,212 @@
+﻿/*custom newest mangas carousel*/
+
+#newestMangasCarousel .carousel-item{
+    padding-top: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 54px;
+}
+
+#newestMangasCarousel .carousel-control-prev,
+#newestMangasCarousel .carousel-control-next {
+    top: 95%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-95%);
+    filter: invert(100%);
+}
+
+#newestMangasCarousel .carousel-control-prev {
+    left: 0;
+}
+
+#newestMangasCarousel .carousel-control-next {
+    right: 0;
+}
+
+#newestMangasCarousel .manga {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+#newestMangasCarousel .manga .manga-cover {
+    width: 80px;
+}
+
+#newestMangasCarousel .manga .manga-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#newestMangasCarousel .manga .manga-info .manga-title {
+    margin: 0;
+}
+
+#newestMangasCarousel .manga .manga-info .manga-description{
+    flex: 1;
+    margin: 0;
+    overflow-y: auto;
+}
+
+
+@media (min-width: 576px) {
+    #newestMangasCarousel .manga .manga-cover {
+        width: 160px;
+    }
+
+    #newestMangasCarousel .carousel-control-prev {
+        left: 40%;
+    }
+
+    #newestMangasCarousel .carousel-control-next {
+        right: 40%;
+    }
+
+}
+
+@media (min-width: 768px) {
+    #newestMangasCarousel .manga .manga-cover {
+        width: 240px;
+    }
+
+    #newestMangasCarousel .carousel-item {
+        padding-top: 32px;
+        padding-left: 32px;
+        padding-right: 32px;
+        padding-bottom: 32px;
+    }
+
+    #newestMangasCarousel .carousel-control-prev,
+    #newestMangasCarousel .carousel-control-next {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    #newestMangasCarousel .carousel-control-prev{
+        left: 0;
+    }
+
+    #newestMangasCarousel .carousel-control-next {
+        right: 0;
+    }
+}
+
+/*custom top viewed mangas carousel*/
+
+#mostViewedMangasCarousel .carousel-inner {
+    display: flex;
+}
+
+#mostViewedMangasCarousel .carousel-control-prev,
+#mostViewedMangasCarousel .carousel-control-next {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    filter: invert(100%);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#mostViewedMangasCarousel .carousel-control-prev {
+    left: 0;
+}
+
+#mostViewedMangasCarousel .carousel-control-next {
+    right: 0;
+}
+
+
+#mostViewedMangasCarousel .carousel-inner .carousel-item {
+    display: block;
+    margin-right: 0;
+    flex: 0 0 100%;
+}
+
+#mostViewedMangasCarousel .carousel-inner .carousel-item .manga-card {
+    margin: 0 16px;
+    padding: 8px;
+}
+
+@media (min-width: 576px){
+    #mostViewedMangasCarousel .carousel-inner .carousel-item {
+        flex: 0 0 calc(100%/2);
+    }
+}
+
+@media (min-width: 768px){
+
+    #mostViewedMangasCarousel .carousel-inner .carousel-item {
+        flex: 0 0 calc(100%/3);
+    }
+}
+
+@media (min-width: 992px) {
+
+    #mostViewedMangasCarousel .carousel-inner .carousel-item {
+        flex: 0 0 calc(100%/4);
+    }
+}
+
+/*custom top followed mangas carousel*/
+
+#mostFollowedMangasCarousel .carousel-inner {
+    display: flex;
+}
+
+#mostFollowedMangasCarousel .carousel-control-prev,
+#mostFollowedMangasCarousel .carousel-control-next {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    filter: invert(100%);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#mostFollowedMangasCarousel .carousel-control-prev {
+    left: 0;
+}
+
+#mostFollowedMangasCarousel .carousel-control-next {
+    right: 0;
+}
+
+
+#mostFollowedMangasCarousel .carousel-inner .carousel-item {
+    display: block;
+    margin-right: 0;
+    flex: 0 0 100%;
+}
+
+#mostFollowedMangasCarousel .carousel-inner .carousel-item .manga-card {
+    margin: 0 16px;
+    padding: 8px;
+}
+
+@media (min-width: 576px) {
+    #mostFollowedMangasCarousel .carousel-inner .carousel-item {
+        flex: 0 0 calc(100%/2);
+    }
+}
+
+@media (min-width: 768px) {
+    #mostFollowedMangasCarousel .carousel-inner .carousel-item {
+        flex: 0 0 calc(100%/3);
+    }
+}
+
+@media (min-width: 992px) {
+    #mostFollowedMangasCarousel .carousel-inner .carousel-item {
+        flex: 0 0 calc(100%/4);
+    }
+}

@@ -1,0 +1,153 @@
+﻿@model MangaReader.Dto.PageResponse<IEnumerable<Role>>
+
+@{
+    ViewData["Title"] = "Vai trò";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var pageableDto = ViewBag.PageableDto as MangaReader.Dto.PageableDto ?? new MangaReader.Dto.PageableDto();
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-area="Dashboard" asp-controller="Home" asp-action="Index">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Vai trò</li>
+    </ol>
+</nav>
+
+<h3 class="mb-0">Danh sách vai trò</h3>
+
+<div class="card rounded-0 p-3 d-flex flex-column gap-3 shadow-sm">
+    <form asp-area="Dashboard" asp-controller="Roles" asp-action="Index" method="get" class="d-flex flex-column flex-md-row gap-3">
+        <div class="d-flex align-items-center gap-1 flex-shrink-0">
+            <label for="limit" class="form-label flex-shrink-0 m-0">Giới hạn: </label>
+            <select id="limit" name="limit" class="form-select w-auto" onchange="this.form.submit()">
+                @{
+                    var sizes = new[] { 5, 10, 15, 20, 50 };
+                }
+                @foreach (var size in sizes)
+                {
+                    if (size == pageableDto.Limit)
+                    {
+                        <option value="@size" selected>@size</option>
+                    }
+                    else
+                    {
+                        <option value="@size">@size</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div class="row">
+            <div class="input-group col-lg-10">
+                <input id="search" name="search" type="text" class="form-control"
+                       placeholder="Tìm theo tên..." value="@pageableDto.Search">
+                <button class="btn btn-primary d-flex align-items-center gap-1" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg> Tìm kiếm
+                </button>
+            </div>
+        </div>
+    </form>
+
+    @if (!string.IsNullOrWhiteSpace(pageableDto.Search))
+    {
+        <div class="alert alert-info py-2 px-3 d-flex flex-column flex-md-row gap-md-0 gap-2 justify-content-between align-items-center m-0">
+            <span>
+                Kết quả cho từ khóa: <strong>@pageableDto.Search</strong>
+                (tổng: @Model.TotalItems mục)
+            </span>
+            <a asp-action="Index"
+               asp-route-Limit="@pageableDto.Limit"
+               class="btn btn-outline-secondary">
+                Đặt lại
+            </a>
+        </div>
+    }
+
+    @if (Model.Data.Any())
+    {
+        
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Data.First().DisplayName)</th>
+                        <th>@Html.DisplayNameFor(model => model.Data.First().Name)</th>
+                        <th>@Html.DisplayNameFor(model => model.Data.First().CreatedAt)</th>
+                        <th>@Html.DisplayNameFor(model => model.Data.First().UpdatedAt)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Data)
+                    {
+                        <tr>
+                            <td class="table-col-4"><span class="d-inline-block text-truncate mw-100">@item.DisplayName</span></td>
+                            <td class="table-col-3"><span class="d-inline-block text-truncate mw-100">@item.Name</span></td>
+                            <td class="table-col-2"><span class="d-inline-block text-truncate mw-100">@item.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span></td>
+                            <td class="table-col-2"><span class="d-inline-block text-truncate mw-100">@item.UpdatedAt.ToString("yyyy-MM-dd HH:mm")</span></td>
+                            <td class="table-col-1 text-end">
+                                <a class="btn btn-sm btn-success ms-1" asp-action="Details" asp-route-id="@item.Id">
+                                    <svg xmlns="http:www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-up-left" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M7.364 3.5a.5.5 0 0 1 .5-.5H14.5A1.5 1.5 0 0 1 16 4.5v10a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 3 14.5V7.864a.5.5 0 1 1 1 0V14.5a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5v-10a.5.5 0 0 0-.5-.5H7.864a.5.5 0 0 1-.5-.5" />
+                                        <path fill-rule="evenodd" d="M0 .5A.5.5 0 0 1 .5 0h5a.5.5 0 0 1 0 1H1.707l8.147 8.146a.5.5 0 0 1-.708.708L1 1.707V5.5a.5.5 0 0 1-1 0z" />
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (Model.TotalPages > 1)
+        {
+            <nav aria-label="Trang" class="d-flex justify-content-center mt-3">
+                <ul class="pagination m-0">
+                    <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-Page="@(Model.CurrentPage - 1)"
+                           asp-route-Limit="@pageableDto.Limit"
+                           asp-route-Search="@pageableDto.Search">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                            <a class="page-link"
+                               asp-action="Index"
+                               asp-route-Page="@i"
+                               asp-route-Limit="@pageableDto.Limit"
+                               asp-route-Search="@pageableDto.Search">
+                                @i
+                            </a>
+                        </li>
+                    }
+
+                    <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-Page="@(Model.CurrentPage + 1)"
+                           asp-route-Limit="@pageableDto.Limit"
+                           asp-route-Search="@pageableDto.Search">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    }
+    else
+    {
+        <div class="text-center text-muted p-5">
+            Không có vai trò nào
+        </div>
+    }
+</div>

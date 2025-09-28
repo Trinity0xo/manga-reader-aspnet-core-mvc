@@ -1,0 +1,154 @@
+﻿@model MangaReader.Dto.Chapter.UpdateChapterDto
+@using MangaReader.Utils
+
+@{
+    ViewData["Title"] = "Chương";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var ChaptersFolder = ViewBag.ChaptersFolder;
+    var BasePath = ViewBag.BasePath;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-area="Dashboard" asp-controller="Home" asp-action="Index">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-area="Dashboard" asp-controller="Mangas" asp-action="Index">Truyện</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none"
+               asp-area="Dashboard"
+               asp-controller="Mangas"
+               asp-action="Details"
+               asp-route-id="@Model.MangaId">
+                @Model.MangaTitle
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none"
+               asp-area="Dashboard"
+               asp-controller="Chapters"
+               asp-action="MangaChapters"
+               asp-route-mangaId="@Model.MangaId">
+                Chương
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Cập nhật
+        </li>
+    </ol>
+</nav>
+
+
+<h3 class="mb-0">
+    Cập nhật chương <span class="text-primary">@Model.OldTitle</span>
+    của truyện <span class="text-primary">@Model.MangaTitle</span>
+</h3>
+
+<div class="card shadow-sm p-3 rounded-0 shadow-sm">
+    <form asp-action="Edit" enctype="multipart/form-data">
+        <h4 class="mb-3">Thông tin chung</h4>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="ChapterId" />
+        <input type="hidden" asp-for="MangaId" />
+
+        <div class="d-flex flex-column gap-3 mb-3">
+            <div class="d-flex flex-column flex-md-row">
+                <label asp-for="NewTitle" style="max-width: 300px" class="w-100 control-label"></label>
+                <div class="d-flex flex-column w-100">
+                    <input asp-for="NewTitle" class="form-control" placeholder="Tên chương"/>
+                    <span asp-validation-for="NewTitle" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row">
+                <label asp-for="NewPages" style="max-width: 300px" class="w-100 control-label"></label>
+                <div class="d-flex flex-column w-100">
+                    <input asp-for="NewPages" type="file" class="form-control page-input" multiple />
+                    <span asp-validation-for="NewPages" class="text-danger"></span>
+                    <small class="text-muted">Để trống nếu không muốn thay thế trang mới</small>
+                </div>
+            </div>
+
+            <div class="d-flex flex-column flex-md-row">
+                <div style="max-width: 300px" class="w-100"></div>
+                <div class="d-flex flex-column flex-sm-row gap-2 mt-2 mt-md-0">
+                    <input type="submit" value="Lưu" class="btn btn-primary" />
+                    <a class="btn btn-secondary"
+                       asp-area="Dashboard"
+                       asp-controller="Chapters"
+                       asp-action="MangaChapters"
+                       asp-route-mangaId="@Model.MangaId">
+                        Quay lại
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="mb-3">Trang hiện có</h4>
+        <div id="pageList" class="row">
+            @if (Model.OldPages != null && Model.OldPages.Any())
+            {
+                foreach (var page in Model.OldPages)
+                {
+                    <div class="col-xs-12 col-sm-6 col-md-4 mb-3">
+                        <div class="card rounded-0">
+                            <img src="@($"/{BasePath}/{Model.MangaSlug}/{ChaptersFolder}/{SlugUtils.GenerateSlug(Model.NewTitle)}/{page}")" class="img-fluid" alt="Page image">
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted">Chưa có trang nào</p>
+            }
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        function getPreviewPage(imageUrl) {
+            return `
+                <div class="col-xs-12 col-sm-6 col-md-4 mb-3">
+                    <div class="card rounded-0">
+                        <img src="${imageUrl}" class="img-fluid" alt="Page image">
+                    </div>
+                </div>
+            `;
+        }
+
+        $(document).on("change", ".page-input", function () {
+            const $input = $(this);                   
+            const $previewContainer = $("#pageList"); 
+            const files = Array.from($input[0].files);
+
+            $previewContainer.empty();
+
+            const filePromises = files.map((file) => {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        resolve(e.target.result);
+                    };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            });
+
+            Promise.all(filePromises)
+                .then((imageURLs) => {
+                    imageURLs.forEach((imageURL) => {
+                        $previewContainer.append(getPreviewPage(imageURL));
+                    });
+                })
+                .catch((error) => console.error("Error loading images:", error));
+        });
+    </script>
+
+}

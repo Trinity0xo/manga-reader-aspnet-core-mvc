@@ -1,0 +1,104 @@
+﻿@model MangaReader.Dto.PageResponse<IEnumerable<Manga>>
+@using MangaReader.Utils
+@using MangaReader.Utils.Constants
+
+@{
+    ViewData["Title"] = "Xem nhiều";
+    var filterMangaDto = ViewBag.FilterMangaDto as MangaReader.Dto.Manga.FilterMangaDto ?? new MangaReader.Dto.Manga.FilterMangaDto();
+    var Genres = ViewBag.Genres as List<MangaReader.Models.Genre>;
+    var coversFolder = ViewBag.CoversFolder as string;
+    var basePath = ViewBag.BasePath as string;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-controller="Home" asp-action="Index">Trang chủ</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Xem nhiều</li>
+    </ol>
+</nav>
+
+<h1 class="m-0">Xem nhiều</h1>
+
+<div class="row g-3">
+    @foreach (var item in Model.Data)
+    {
+        <div class="col-lg-6">
+            <div class="card rounded-0 flex-row align-items-start gap-3 p-3 shadow-sm">
+                <div class="manga-cover" style="width: 25%">
+                    <img src="@($"/{basePath}/{item.Slug}/{coversFolder}/{item.Cover}")" alt="@item.Cover" />
+                </div>
+                <div class="d-flex flex-column gap-2" style="min-width: 0">
+                    <h2 class="m-0 text-truncate">
+                        <a asp-controller="Mangas" asp-action="Details" asp-route-mangaSlug="@item.Slug" asp-route-mangaId="@item.Id"
+                           class="text-decoration-none link-dark">
+                            @item.Title
+                        </a>
+                    </h2>
+                    @if (item.Genres.Count > 0)
+                    {
+                        <div>
+                            @foreach (var genre in item.Genres)
+                            {
+                                <a asp-action="Index"
+                                   asp-route-Genres="@genre.Slug"
+                                   class="badge bg-secondary text-decoration-none link-light">
+                                    @genre.Name
+                                </a>
+                            }
+                        </div>
+                    }
+                    <div>
+                        @{
+                            var badgeClass = item.Status switch
+                            {
+                                MangaStatusEnum.OnGoing => "bg-primary",
+                                MangaStatusEnum.Completed => "bg-success",
+                                MangaStatusEnum.Hiatus => "bg-warning text-white",
+                                MangaStatusEnum.Cancelled => "bg-danger",
+                                _ => "bg-secondary"
+                            };
+                        }
+                        <span class="badge @badgeClass">@EnumUtils.GetEnumDisplayName(@item.Status)</span>
+                    </div>
+                    <p class="m-0 text-truncate-4">@item.Description</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (Model.TotalPages > 1)
+{
+    <nav aria-label="Trang" class="d-flex justify-content-center mt-3">
+        <ul class="pagination m-0 shadow-sm">
+            <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                <a class="page-link"
+                   asp-action="MostViewed"
+                   asp-route-Page="@(Model.CurrentPage - 1)">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                    <a class="page-link"
+                       asp-action="MostViewed"
+                       asp-route-Page="@i">
+                        @i
+                    </a>
+                </li>
+            }
+
+            <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                <a class="page-link"
+                   asp-action="MostViewed"
+                   asp-route-Page="@(Model.CurrentPage + 1)">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+}

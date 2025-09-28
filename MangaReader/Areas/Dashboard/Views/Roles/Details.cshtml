@@ -1,0 +1,70 @@
+﻿@model MangaReader.Models.Role
+@using MangaReader.Utils
+
+@{
+    ViewData["Title"] = "Vai trò";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var CoversFolder = ViewBag.CoversFolder;
+    var BasePath = ViewBag.BasePath;
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-area="Dashboard" asp-controller="Home" asp-action="Index">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="text-decoration-none" asp-area="Dashboard" asp-controller="Roles" asp-action="Index">Vai trò</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            @Model.DisplayName
+        </li>
+    </ol>
+</nav>
+
+
+<h3 class="mb-0">Chi tiết vai trò <span class="text-primary">@Model.DisplayName</span></h3>
+
+<div class="card shadow-sm p-3 rounded-0">
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DisplayName)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.DisplayName
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Name
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NormalizedName)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.NormalizedName
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UpdatedAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.UpdatedAt.ToString("yyyy-MM-dd HH:mm")
+        </dd>
+    </dl>
+
+    <div class="d-flex flex-column flex-sm-row gap-2">
+        <a class="btn btn-secondary" asp-area="Dashboard" asp-controller="Roles" asp-action="Index">Quay lại</a>
+    </div>
+</div>
+
