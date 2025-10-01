@@ -23,6 +23,7 @@ namespace MangaReader.Filters
             if (context.Controller is Controller controller)
             {
                 controller.ViewBag.BasePath = _appConfigService.GetBasePath();
+                controller.ViewBag.MangasFolder = _appConfigService.GetMangasFolderName();
                 controller.ViewBag.CoversFolder = _appConfigService.GetCoversFolderName();
                 controller.ViewBag.ChaptersFolder = _appConfigService.GetChaptersFolderName();
                 controller.ViewBag.AvatarsFolder = _appConfigService.GetAvatarsFolderName();

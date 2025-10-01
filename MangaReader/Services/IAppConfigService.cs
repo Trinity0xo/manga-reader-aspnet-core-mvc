@@ -4,6 +4,7 @@
     {
         string? GetBasePath();
         string? GetCoversFolderName();
+        string? GetMangasFolderName();
         string? GetChaptersFolderName();
         string? GetAvatarsFolderName();
         string? GetMailUsername();

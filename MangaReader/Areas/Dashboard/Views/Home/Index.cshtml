@@ -6,6 +6,7 @@
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     var coversFolder = ViewBag.CoversFolder as string;
+    var mangasFolder = ViewBag.MangasFolder as string;
     var basePath = ViewBag.BasePath as string;
 }
 
@@ -112,7 +113,7 @@
                             {
                                 <tr>
                                     <td class="table-col-1">
-                                        <img src="@($"/{basePath}/{item.Manga.Slug}/{coversFolder}/{item.Manga.Cover}")" alt="@item.Manga.Cover" style="width: 60px; height: auto;" />
+                                        <img src="@($"/{basePath}/{mangasFolder}/{item.Manga.Slug}/{coversFolder}/{item.Manga.Cover}")" alt="@item.Manga.Cover" style="width: 60px; height: auto;" />
                                     </td>
                                     <td class="table-col-4"><span class="d-inline-block text-truncate mw-100">@item.Manga.Title</span></td>
                                     <td class="table-col-3"><span class="d-inline-block text-truncate mw-100">@item.Title</span></td>

@@ -35,14 +35,15 @@
         public async Task<string?> UploadMangaCoverAsync(IFormFile file, string mangaFolderName)
         {
             try
-            {
+            {   
                 if (file == null || file.Length == 0) return null;
 
-                string? basePath = _configService.GetBasePath();
-                string? coversFolderName = _configService.GetCoversFolderName();
+                string basePath = _configService.GetBasePath()!;
+                string mangasFolderName = _configService.GetMangasFolderName()!;
+                string coversFolderName = _configService.GetCoversFolderName()!;
 
                 string newFileName = GenerateUniqueFileName(Path.GetExtension(file.FileName));
-                string targetPath = BuildPath(_env.WebRootPath, basePath, mangaFolderName, coversFolderName);
+                string targetPath = BuildPath(_env.WebRootPath, basePath, mangasFolderName, mangaFolderName, coversFolderName);
 
                 EnsureDirectoryExists(targetPath);
 
@@ -67,9 +68,10 @@
             {
                 if (string.IsNullOrEmpty(fileName)) return;
 
-                string? basePath = _configService.GetBasePath();
-                string? coversFolderName = _configService.GetCoversFolderName();
-                string filePath = BuildPath(_env.WebRootPath, basePath, mangaFolderName, coversFolderName, fileName);
+                string basePath = _configService.GetBasePath()!;
+                string mangasFolderName = _configService.GetMangasFolderName()!;
+                string coversFolderName = _configService.GetCoversFolderName()!;
+                string filePath = BuildPath(_env.WebRootPath, basePath, mangasFolderName, mangaFolderName, coversFolderName, fileName);
 
                 if (File.Exists(filePath))
                 {
@@ -95,9 +97,10 @@
                 List<string> uploadedFileNames = [];
                 if (files == null || files.Count == 0) return null;
 
-                string? basePath = _configService.GetBasePath();
-                string? chaptersFolderName = _configService.GetChaptersFolderName();
-                string targetPath = BuildPath(_env.WebRootPath, basePath, mangaFolderName, chaptersFolderName, chapterFolderName);
+                string basePath = _configService.GetBasePath()!;
+                string mangasFolderName = _configService.GetMangasFolderName()!;
+                string chaptersFolderName = _configService.GetChaptersFolderName()!;
+                string targetPath = BuildPath(_env.WebRootPath, basePath, mangasFolderName, mangaFolderName, chaptersFolderName, chapterFolderName);
 
                 EnsureDirectoryExists(targetPath);
 
@@ -133,9 +136,10 @@
                 if (newFiles == null || newFiles.Count == 0)
                     return null;
 
-                string? basePath = _configService.GetBasePath();
-                string? chaptersFolderName = _configService.GetChaptersFolderName();
-                string targetPath = BuildPath(_env.WebRootPath, basePath, mangaFolderName, chaptersFolderName, chapterFolderName);
+                string basePath = _configService.GetBasePath()!;
+                string mangasFolderName = _configService.GetMangasFolderName()!;
+                string chaptersFolderName = _configService.GetChaptersFolderName()!;
+                string targetPath = BuildPath(_env.WebRootPath, basePath, mangasFolderName, mangaFolderName, chaptersFolderName, chapterFolderName);
 
                 EnsureDirectoryExists(targetPath);
 
@@ -180,9 +184,10 @@
         {
             try
             {
-                string? basePath = _configService.GetBasePath();
-                string? chaptersFolderName = _configService.GetChaptersFolderName();
-                string chapterPath = BuildPath(_env.WebRootPath, basePath, mangaFolderName, chaptersFolderName, chapterFolderName);
+                string basePath = _configService.GetBasePath()!;
+                string mangasFolderName = _configService.GetMangasFolderName()!;
+                string chaptersFolderName = _configService.GetChaptersFolderName()!;
+                string chapterPath = BuildPath(_env.WebRootPath, basePath, mangasFolderName, mangaFolderName, chaptersFolderName, chapterFolderName);
 
                 if (Directory.Exists(chapterPath))
                 {
@@ -204,8 +209,9 @@
         {
             try
             {
-                string? basePath = _configService.GetBasePath();
-                string mangaPath = BuildPath(_env.WebRootPath, basePath, mangaFolderName);
+                string basePath = _configService.GetBasePath()!;
+                string mangasFolderName = _configService.GetMangasFolderName()!;
+                string mangaPath = BuildPath(_env.WebRootPath, basePath, mangasFolderName, mangaFolderName);
                 if (Directory.Exists(mangaPath))
                 {
                     Directory.Delete(mangaPath, true);
@@ -226,9 +232,10 @@
         {
             try
             {
-                string? basePath = _configService.GetBasePath();
-                var oldPath = Path.Combine(_env.WebRootPath, basePath, oldMangaFolderName);
-                var newPath = Path.Combine(_env.WebRootPath, basePath, newMangaFolderName);
+                string basePath = _configService.GetBasePath()!;
+                string mangasFolderName = _configService.GetMangasFolderName()!;
+                var oldPath = Path.Combine(_env.WebRootPath, basePath, mangasFolderName, oldMangaFolderName);
+                var newPath = Path.Combine(_env.WebRootPath, basePath, mangasFolderName,newMangaFolderName);
 
                 if (Directory.Exists(oldPath))
                 {
@@ -250,10 +257,11 @@
         {
             try
             {
-                string? basePath = _configService.GetBasePath();
-                string? chaptersFolderName = _configService.GetChaptersFolderName();
-                var oldPath = Path.Combine(_env.WebRootPath, basePath, mangaFolderName, chaptersFolderName, oldChapterFolderName);
-                var newPath = Path.Combine(_env.WebRootPath, basePath, mangaFolderName, chaptersFolderName, newChapterFolderName);
+                string basePath = _configService.GetBasePath()!;
+                string mangasFolderName = _configService.GetMangasFolderName()!;
+                string chaptersFolderName = _configService.GetChaptersFolderName()!;
+                var oldPath = Path.Combine(_env.WebRootPath, basePath, mangasFolderName, mangaFolderName, chaptersFolderName, oldChapterFolderName);
+                var newPath = Path.Combine(_env.WebRootPath, basePath, mangasFolderName, mangaFolderName, chaptersFolderName, newChapterFolderName);
 
                 if (Directory.Exists(oldPath))
                 {
@@ -277,8 +285,8 @@
             {
                 if (file == null || file.Length == 0) return null;
 
-                string? basePath = _configService.GetBasePath();
-                string? avatarsFolderName = _configService.GetAvatarsFolderName();
+                string basePath = _configService.GetBasePath()!;
+                string avatarsFolderName = _configService.GetAvatarsFolderName()!;
 
                 string newFileName = GenerateUniqueFileName(Path.GetExtension(file.FileName));
                 string targetPath = BuildPath(_env.WebRootPath, basePath, avatarsFolderName);
@@ -306,8 +314,8 @@
             {
                 if (string.IsNullOrEmpty(fileName)) return;
 
-                string? basePath = _configService.GetBasePath();
-                string? avatarsFolderName = _configService.GetAvatarsFolderName();
+                string basePath = _configService.GetBasePath()!;
+                string avatarsFolderName = _configService.GetAvatarsFolderName()!;
                 string filePath = BuildPath(_env.WebRootPath, basePath, avatarsFolderName);
 
                 if (File.Exists(filePath))

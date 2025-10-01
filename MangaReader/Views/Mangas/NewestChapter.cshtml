@@ -7,6 +7,7 @@
     var filterMangaDto = ViewBag.FilterMangaDto as MangaReader.Dto.Manga.FilterMangaDto ?? new MangaReader.Dto.Manga.FilterMangaDto();
     var Genres = ViewBag.Genres as List<MangaReader.Models.Genre>;
     var coversFolder = ViewBag.CoversFolder as string;
+    var mangasFolder = ViewBag.MangasFolder as string;
     var basePath = ViewBag.BasePath as string;
 }
 
@@ -27,7 +28,7 @@
         <div class="col-lg-6">
             <div class="card rounded-0 flex-row align-items-start gap-3 p-3 shadow-sm">
                 <div class="manga-cover" style="width: 25%">
-                    <img src="@($"/{basePath}/{item.Slug}/{coversFolder}/{item.Cover}")" alt="@item.Cover" />
+                    <img src="@($"/{basePath}/{mangasFolder}/{item.Slug}/{coversFolder}/{item.Cover}")" alt="@item.Cover" />
                 </div>
                 <div class="d-flex flex-column gap-2" style="min-width: 0">
                     <h2 class="m-0 text-truncate">

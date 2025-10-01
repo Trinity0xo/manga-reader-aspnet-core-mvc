@@ -5,6 +5,7 @@
 @{
     ViewData["Title"] = Model.Manga.Title;
     var coversFolder = ViewBag.CoversFolder as string;
+    var mangasFolder = ViewBag.MangasFolder as string;
     var basePath = ViewBag.BasePath as string;
 }
 
@@ -25,7 +26,7 @@
 <div class="card rounded-0 d-flex flex-column p-3 shadow-sm">
     <div class="row">
         <div class="col-md-4 col-lg-3 mb-4 mb-md-auto">
-            <img src="@($"/{basePath}/{Model.Manga.Slug}/{coversFolder}/{Model.Manga.Cover}")" class="img-fluid" alt="@Model.Manga.Cover">
+            <img src="@($"/{basePath}/{mangasFolder}/{Model.Manga.Slug}/{coversFolder}/{Model.Manga.Cover}")" class="img-fluid" alt="@Model.Manga.Cover">
         </div>
         <div class="col-md-8 col-lg-9 d-flex flex-column">
             <div class="d-flex flex-wrap gap-2 mb-3">

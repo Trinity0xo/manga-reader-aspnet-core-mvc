@@ -1,8 +1,6 @@
 ﻿using MangaReader.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using System.Data;
-using System.Runtime.ExceptionServices;
 using System.Security.Claims;
 
 namespace MangaReader.Areas.Identity

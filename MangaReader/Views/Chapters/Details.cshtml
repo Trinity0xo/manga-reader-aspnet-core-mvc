@@ -4,7 +4,8 @@
 
 @{
     ViewData["Title"] = Model.Chapter.Title;
-    var ChaptersFolder = ViewBag.ChaptersFolder;
+    var chaptersFolder = ViewBag.ChaptersFolder as string;
+    var mangasFolder = ViewBag.MangasFolder as string;
     var basePath = ViewBag.BasePath as string;
 }
 
@@ -92,7 +93,7 @@
         foreach (var item in Model.Chapter.Pages)
         {
             <div class="card rounded-0 mx-auto" style="max-width: 900px">
-                <img src="@($"/{basePath}/{Model.Chapter.Manga.Slug}/{ChaptersFolder}/{Model.Chapter.Slug}/{item.Image}")" class="img-fluid" alt="@item.Image">
+                <img src="@($"/{basePath}/{mangasFolder}/{Model.Chapter.Manga.Slug}/{chaptersFolder}/{Model.Chapter.Slug}/{item.Image}")" class="img-fluid" alt="@item.Image">
             </div>
         }
     }

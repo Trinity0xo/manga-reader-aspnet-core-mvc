@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Theo dõi";
     var coversFolder = ViewBag.CoversFolder as string;
+    var mangasFolder = ViewBag.MangasFolder as string;
     var basePath = ViewBag.BasePath as string;
 }
 
@@ -29,7 +30,7 @@
         <div class="col-md-6">
             <a asp-controller="Chapters" asp-action="Details" asp-route-chapterSlug="@item.Chapter.Slug" asp-route-chapterId="@item.Chapter.Id" class="card rounded-0 flex-row gap-3 p-2 text-decoration-none shadow-sm">
                 <div class="manga-cover" style="width: 80px">
-                    <img src="@($"/{basePath}/{item.Manga.Slug}/{coversFolder}/{item.Manga.Cover}")" />
+                    <img src="@($"/{basePath}/{mangasFolder}/{item.Manga.Slug}/{coversFolder}/{item.Manga.Cover}")" />
                 </div>
               
                 <div class="d-flex flex-column flex-grow-1 gap-1" style="min-width: 0">

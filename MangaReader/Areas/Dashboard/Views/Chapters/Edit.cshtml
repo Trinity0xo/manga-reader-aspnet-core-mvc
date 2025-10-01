@@ -4,8 +4,9 @@
 @{
     ViewData["Title"] = "Chương";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    var ChaptersFolder = ViewBag.ChaptersFolder;
-    var BasePath = ViewBag.BasePath;
+    var chaptersFolder = ViewBag.ChaptersFolder;
+    var mangasFolder = ViewBag.MangasFolder;
+    var basePath = ViewBag.BasePath;
 }
 
 <nav aria-label="breadcrumb">
@@ -94,7 +95,7 @@
                 {
                     <div class="col-xs-12 col-sm-6 col-md-4 mb-3">
                         <div class="card rounded-0">
-                            <img src="@($"/{BasePath}/{Model.MangaSlug}/{ChaptersFolder}/{SlugUtils.GenerateSlug(Model.NewTitle)}/{page}")" class="img-fluid" alt="Page image">
+                            <img src="@($"/{basePath}/{mangasFolder}/{Model.MangaSlug}/{chaptersFolder}/{SlugUtils.GenerateSlug(Model.NewTitle)}/{page}")" class="img-fluid" alt="Page image">
                         </div>
                     </div>
                 }

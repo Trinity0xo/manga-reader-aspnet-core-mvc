@@ -5,6 +5,7 @@
 @{
     ViewData["Title"] = "Theo dõi";
     var coversFolder = ViewBag.CoversFolder as string;
+    var mangasFolder = ViewBag.MangasFolder as string;
     var basePath = ViewBag.BasePath as string;
 }
 
@@ -30,7 +31,7 @@
         <div class="col-lg-6">
             <div class="card rounded-0 flex-row align-items-start gap-3 p-3 shadow-sm">
                 <div class="manga-cover" style="width: 25%">
-                    <img src="@($"/{basePath}/{item.Manga.Slug}/{coversFolder}/{item.Manga.Cover}")"
+                    <img src="@($"/{basePath}/{mangasFolder}/{item.Manga.Slug}/{coversFolder}/{item.Manga.Cover}")"
                          alt="@item.Manga.Cover"
                          />
                 </div>

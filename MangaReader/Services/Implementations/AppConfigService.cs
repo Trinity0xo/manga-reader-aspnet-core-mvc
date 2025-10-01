@@ -14,6 +14,11 @@
             return _config["FileSettings:BasePath"];
         }
 
+        public string? GetMangasFolderName()
+        {
+            return _config["FileSettings:Folders:Mangas"];
+        }
+
         public string? GetCoversFolderName()
         {
             return _config["FileSettings:Folders:Covers"];

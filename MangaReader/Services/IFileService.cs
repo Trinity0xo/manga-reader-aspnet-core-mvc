@@ -2,7 +2,6 @@
 {
     public interface IFileService
     {
-     
         Task<string?> UploadMangaCoverAsync(IFormFile file, string mangaFolderName);
         void DeleteMangaCover(string fileName, string mangaFolderName);
         Task<List<string>?> UploadChapterPagesAsync(List<IFormFile> files, string mangaFolderName, string chapterFolderName);

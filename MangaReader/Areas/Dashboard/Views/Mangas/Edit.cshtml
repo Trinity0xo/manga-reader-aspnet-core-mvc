@@ -6,8 +6,9 @@
     ViewData["Title"] = "Truyện";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     var Genres = ViewBag.Genres as List<MangaReader.Models.Genre>;
-    var CoversFolder = ViewBag.CoversFolder;
-    var BasePath = ViewBag.BasePath;
+    var coversFolder = ViewBag.CoversFolder;
+    var mangasFolder = ViewBag.MangasFolder;
+    var basePath = ViewBag.BasePath;
 }
 
 <nav aria-label="breadcrumb">
@@ -51,7 +52,7 @@
                         <img id="coverPreview"
                              src="@(string.IsNullOrEmpty(Model.OldCover)
                                 ? ""
-                                : Url.Content($"/{ViewBag.BasePath}/{SlugUtils.GenerateSlug(Model.OldTitle)}/{ViewBag.CoversFolder}/{Model.OldCover}"))"
+                                : Url.Content($"/{basePath}/{mangasFolder}/{SlugUtils.GenerateSlug(Model.OldTitle)}/{coversFolder}/{Model.OldCover}"))"
                              alt="Preview"
                              class="border rounded-0 @(string.IsNullOrEmpty(Model.OldCover) ? "d-none" : "")" style="max-width:260px;"/>
                     </div>
